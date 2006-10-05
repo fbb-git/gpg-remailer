@@ -1,19 +1,36 @@
 #!/bin/sh
 
-# Version 1.10
+# Version 2.00
 
-# For debugging purposes: Enter some nr for debugging at first argument,
-# then call remailer as 
+# This script may be called with an argument, in which case it is requested to
+# check a detached signature.
+
+# For debugging purposes: Enter an initial -d <nr> for debugging as first
+# argument, then call remailer as 
 #           su pseudouser -c "/usr/local/bin/remailer process-nr" < mail-file
 # files in the pseudouser's tmp directory will start with the provided 
 # process-id
 
-if [ $# == 0 ]
+# if the argument following -d <nr> equals -H a local head file in the current
+# working directory is expected, and no change of directory is performed
+
+
+HEAD=/usr/local/lib/remailer/head
+
+if [ "$1" != "-d" ]
 then
     ID=$$
 else
     DEBUG=yes
-    ID=$1
+    ID=$2
+    shift 2
+fi
+
+if [ "$1" == "-H" ]
+then
+    H_OPTION=$1
+    HEAD=head
+    shift
 fi
 
 
@@ -126,6 +143,56 @@ fi
 #
 #   Questions, remarks to Frank.
 
+#   If provided: non-option $1 is the name of the file containing the 
+#   detached sig, and the script should read $1 from stdin as well.
+
+GOODSIGNATURE="gpg: Good signature from"
+
+checkSig()
+{
+    while :                         # skip until the first boundary
+    do
+        read  LINE || break
+        echo "$LINE" | grep "$BOUND" > /dev/null && break
+    done
+
+    while :                         # save all lines, up to, but excluding
+    do                              # the line just before the next boundary
+        read LAST || break
+        echo "$LAST" | grep "$BOUND" > /dev/null && break
+
+        ALL="${ALL}${PREV}"
+        PREV="$LAST
+"
+    done
+                                    # check for the signature
+    echo -n "$ALL" | gpg --verify $1  -  2>&1 |
+                                grep "$GOODSIGNATURE" > /dev/null
+}
+        
+detachedSignature()
+{
+    while :
+    do
+        read LINE || break
+                                        # find the boundary
+        echo $LINE | grep 'boundary="[^"]\+"' > /dev/null
+        if [ "$?" == "0" ] 
+        then                            # keep it in BOUND
+            BOUND=`echo $LINE | 
+                    sed 's/[[:space:]]*boundary="\([^"]\+\)".*/\1/'`
+            checkSig $1                 # check the signature
+            return            
+        fi
+    done
+    return 1
+}
+
+if [ $# != 0 ]
+then
+    detachedSignature $1
+    exit $?
+fi
 
 pseudouser=`/usr/bin/id -nu`
 
@@ -137,11 +204,9 @@ pseudouser=`/usr/bin/id -nu`
 # etc/ contains configuration files
 # the account /var/lib/pseudo was chmod-ed 700.
 
-completed()
+failed()
 {
-    echo "Last: $1" > tmp/${ID}.last
-    [ $# == 0 -a "$DEBUG" != "yes" ]  && rm -f tmp/${ID}.*
-
+    echo "Failed `date`: $*" >> tmp/${ID}.log
     exit 0
 }
 
@@ -153,12 +218,14 @@ gpg="gpg --homedir /var/lib/$pseudouser/.gnupg"
     # available 
 
     # go to the psuedo user's home directory
-cd /var/lib/$pseudouser                                     || completed 0
+[ "$H_OPTION" != "" ] ||    cd /var/lib/$pseudouser         || 
+                            failed cd /var/lib/$pseudouser
 
 [ "$DEBUG" == "yes" ] && ls >> /tmp/remailer
 
     # check the existence of the relevant files
-[ -e etc/members -a -e etc/remailer.rc ]                    || completed 1
+[ -e etc/members -a -e etc/remailer.rc ] || 
+                        failed missing etc/members and/or /etc/remailer.rc
 
     # source the configuration file
 . etc/remailer.rc
@@ -178,34 +245,61 @@ then
     cp tmp/${ID}.members tmp/${ID}.debug
 fi
 
-cat > tmp/${ID}.org                  || completed 2
+cat > tmp/${ID}.org || 
+                failed no original message
 
     # determine the subject of the mail, removing double quotes
     # to prevent nested double quotes in the eventually sent subject.
 SUBJECT=`grep Subject: tmp/${ID}.org | sed 's/Subject: //' | tr '"' "'"`
 
     # decrypt the mail
-$gpg --decrypt < tmp/${ID}.org > tmp/${ID}.decrypted 2>tmp/${ID}.signature \
-                                                            || completed 3
-    # verify the signature
-grep "Good signature from" tmp/${ID}.signature > tmp/${ID}.debug \
-                                                            || completed 4
+if [ "$H_OPTION" != "" ]
+then
+    gpg --decrypt <tmp/${ID}.org >tmp/${ID}.decrypted 2>tmp/${ID}.signature ||
+                    failed decrypting to .decrypted and .signature
+else
+    $gpg --decrypt <tmp/${ID}.org >tmp/${ID}.decrypted 2>tmp/${ID}.signature ||
+                    failed decrypting to .decrypted and .signature
+fi
 
-$gpg --trust-model always --armor --encrypt --sign      \
+
+    # verify the signature
+grep "$GOODSIGNATURE" tmp/${ID}.signature > tmp/${ID}.debug
+if [ "$?" != "0" ]                  # signature not yet verified
+then
+    $0 $H_OPTION tmp/${ID}.decrypted < tmp/${ID}.decrypted
+fi
+[ "$?" == "0" ] || failed signature not verifiable
+
+    # re-encrypt the mail
+if [ "$H_OPTION" != "" ]
+then
+    gpg --trust-model always --armor --encrypt --sign      \
         --group ads="$members" -r ads                   \
-        < tmp/${ID}.decrypted > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt \
-                                                            || completed 5
+        < tmp/${ID}.decrypted > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt ||
+                                            failed reencrypting to members
+else
+    $gpg --trust-model always --armor --encrypt --sign      \
+        --group ads="$members" -r ads                   \
+        < tmp/${ID}.decrypted > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt ||
+                                            failed reencrypting to members
+fi
 
     # next make sure the proper content type headers etc. are added
 boundary=`date | md5sum | cut -f1 -d' '`
 
-sed 's/@/'$boundary'/' < /usr/local/lib/remailer/head \
-                                        > tmp/${ID}.mail    || completed 6
-cat tmp/${ID}.encrypted >> tmp/${ID}.mail                   || completed 7
+sed 's/@/'$boundary'/' < $HEAD \
+                                        > tmp/${ID}.mail    ||
+                        failed generating the boundary
+
+cat tmp/${ID}.encrypted >> tmp/${ID}.mail                   ||
+                        failed constructing the e-mail
 
 if [ "$DEBUG" == "yes" ] ; then
-    echo "Recipients: $remailTo" >> /tmp/remailer
-    echo "Mail in tmp/${ID}.mail" >> /tmp/remailer
+    echo "Recipients: $remailTo" >> tmp/${ID}.remailer
+    echo "Mail in tmp/${ID}.mail" >> tmp/${ID}.remailer
+
+    echo Debug completed see tmp/${ID}.remailer 
     exit 0
 fi
 
@@ -215,10 +309,13 @@ fi
 mail -s "$SUBJECT" -a \
   "Reply-To: $replyTo"\
   -a 'Content-Type: multipart/encrypted; protocol="application/pgp-encrypted"; boundary="'$boundary'"' \
-    $sendTo < tmp/${ID}.mail || completed 8
+    $sendTo < tmp/${ID}.mail ||
+            failed mailing the re-encrypted e-mail
     done
 
-completed
+echo "Completed `date`: $*" >> tmp/${ID}.log
+[ "$DEBUG" != "yes" ]  && rm -f tmp/${ID}.*
+
 exit 0
 
 
