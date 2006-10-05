@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Version 1.10
+
 # For debugging purposes: Enter some nr for debugging at first argument,
 # then call remailer as 
 #           su pseudouser -c "/usr/local/bin/remailer process-nr" < mail-file
