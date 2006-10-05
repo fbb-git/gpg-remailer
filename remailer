@@ -1,0 +1,223 @@
+#!/bin/sh
+
+# For debugging purposes: Enter some nr for debugging at first argument,
+# then call remailer as 
+#           su pseudouser -c "/usr/local/bin/remailer process-nr" < mail-file
+# files in the pseudouser's tmp directory will start with the provided 
+# process-id
+
+if [ $# == 0 ]
+then
+    ID=$$
+else
+    DEBUG=yes
+    ID=$1
+fi
+
+
+#   0. Preliminaries: 
+#       - Create a group remailer, and store this script in 
+#           /usr/local/bin, root.remailer, chmod 0750 
+#       - Make sure `sudo' (or comparable software) is available 
+#
+#   1. Define an entry for pseudo (the pseudo user) in the mail aliases
+#           /etc/mail/aliases:    
+#               pseudo:        "|sudo -u pseudo /usr/local/bin/remailer"
+#           and rerun `newaliases'
+#
+#       Add an entry allowing `mail' to call the remailer to /etc/sudoers: 
+#               mail host.domain.xx=(pseudo) NOPASSWD: /usr/local/bin/remailer
+#           (host.domain.xx is the name of the host on which the remailer is
+#           installed. `ALL' instead of `host.domain.xx' may also be
+#           specified) 
+#
+#   Having thus set-up the `pseudo' user, /usr/local/bin/bin/remailer (this
+#   script) will be activated for `pseudo' when called by `mail', using the id
+#   `pseudo', group `remailer'.  Now we're ready to send mail to `pseudo',
+#   which is then handled by this script.
+#
+#   2. Create a pseudo account for the `pseudo' user. E.g.,
+#       adduser --home /var/lib/pseudo --shell /usr/bin/tcsh 
+#               --ingroup remailer --disabled-password  pseudo
+#       Chmod the account to 0700
+#       Make sure the account does not expire:
+#       /etc/shadow:
+#           pseudo:!:12797:0:99999:7:::
+#                            ^^^^^
+#       Change identity to the pseudo user.
+#       Define gpg keys for the pseudo user:
+#           gpg --gen-key
+#       - decrypting key without password
+#           - define default  DSA key, size 1024, never to expire
+#           - real name: `Pseudo' remailer
+#           - email address: pseudo@host.name (this is the address
+#                           from where mail is sent by the remailer)
+#           - no passphrase required: press 2 x enter.
+#       - edit this gpg key, and add a subkey, EIGamal for encryption only
+#           (addkey)
+#       - Use --search-keys or --recv-keys or --import to provide the pseudo
+#           user's public key ring with the group member's public keys, and
+#           add the names or key-ids to the `members' definition in
+#           ~/gnupg/gpg.conf 
+#       - Add an element like the following to gpg.conf:
+#           force-mdc
+#               to prevent the `WARNING: message was not integrity protected'
+#               warning.
+#       - Add an element like the following to gpg.conf:
+#           keyserver wwwkeys.eu.pgp.net
+#           (maybe not: there may be no need for the remailer to access
+#                       a keyserver. A maintainer should be the agent
+#                       monitoring the keys of the pseudo-user
+#       - create a tmp/ directory under this account
+#       - Create a directory etc/ under this account and store in here the
+#           following two files:
+#               remailer.rc
+#                   This file may contain standard shell-comment and
+#                   empty lines, but must contain the following lines:
+#                       remailTo="address(es)" to where the reencrypted mail
+#                                  will be sent. This may be the address of
+#                                  (e.g.) a mailing list or the plain word
+#                                  `members' in which case all members listed
+#                                  in the file members (see below) will
+#                                  receive the mail. The double quotes are 
+#                                  required when multiple addresses are used.
+#                                  Use a blank to separate multiple addresses.
+#                                  Also, a form like the following can be used
+#                                  (without the #-chars at the begin of the
+#                                  lines, of course):
+#                                  remailTo="\
+#                                      first@address1\
+#                                      second@address2\
+#                                  "
+#                       replyTo="name <address>"
+#                               The name and address to appear in the
+#                               Reply-To header
+#               members
+#                  This file may contain standard shell-comment and empty
+#                   lines but must contain the addresses of the members for
+#                   whom the received mail will be encrypted. Addresses must
+#                   be separated by white space (blanks, tabs, newlines). The
+#                   e-mail addresses must be the addresses mentioned in the
+#                   public keyring of the pseudo user.
+#   3. Optionally give ultimate trust to a member who has signed all other
+#       member's keys, as this will prevent warnings the use of `--trust-model
+#       always' 
+#   
+#   4. Export the public key, members should import the pseudo user's public
+#   key and sign it.
+#       (gpg --armor --export pseudo > pseudo.pub)
+#       (gpg --import pseudo.pub)
+#
+#  Adding new members involves:
+#       1. obtain their public key
+#       2. insert it to the pseudo user's public keyring
+#       3. add their name or id to the `members' definition in
+#           ~/etc/members
+#       4. provide the new user with the new key 
+#
+#  Removing members involves:
+#       1. remove their name or id from the `members' definition in
+#           ~/etc/members
+#       2. optionally remove their public key
+#       3. optionally, distribute a new subkey, and invalidate the current
+#           subkey 
+#
+#   Questions, remarks to Frank.
+
+
+pseudouser=`/usr/bin/id -nu`
+
+[ "$DEBUG" == "yes" ] && echo "Pseudouser: $pseudouser" >> /tmp/remailer
+
+# this script is  /usr/local/bin/remailer. 
+# .gnupg/ contains the configuration and keyrings for GPG
+# tmp/ is used for temporary file processing.
+# etc/ contains configuration files
+# the account /var/lib/pseudo was chmod-ed 700.
+
+completed()
+{
+    echo "Last: $1" > tmp/${ID}.last
+    [ $# == 0 -a "$DEBUG" != "yes" ]  && rm -f tmp/${ID}.*
+
+    exit 0
+}
+
+    # common arguments for all gpg calls. Call gpg as $gpg
+gpg="gpg --homedir /var/lib/$pseudouser/.gnupg"
+[ "$DEBUG" != "yes" ] && gpg="$gpg --quiet --batch"
+
+    # We're at the root directory, not at the home dir.  home/HOME is not
+    # available 
+
+    # go to the psuedo user's home directory
+cd /var/lib/$pseudouser                                     || completed 0
+
+[ "$DEBUG" == "yes" ] && ls >> /tmp/remailer
+
+    # check the existence of the relevant files
+[ -e etc/members -a -e etc/remailer.rc ]                    || completed 1
+
+    # source the configuration file
+. etc/remailer.rc
+
+    # determine all members, store them as a single line.
+members=`grep -v '^[[:space:]]*\(#.*\)*$' etc/members | tr '\n' ' '`
+
+echo "
+    Remail To: $remailTo
+    Reply-To: $replyTo
+    Members list: \"$members\"
+" > tmp/${ID}.members
+
+# save the received mail on a file
+if [ "$DEBUG" == "yes" ] 
+then
+    cp tmp/${ID}.members tmp/${ID}.debug
+fi
+
+cat > tmp/${ID}.org                  || completed 2
+
+    # determine the subject of the mail, removing double quotes
+    # to prevent nested double quotes in the eventually sent subject.
+SUBJECT=`grep Subject: tmp/${ID}.org | sed 's/Subject: //' | tr '"' "'"`
+
+    # decrypt the mail
+$gpg --decrypt < tmp/${ID}.org > tmp/${ID}.decrypted 2>tmp/${ID}.signature \
+                                                            || completed 3
+    # verify the signature
+grep "Good signature from" tmp/${ID}.signature > tmp/${ID}.debug \
+                                                            || completed 4
+
+$gpg --trust-model always --armor --encrypt --sign      \
+        --group ads="$members" -r ads                   \
+        < tmp/${ID}.decrypted > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt \
+                                                            || completed 5
+
+    # next make sure the proper content type headers etc. are added
+boundary=`date | md5sum | cut -f1 -d' '`
+
+sed 's/@/'$boundary'/' < /usr/local/lib/remailer/head \
+                                        > tmp/${ID}.mail    || completed 6
+cat tmp/${ID}.encrypted >> tmp/${ID}.mail                   || completed 7
+
+if [ "$DEBUG" == "yes" ] ; then
+    echo "Recipients: $remailTo" >> /tmp/remailer
+    echo "Mail in tmp/${ID}.mail" >> /tmp/remailer
+    exit 0
+fi
+
+    # finally send the mail
+    for sendTo in `echo $remailTo`
+    do
+mail -s "$SUBJECT" -a \
+  "Reply-To: $replyTo"\
+  -a 'Content-Type: multipart/encrypted; protocol="application/pgp-encrypted"; boundary="'$boundary'"' \
+    $sendTo < tmp/${ID}.mail || completed 8
+    done
+
+completed
+exit 0
+
+
+
