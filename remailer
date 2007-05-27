@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Version 2.00
+# Version 2.20
 
 # This script may be called with an argument, in which case it is requested to
 # check a detached signature.
@@ -14,6 +14,9 @@
 # if the argument following -d <nr> equals -H a local head file in the current
 # working directory is expected, and no change of directory is performed
 
+# Set to 0 to keep files in the tmp subdir, set to 1 to remove on
+# on successful completion
+REMOVE_TMP_FILES=1
 
 HEAD=/usr/local/lib/remailer/head
 
@@ -146,6 +149,13 @@ fi
 #   If provided: non-option $1 is the name of the file containing the 
 #   detached sig, and the script should read $1 from stdin as well.
 
+
+pseudouser=`/usr/bin/id -nu`
+    # common arguments for all gpg calls. Call gpg as $gpg
+gpg="gpg --homedir /var/lib/$pseudouser/.gnupg"
+[ "$DEBUG" != "yes" ] && gpg="$gpg --quiet --batch"
+
+
 GOODSIGNATURE="gpg: Good signature from"
 
 checkSig()
@@ -165,9 +175,13 @@ checkSig()
         PREV="$LAST
 "
     done
+
+    echo -n "$ALL" > /tmp/message
+
                                     # check for the signature
-    echo -n "$ALL" | gpg --verify $1  -  2>&1 |
-                                grep "$GOODSIGNATURE" > /dev/null
+    echo -n "$ALL" | $gpg --verify $1  -  2>&1 |
+                                    grep "$GOODSIGNATURE" >/dev/null
+    return $?
 }
         
 detachedSignature()
@@ -182,7 +196,7 @@ detachedSignature()
             BOUND=`echo $LINE | 
                     sed 's/[[:space:]]*boundary="\([^"]\+\)".*/\1/'`
             checkSig $1                 # check the signature
-            return            
+            return $?
         fi
     done
     return 1
@@ -193,8 +207,6 @@ then
     detachedSignature $1
     exit $?
 fi
-
-pseudouser=`/usr/bin/id -nu`
 
 [ "$DEBUG" == "yes" ] && echo "Pseudouser: $pseudouser" >> /tmp/remailer
 
@@ -209,10 +221,6 @@ failed()
     echo "Failed `date`: $*" >> tmp/${ID}.log
     exit 0
 }
-
-    # common arguments for all gpg calls. Call gpg as $gpg
-gpg="gpg --homedir /var/lib/$pseudouser/.gnupg"
-[ "$DEBUG" != "yes" ] && gpg="$gpg --quiet --batch"
 
     # We're at the root directory, not at the home dir.  home/HOME is not
     # available 
@@ -264,24 +272,27 @@ fi
 
 
     # verify the signature
+
 grep "$GOODSIGNATURE" tmp/${ID}.signature > tmp/${ID}.debug
 if [ "$?" != "0" ]                  # signature not yet verified
 then
     $0 $H_OPTION tmp/${ID}.decrypted < tmp/${ID}.decrypted
 fi
-[ "$?" == "0" ] || failed signature not verifiable
+[ "$?" == "0" ] || failed signature $? not verifiable
 
     # re-encrypt the mail
 if [ "$H_OPTION" != "" ]
 then
-    gpg --trust-model always --armor --encrypt --sign      \
+    (echo ""; echo ""; cat tmp/${ID}.signature tmp/${ID}.decrypted)     |
+    gpg --trust-model always --armor --encrypt --sign   \
         --group ads="$members" -r ads                   \
-        < tmp/${ID}.decrypted > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt ||
+        > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt ||
                                             failed reencrypting to members
 else
+    (echo ""; echo ""; cat tmp/${ID}.signature tmp/${ID}.decrypted)     |
     $gpg --trust-model always --armor --encrypt --sign      \
-        --group ads="$members" -r ads                   \
-        < tmp/${ID}.decrypted > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt ||
+        --group ads="$members" -r ads                       \
+        > tmp/${ID}.encrypted 2>tmp/${ID}.reencrypt ||
                                             failed reencrypting to members
 fi
 
@@ -314,9 +325,6 @@ mail -s "$SUBJECT" -a \
     done
 
 echo "Completed `date`: $*" >> tmp/${ID}.log
-[ "$DEBUG" != "yes" ]  && rm -f tmp/${ID}.*
+[ "$REMOVE_TMP_FILES" == "1" -a "$DEBUG" != "yes" ]  && rm -f tmp/${ID}.*
 
 exit 0
-
-
-
