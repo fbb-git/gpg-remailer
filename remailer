@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Version 2.20
+# Version 2.30
 
 # This script may be called with an argument, in which case it is requested to
 # check a detached signature.
@@ -114,6 +114,15 @@ fi
 #                       replyTo="name <address>"
 #                               The name and address to appear in the
 #                               Reply-To header
+#               acceptFrom=patternFile
+#                  This entry is optional. If specified it contains regular
+#                   expressions (1 per line) of all from-addresses who are
+#                   allowed to send signed and encrypted mail to the
+#                   remailer. The members are by default allowed. To allow
+#                   everybody to send e-mail (encrypted and signed) specify .*
+#                   Note that keyserver must probably be specified when public
+#                   keys of senders should be retrievable from a pgp
+#                   keyserver. 
 #               members
 #                  This file may contain standard shell-comment and empty
 #                   lines but must contain the addresses of the members for
@@ -253,7 +262,7 @@ then
     cp tmp/${ID}.members tmp/${ID}.debug
 fi
 
-cat > tmp/${ID}.org || 
+/usr/local/bin/remailerunhex > tmp/${ID}.org || 
                 failed no original message
 
     # determine the subject of the mail, removing double quotes

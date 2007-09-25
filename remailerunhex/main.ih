@@ -1,0 +1,19 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+namespace Icmbuild
+{
+    extern char version[];
+    extern char year[];
+    extern char author[];
+};
+
+char hexChar(std::istringstream &in);
+void filter();
+void inspect(std::string const &line);
+void usage(std::string  const  &progname);
+
+
+using namespace std;
