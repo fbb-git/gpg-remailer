@@ -280,14 +280,14 @@ else
 fi
 
 
-    # verify the signature
-
-grep "$GOODSIGNATURE" tmp/${ID}.signature > tmp/${ID}.debug
-if [ "$?" != "0" ]                  # signature not yet verified
-then
-    $0 $H_OPTION tmp/${ID}.decrypted < tmp/${ID}.decrypted
-fi
-[ "$?" == "0" ] || failed signature $? not verifiable
+#     # verify the signature
+# 
+# grep "$GOODSIGNATURE" tmp/${ID}.signature > tmp/${ID}.debug
+# if [ "$?" != "0" ]                  # signature not yet verified
+# then
+#     $0 $H_OPTION tmp/${ID}.decrypted < tmp/${ID}.decrypted
+# fi
+# [ "$?" == "0" ] || failed signature $? not verifiable
 
     # re-encrypt the mail
 if [ "$H_OPTION" != "" ]

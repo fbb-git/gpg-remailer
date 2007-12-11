@@ -10,7 +10,7 @@ namespace Icmbuild
     extern char author[];
 };
 
-char hexChar(std::istringstream &in);
+void hexChar(std::istringstream &in);
 void filter();
 void inspect(std::string const &line);
 void usage(std::string  const  &progname);

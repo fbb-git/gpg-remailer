@@ -6,7 +6,12 @@ void inspect(std::string const &line)
     char c;
 
     while (in.get(c))
-        cout.put(c == '=' ? hexChar(in) : c);
+    {
+        if (c != '=')
+            cout.put(c);
+        else
+            hexChar(in);
+    }
 
     cout << endl;
 }
