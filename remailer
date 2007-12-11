@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Version 2.30
+# Version 2.31
 
 # This script may be called with an argument, in which case it is requested to
 # check a detached signature.
