@@ -4,8 +4,9 @@ void Remailer::setFilenames()
 {
     string prefix = configField("^\\s*tmp:");
 
-    if (prefix == "")
+    if (prefix.length() == 0)
         prefix = "tmp/";
+
     if (*prefix.rbegin() != '/')          // make sure / is appended
         prefix += '/';
 
@@ -17,13 +18,13 @@ void Remailer::setFilenames()
     d_errName = prefix + "err.";
     d_mailName = prefix + "mail.";
 
-    string id = idSuffix();
+    setSuffixNr();
         
-    d_orgName += id;
-    d_decryptedName += id;
-    d_signatureName += id;
-    d_reencryptName += id;
-    d_reencryptedName += id;
-    d_errName += id;
-    d_mailName += id;
+    d_orgName += d_nr;
+    d_decryptedName += d_nr;
+    d_signatureName += d_nr;
+    d_reencryptName += d_nr;
+    d_reencryptedName += d_nr;
+    d_errName += d_nr;
+    d_mailName += d_nr;
 }

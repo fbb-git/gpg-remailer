@@ -1,11 +1,22 @@
-remailTo:   crashteam@security.rc.rug.nl
+# debug keeps the files, and requires sufix nr of files to write
+#   command line overrules (-d, -nr <nr>)
+# debug: 1
 
+# tmp: absolute location of alternate tmp dir (~/tmp by default)
+# tmp:  
+
+# The Reply-To header (one line, no (double) quotes)
 replyTo:    Crashteam SIGNED AND ENCRYPTED <crashteams@security.rc.rug.nl>
 
+# reencrypt to which address(es)? (multiple members OK)
 member:     f.b.brokken@rug.nl
 
+# where will the reencrypted mail be sent to (multiple recipients OK)
 recipient:  frank
 
+# signature specs may be:   absent: none required, 
+#                           required: the encrypted file must have been signed
+#                           good: the signature must have been recognized as
+#                                 good
 signature:  good
-
 # signature:  required

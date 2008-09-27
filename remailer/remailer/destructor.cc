@@ -2,7 +2,7 @@
 
 Remailer::~Remailer()
 {
-    if (!d_keepFiles)
+    if (d_keepFiles)
         return;
 
     unlink(d_orgName.c_str());

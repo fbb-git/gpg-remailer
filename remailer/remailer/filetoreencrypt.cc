@@ -25,7 +25,7 @@ void Remailer::fileToReencrypt()
         
         signatureSection(out, "");
         out << "\n" <<
-                line << out.rdbuf();
+                line << in.rdbuf();
     }
     else
     {

@@ -3,22 +3,29 @@
 void Remailer::preparations()
 {
     d_user.verify();
+    d_config.open(d_configName);                // prepare configuration file
+
 
     msg() << "Current user: " << d_user.name() << " (" << d_user.userid() << 
                                                                 ')' << info;
-    if (chdir(d_user.homedir().c_str()) != 0)
+
+    if (chdir(d_user.homedir().c_str()) != 0)   // change Homedir
         throw Errno();
 
-    d_config.open(d_configName);
 
-    d_keepFiles = d_arg.option('d') || 
-                 d_config.findRE("^\\s*debug\\b") != d_config.end();
+    if (!d_arg.option(&d_nr, 'n'))              // determine predef'd filenr
+    {
+        d_nr = configField("^\\sdebug:");
+        d_keepFiles = d_nr.length() > 0;
+    }
 
-    if (d_keepFiles)
+    if (d_arg.option('d') )
+    {
+        d_keepFiles = true;
         Msg::setDisplay(true);
+    }
     else
         d_gpgOptions = "--quiet --batch";
-
 
     setFilenames();                         // define all used filenames 
     multiField(d_members, "member");
@@ -43,3 +50,4 @@ void Remailer::preparations()
         signatureRequired == "required" ? SIGNATURE_FOUND :
                                           NO_SIGNATURE;
 }
+

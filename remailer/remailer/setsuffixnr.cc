@@ -1,14 +1,10 @@
 #include "remailer.ih"
 
-string Remailer::idSuffix()
+void Remailer::setSuffixNr()
 {
-    string id;
+    bool random = d_nr.length() == 0;
 
-    bool random = !d_arg.option(&id, 'n');
-
-    if (!random)
-        d_keepFiles = true;
-    else
+    if (random)
     {
         IRandStream rs(1, 99999, time(0));
         string name(d_orgName);
@@ -20,12 +16,10 @@ string Remailer::idSuffix()
             string name = d_orgName + static_cast<string>(X2a(value));
         } 
         while (Stat(name));
-        id = X2a(value);
+        d_nr = X2a(value);
     }
 
-    msg() << "File IDs will be: " << id << " (" <<
+    msg() << "File Nrs will be: " << d_nr << " (" <<
                                     (random ? "random" : "via --nr") <<
                                     ")" << info;
-
-    return id;
 }

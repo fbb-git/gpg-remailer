@@ -27,6 +27,7 @@ class Remailer
 
     bool d_keepFiles;
 
+    std::string d_nr;                   // nr assigned to files
     std::string d_orgName;
     std::string d_decryptedName;
     std::string d_signatureName;
@@ -82,7 +83,7 @@ class Remailer
 
         void fileToReencrypt();
         void writeReencrypted();
-        std::string idSuffix();
+        void setSuffixNr();
         bool step(char const *stepName);
 
         std::string makeBoundary();
