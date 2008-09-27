@@ -11,6 +11,15 @@ void Remailer::preparations()
 
     d_config.open(d_configName);
 
+    d_keepFiles = d_arg.option('d') || 
+                 d_config.findRE("^\\s*debug\\b") != d_config.end();
+
+    if (d_keepFiles)
+        Msg::setDisplay(true);
+    else
+        d_gpgOptions = "--quiet --batch";
+
+
     setFilenames();                         // define all used filenames 
     multiField(d_members, "member");
     multiField(d_recipients, "recipient");

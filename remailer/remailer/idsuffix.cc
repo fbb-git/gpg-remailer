@@ -6,7 +6,9 @@ string Remailer::idSuffix()
 
     bool random = !d_arg.option(&id, 'n');
 
-    if (random)
+    if (!random)
+        d_keepFiles = true;
+    else
     {
         IRandStream rs(1, 99999, time(0));
         string name(d_orgName);

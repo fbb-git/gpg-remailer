@@ -6,7 +6,7 @@ void Remailer::gpg(string const &command)
 
     process += command;
 
-    msg() << "/usr/bin/gpg " << command << info;
+    msg() << "/usr/bin/gpg " << d_gpgOptions << ' ' << command << info;
 
     process.system();
     process.wait();

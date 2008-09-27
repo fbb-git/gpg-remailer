@@ -25,6 +25,8 @@ class Remailer
     std::string d_step;
     std::string d_replyTo;
 
+    bool d_keepFiles;
+
     std::string d_orgName;
     std::string d_decryptedName;
     std::string d_signatureName;
@@ -41,6 +43,7 @@ class Remailer
 
     public:
         Remailer();
+        ~Remailer();
         void preparations();
         void unhex();
         void decrypt();
