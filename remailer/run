@@ -1,0 +1,2 @@
+#!/bin/bash
+tmp/bin/binary -n 1 -d `pwd`/remailer.rc < cert-rug

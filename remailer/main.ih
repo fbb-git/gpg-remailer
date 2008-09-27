@@ -1,0 +1,19 @@
+#include <iostream>
+#include <string>
+
+#include <bobcat/arg>
+
+#include "remailer/remailer.h"
+
+namespace Icmbuild
+{
+    extern char version[];
+    extern char year[];
+    extern char author[];
+};
+
+void usage(std::string const &progname);
+
+using namespace std;
+using namespace FBB;
+using namespace Icmbuild;
