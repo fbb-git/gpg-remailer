@@ -9,6 +9,7 @@
 #include <bobcat/arg>
 #include <bobcat/pattern>
 #include <bobcat/log>
+#include <bobcat/stat>
 
 class Remailer
 {
@@ -111,6 +112,9 @@ class Remailer
                                 MailStruct const &mailStruct); 
 
         void rmQuotes(std::string &str) const;
+        void ofopen(std::string const &name, std::ofstream *out = 0);
+        void testPermissions(std::string const &path, size_t permissions = 
+                FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);
 };
 
 inline bool Remailer::step(char const *stepName)

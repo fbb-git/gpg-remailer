@@ -3,7 +3,7 @@
 void Remailer::writeMail(string const &boundary)
 {
     ofstream out;
-    Msg::open(out, d_mailName);
+    ofopen(d_mailName, &out);
 
     ifstream in;
     Msg::open(in, d_reencryptedName);

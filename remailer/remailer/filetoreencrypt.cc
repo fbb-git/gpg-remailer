@@ -9,7 +9,7 @@ void Remailer::fileToReencrypt()
     Msg::open(in, d_decryptedName);
 
     ofstream out;
-    Msg::open(out, d_reencryptName);
+    ofopen(d_reencryptName, &out);
 
     string line;
     getline(in, line);              // see if this line contains a bdry

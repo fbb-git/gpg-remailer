@@ -7,10 +7,13 @@ void Remailer::decrypt()
 
     ostringstream command;
 
+    ofopen(d_decryptedName);
+    ofopen(d_signatureName);    
+
     command << "--decrypt " << d_gpgOptions << 
             " < " << d_orgName << 
-            " > " << d_decryptedName <<
-            " 2> " << d_signatureName;
+            " >> " << d_decryptedName <<
+            " 2>> " << d_signatureName;
 
     gpg(command.str());
 }

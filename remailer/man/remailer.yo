@@ -1,0 +1,296 @@
+NOUSERMACRO(recipient)
+
+COMMENT(includefile(../../release.yo))
+
+htmlbodyopt(text)(#27408B)
+htmlbodyopt(bgcolor)(#FFFAF0)
+whenhtml(mailto(Frank B. Brokken: f.b.brokken@rug.nl))
+
+DEFINEMACRO(lsoption)(3)(\
+    bf(--ARG1)=tt(ARG3) (bf(-ARG2))\
+)
+DEFINEMACRO(laoption)(2)(\
+    bf(--ARG1)=tt(ARG2)\
+)
+DEFINEMACRO(loption)(1)(\
+    bf(--ARG1)\
+)
+DEFINEMACRO(soption)(1)(\
+    bf(-ARG1)\
+)
+
+
+DELETEMACRO(tt)
+DEFINEMACRO(tt)(1)(em(ARG1))
+
+COMMENT( man-request, section, date, distribution file, general name)
+manpage(remailer)(1)(_CurYrs_)(remailer._CurVers_.tar.gz)
+        (remailer - reencrypt PGP/GPG maill)
+
+COMMENT( man-request, larger title )
+manpagename(remailer)
+    (forward re-encrypted/signed PGP/GPG encrypted/signed mail to a group)
+
+COMMENT( all other: add after () )
+manpagesynopsis()
+       bf(remailer) [OPTIONS] tt(arguments)
+
+manpagedescription()
+
+    A remailer program decrypts received PGP/GPG messages, verifies
+the received signature and re-encrypts the e-mail for a well defined group
+of recipients. It concentrates the membership of a group of people who want to
+exchange encrypted and authenticated e-amil to one location, allowing the
+members of the groupg to specify just one e-mail address to send PGP/GPG
+signed and encrypted e-mail to. 
+
+    The reencrypting remailer reads incoming e-mail from its standard input
+stream and sends the processed input as a signed and encrypted PGP/GPG e-mail 
+to all the group members. 
+
+    A configuration file as well as command line options can be used to
+fine-tune the remailer's behavior. 
+
+manpagesection(REQUIREMENTS)
+
+    In order to use the re-encrypting remailer the following requirements must
+be met:
+    itemization(
+    it() Since multiple groups may use a reencrypting remailer it is advised
+to define functional accounts handling e-mail to be processed by the
+reencrypting remailer. A functional account can be defined using the command 
+    verb(
+    adduser --home /var/lib/secmail --disabled-password secmail
+    )
+    it() All locations used by the remailer must be given highly restrictive
+permissions. E.g., use tt(chmod -R og-rwx /var/lib/secmail) for the functional
+accounts. The reencrypting remailer will not process e-mail unless these
+permissions were set. 
+    it() Consider making all functional remailer accounts members of a special
+group (e.g., tt(remailer)) and allow execution of tt(/usr/sbin/remailer) only
+my members of that group:
+        verb(
+    addgroup remailer
+    adduser secmail remailer
+    chown root.remailer /usr/sbin/remailer
+    chmod o-rx /usr/bin/remailer
+    )    
+    it() To allow the functional account to handle incoming e-mail
+bf(sudo)(1) can be used. In the file tt(/etc/sudoers) the following lines can
+be entered (tt(REMAILERS) can be given a comma separated list of functional
+account names, tt(mailhost.org) should be replaced by the name of your host
+handling the incoming e-mail):
+    verb(
+Runas_Alias REMAILERS = secmail
+
+mail    mailhost.org=(REMAILERS) NOPASSWD:  /usr/sbin/remailer
+    )
+    it() An e-mail address is defined to where the mail to reencrypt must be
+sent. This e-mail address must be known by the members of the group who want
+to use the remailer. Such an account could be, e.g., tt(secmail@mailhost.org),
+appearing as a defined mail address in, e.g., tt(/etc/mail/aliases). A
+definition like the following could be entered in the tt(/etc/mail/aliases)
+file:
+    verb(
+    secmail:         "|sudo -u secmail /usr/sbin/remailer"
+    )
+    it() The functional account must be provided with a GPG/PGP keypair. Its
+public key must be distributed over the people who are allowed to send mail to
+the remailer (which may be the world if the public key is published at a PGP
+key server). Since the remailer must be able to act on its own, the secret key
+must not require a passphrase. The key can be created as follows (execute the
+initial command as tt(root):
+        verb(
+    su - secmail
+    gpg --gen-key
+    exit
+        )
+    At the tt(gpg --gen-key) command the tt(gpg) program asks for several
+details. Accept the defaults unless you have reason not to, but make sure you
+do not require a pass phrase by pressing tt(Enter) twice when asked for one.
+Some additional suggestions:
+
+Decrypting key without password: 
+
+    define default  DSA key, size 1024, never to expire+nl()
+    real name: secmail remailer functional account+nl()
+    email address: secmail@mailhost.org+nl()
+No passphrase required: press 2 x enter.+nl()
+
+Edit this gpg key, and add a subkey, EIGamal for encryption only (addkey) Use
+tt(--search-keys) or tt(--recv-keys) or tt(--import) to provide the pseudo
+user's public key ring with the group member's public keys, and add the names
+or key-ids to the `members' definition in secmail's tt(gnupg/gpg.conf) file
+
+Add tt(force-mdc) to gpg.conf. 
+This prevents the `WARNING: message was not integrity protected' warning.
+If you want non-group members to send e-mail to the remailer consider
+adding tt(keyserver wwwkeys.eu.pgp.net) to gpg.conf
+
+    If a member exists who has signed the GPG/PGP keys of all other members,
+then consider to trust this member fully, to prevent warnings resulting from
+using untrusted keys.
+    it() Once the remailer's GPG key pair has been created, distribute the
+public key over the members of the group. These members should import the
+public key and they should be advised to sign the key to prevent warnings
+about using an unverified public key. The key could be exported using 
+        verb(
+    gpg --armor --export secmail > secmail.pub
+        )
+    and the members of the group can import the public key using:
+        verb(
+    gpg --import secmail.pub
+        )
+    it() Conversely, all public keys of all group members must be obtained and
+added to the functional account's public keyring. When a new member is added
+to the group he/she should add the functional account's public key to his/her
+public key and provide his/her public key for import into the functional
+account's public key ring. 
+    it() The remailer requires the existence of a configuration file and of a
+directory to store its temporary files in. See below.    
+    )
+
+manpagesection(RETURN VALUE)
+
+    The remailer program always returns 0 to the operating system to prevent
+tt(unknown mailer error) messages in the MTA's logs. However, when the
+remailer ends prematurely an error message is written to the standard error
+stream.
+
+manpageoptions()
+
+    If available, single letter options are listed between parentheses
+following their associated long-option variants. Single letter options require
+arguments if their associated long options require arguments as well.
+    itemization(
+    it() Several more: to do
+COMMENT(
+    it() lsoption(config-file)(c)(filename)nl()
+           The name of an bf(xd) configuration file. By default bf(xd) will
+            look for the file tt(.xdrc) in the user's home directory. The
+            existence of the default file is optional.
+)
+    it() loption(help) (soption(h))nl()
+           Basic usage information is written to the standard output stream.
+    it() loption(version) (soption(v))nl()
+           The remailer's version number is is written to the standard output
+            stream. 
+    )
+    
+
+manpagesection(CONFGURATION FILE)
+
+The default configuration file is tt(etc/remailer.rc) under the user's home
+directory. It may be overruled by a command line argument.
+
+Empty lines are ignored. Information at and beyond tt(#)-characters is
+interpreted as comment and is ignored as well.
+
+All directives in bf(xd) configuration files follow the pattern 
+    verb(
+    directive: value
+    ) 
+
+A line may at most contain one directive, but white space (including comment
+at the end of the line) is OK. Several directives may be specified multiple
+times; otherwise the first occurrence of a directive is used. All directives
+are interpreted em(case sensitively), but their values are used as
+specified. E.g., tt(DeBUG: true) is as good as tt(debug: true), but tt(debug:
+TRUE) is not recognized.  Non-empty lines not beginning with a recognized
+directive are silently ignored.
+
+    The following directives were defined (default values are shown between
+parentheses; when none specified there is no default). When equivalent 
+command line options are used then they overrule the configuration file
+specifications.
+    itemization(
+    it() bf(debug:) tt(logic) (false)nl()
+        When specified as tt(true) debug messages will be logged to the
+log-file (see below). Command line options: tt(--debug, -d). When this option 
+is specified the files written by the remailer will not be removed when the
+remailer terminates.
+    it() bf(keepFiles:) tt(nr) nl()
+        When a number is specified all files written by the remailer will use
+the specified number and will not be removed when the remailer
+terminates. When this option is not specified the files will have a random
+number resulting in the creation of a new, as yet non-existing tt(org.<nr>)
+file. No existency check is performed on the other files written by the
+remailer. 
+    it() bf(logfile:) tt(filename) (etc/remailer.log)nl()
+        The file on which the remailer's log messages are written.
+    it() bf(loglevel:) tt(value) (2)nl()
+        LogLevel 0 provides extensive debug output as well as all other
+            logmessages;nl()  
+        LogLevel 1 logs the executed commands and the default messages;nl()
+        LogLevel 2 logs the default messages (characteristics of incoming and
+            outgoing e-mail);nl()
+        Higher levels will suppress logging. 
+    it() bf(noMail:) tt(logic) (false)nl()
+        When specified as tt(true) mail will not be sent.
+    it() bf(recipient:) tt(e-mail address) nl()
+        Multiple recipients may be specified. Recipients should be specified
+as a plain e-mail address (e.g., tt(destination@some.host.org)). The
+re-encrypted mail will be sent to each recipient in turn.
+    it() bf(replyTo:) tt(full address) nl()
+        The reply to address may be any e-mail reply-to address. The reply-to
+will be shown to the receiver when he/she wants to send a reply. Quotes and
+double quotes are removed from the reply to address. A reply to specification
+could be, e.g.,
+        verb(
+    SEC MAIL signed AND encrypted <secmail@mailhost.org>
+        )
+    it() bf(signature:) tt(requirement) (required)nl()
+        This option is used to control signature checking. Recognized values
+are:nl()
+        tt(none) (or not specified): no signature checking is performed;nl()
+        tt(required): a PGP signature must have been provided;nl()
+        tt(good): the PGP signature must be recognized as a a `good
+        signature'. 
+    it() bf(tmp) tt(directory) (tmp/)nl()
+        The directory into which the remailer will write its temporary files.
+    )
+)
+                    
+manpagesection(EXAMPLES)
+
+    To do
+
+manpagefiles()
+    Default locations are shown. Configuration options may change these
+locations. 
+    itemization(
+    it() tt(/etc/mail/aliases): defines the mail accounts used by the
+        reencrypting remailer. 
+    it() tt(tmp/err.<nr>): a file containing errors generated when processing 
+the original text. The tt(tmp/signature.<nr>) may contain gog-decryption
+errors. 
+    it() tt(tmp/mail.<nr>): the mail sent to the recipient(s).
+    it() tt(tmp/reencrypt.<nr>): the (as yet unencrypted) file to return to
+the the recipient(s).
+    it() tt(tmp/reencrypted.<nr>): the reencrypted file to return to
+the the recipient(s).
+    it() tt(etc/remailer.rc): the remailer's configuration file.
+    it() tt(/etc/sudoers): defines actions executed by the MTA.
+    it() tt(tmp/decrypted.<nr>): the decrypted original text.
+    it() tt(tmp/org.<nr>): a copy of the received e-mail. When random file
+numbers are used a tt(org.<nr>) file will not overwrite an existing tt(org.*)
+file. 
+    it() tt(tmp/signature.<nr>): the signature found in the original text.
+    )
+
+manpageseealso()
+
+    bf(addgroup)(1), 
+    bf(adduser)(1), 
+    bf(chmod)(1), 
+    bf(chown)(1), 
+    bf(gpg)(1),
+    bf(sudo)(1),
+
+manpagebugs()
+
+    None reported
+
+manpageauthor()
+
+Frank B. Brokken (f.b.brokken@rug.nl).

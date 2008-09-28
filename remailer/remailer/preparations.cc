@@ -12,6 +12,9 @@ void Remailer::preparations()
                                                 // the user's homedir
 
     setLog();                                   // define logging
+
+    testPermissions(d_user.homedir());
+    testPermissions(d_configName, Stat::UR | Stat::UW);
     
     d_keepFiles = d_arg.option(&d_nr, 'n');     // determine predef'd filenr
     if (!d_keepFiles)                           // try fm config file

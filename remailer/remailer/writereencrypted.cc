@@ -13,10 +13,13 @@ void Remailer::writeReencrypted()
     copy(d_members.begin(), d_members.end(), 
             ostream_iterator<string>(command, " "));
 
+    ofopen(d_reencryptedName);
+    ofopen(d_errName);
+
     command << "\" -r members" <<
             " < " << d_reencryptName << 
-            " > " << d_reencryptedName << 
-            " 2> " << d_errName;
+            " >> " << d_reencryptedName << 
+            " 2>> " << d_errName;
 
     gpg(command.str());
 }

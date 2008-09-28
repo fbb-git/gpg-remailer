@@ -10,6 +10,8 @@ void Remailer::setFilenames()
     if (*prefix.rbegin() != '/')          // make sure / is appended
         prefix += '/';
 
+    testPermissions(prefix);
+
     d_orgName = prefix + "org.";
     d_decryptedName = prefix + "decrypted.";
     d_signatureName = prefix + "signature.";
