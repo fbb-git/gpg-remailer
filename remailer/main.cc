@@ -8,7 +8,10 @@ namespace   // the anonymous namespace can be used here
     {
         Arg::LongOption("debug", 'd'),
         Arg::LongOption("help", 'h'),
+        Arg::LongOption("logfile", 'l'),
+        Arg::LongOption("loglevel", 'L'),
         Arg::LongOption("nr", 'n'),
+        Arg::LongOption("no-mail", 'n'),
         Arg::LongOption("step", Arg::Required),
         Arg::LongOption("version", 'v'),
     };
@@ -21,7 +24,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    Arg::initialize("dhn:v", longOptions, longEnd, 
+    Arg::initialize("dhL:l:n:v", longOptions, longEnd, 
                     argc, argv).versionHelp(usage, version, 0);
 
     Remailer remailer;
@@ -34,19 +37,22 @@ try
 
     return 0;
 }
+    // ALL exceptions return 0 to prevent unexpected mailer errors in 
+    // sendmail's logs.
 catch(Errno const &err)     // handle exceptions
 {
-    cerr << err.what() << endl;
-    return err.which();
+    cerr << "Remailer: " << err.what() << endl;
+    return 0;
 }
 catch(int x)
 {
-    return x;
+    cerr << "Remailer: caught int " << x << " exception\n";
+    return 0;
 }
 catch (...)
 {
-    cerr << "Unexpected exception caught in main()\n";
-    return 1;
+    cerr << "Remailer: unexpected exception caught in main()\n";
+    return 0;
 }
 
 

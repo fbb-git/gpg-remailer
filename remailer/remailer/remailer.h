@@ -8,6 +8,7 @@
 #include <bobcat/configfile>
 #include <bobcat/arg>
 #include <bobcat/pattern>
+#include <bobcat/log>
 
 class Remailer
 {
@@ -18,9 +19,16 @@ class Remailer
         GOOD_SIGNATURE 
     };
 
+    enum LOGLEVELS
+    {
+        LOGDEBUG,
+        LOGCOMMANDS,
+        LOGDEFAULT
+    };
     FBB::Arg &d_arg;
     FBB::User d_user;
     FBB::ConfigFile d_config;
+    FBB::Log d_log;
     std::string d_configName;
     std::string d_step;
     std::string d_replyTo;
@@ -62,6 +70,7 @@ class Remailer
                                             // add members from config file
         static void addField(std::string const &line, FieldStruct &fs);
 
+        void setLog();
         std::string configField(std::string const &field);
         void gpg(std::string const &command);
         void setFilenames();
@@ -95,6 +104,8 @@ class Remailer
             std::string const &mailName;
             std::string const &subject;
             std::string const &replyTo;
+            FBB::Log &log;
+            bool nomail;
         };
         static void sendMail(std::string const &recipient, 
                                 MailStruct const &mailStruct); 

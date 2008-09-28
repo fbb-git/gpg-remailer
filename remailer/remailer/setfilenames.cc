@@ -2,9 +2,9 @@
 
 void Remailer::setFilenames()
 {
-    string prefix = configField("^\\s*tmp:");
+    string prefix = configField("tmp");
 
-    if (prefix.length() == 0)
+    if (prefix.empty())
         prefix = "tmp/";
 
     if (*prefix.rbegin() != '/')          // make sure / is appended

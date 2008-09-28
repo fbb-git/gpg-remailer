@@ -2,7 +2,7 @@
 
 void Remailer::setSuffixNr()
 {
-    bool random = d_nr.length() == 0;
+    bool random = d_nr.empty();
 
     if (random)
     {
@@ -19,7 +19,6 @@ void Remailer::setSuffixNr()
         d_nr = X2a(value);
     }
 
-    msg() << "File Nrs will be: " << d_nr << " (" <<
-                                    (random ? "random" : "via --nr") <<
-                                    ")" << info;
+    d_log << level(LOGDEBUG) << "File Nrs will be: " << d_nr << " (" <<
+                                    (random ? "random" : "via --nr") << ")\n";
 }

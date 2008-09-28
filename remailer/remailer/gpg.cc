@@ -2,11 +2,13 @@
 
 void Remailer::gpg(string const &command)
 {
-    Process process(5, "/usr/bin/gpg ");
+    string gpgCmd = "/usr/bin/gpg "
+                    "--homedir " + d_user.homedir() + ".gnupg " +
+                    d_gpgOptions + ' ' + command;
 
-    process += command;
+    Process process(5, gpgCmd);
 
-    msg() << "/usr/bin/gpg " << d_gpgOptions << ' ' << command << info;
+    d_log << level(LOGCOMMANDS) << gpgCmd << "\n";
 
     process.system();
     process.wait();

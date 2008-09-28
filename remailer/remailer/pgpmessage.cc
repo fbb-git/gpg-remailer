@@ -15,12 +15,11 @@ bool Remailer::PGPmessage(ostream &out)
             d_subject = subject.beyond();
 
             rmQuotes(d_subject);
-            msg() << "Subject: " << d_subject << info;
+            d_log << level(LOGDEBUG) << "Subject: " << d_subject << '\n';
         }
             
         if (line == "-----BEGIN PGP MESSAGE-----")      // found the marker
             return true;
     }
-
     return false;
 }

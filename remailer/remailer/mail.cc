@@ -6,7 +6,10 @@ void Remailer::mail()
         return;
 
     MailStruct mailStruct = {makeBoundary(), d_mailName, d_subject,
-                             d_replyTo};
+                             d_replyTo,
+                             d_log,
+                             d_arg.option(0, "no-mail") || 
+                                    configField("noMail") == "true"};
 
     writeMail(mailStruct.boundary);
 

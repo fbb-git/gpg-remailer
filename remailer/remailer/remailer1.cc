@@ -3,7 +3,7 @@
 Remailer::Remailer()
 :
     d_arg(Arg::instance()),
-    d_config(ConfigFile::RemoveComment),
+    d_config(ConfigFile::RemoveComment, ConfigFile::SearchCaseInsensitive),
     d_keepFiles(false)
 {
     d_arg.option(&d_step, "step");

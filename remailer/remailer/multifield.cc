@@ -24,11 +24,7 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord)
                         "' specifications found in " << d_configName <<
                         throwable;
 
-    if (d_arg.option('d'))
-    {
-        msg() << keyWord << ":\n    " << spool;
-        copy(dest.begin(), dest.end(), 
-                ostream_iterator<string>(cout, "\n    "));
-        msg() << info;
-    }        
+    ostringstream out;
+    copy(dest.begin(), dest.end(), ostream_iterator<string>(out, " "));
+    d_log << level(LOGDEBUG) << keyWord << ": " << out.str() << '\n';
 }

@@ -11,9 +11,24 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
                     "boundary=\"" << ms.boundary << "\"' " <<
                 recipient << " < " << ms.mailName;
 
-    msg() << "\n" << command.str() << info;
+    ms.log << level(LOGCOMMANDS) << command.str() << '\n';
+
+    if (ms.nomail)
+    {
+        ms.log << level(LOGDEBUG) << 
+                    "Sending mail suppressed by config/option\n";
+        return;
+    }
 
     Process mailProc(command.str());
     mailProc.system();
     mailProc.wait();
+
+    ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << ms.subject << 
+                                   ") sent to " << recipient << '\n';
 }
+
+
+
+
+
