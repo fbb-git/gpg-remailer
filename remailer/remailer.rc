@@ -1,22 +1,37 @@
-# debug keeps the files, and requires sufix nr of files to write
-#   command line overrules (-d, -nr <nr>)
-# debug: 1
+# All keywords are interpreted case insensitively
 
-# tmp: absolute location of alternate tmp dir (~/tmp by default)
-# tmp:  
+# logfile: name of the logfile (absolute or relative to $HOME)
+# logfile: etc/remailer.log
+
+# loglevel: 0: debug, 1: commands, 2: default
+# loglevel: 2
+
+# debug: true has the same effect as the --debug or -d flag
+# debug: false
+
+# noMail: if true no mail is sent (same effect as the --no-mail flag)
+# noMail: true
+
+# keepfiles keeps the files, and requires sufix nr of files to write
+# keepfiles: 1
+
+# tmp: location tmp dir (absolute or relative to $HOME)
+# tmp: tmp 
 
 # The Reply-To header (one line, no (double) quotes)
-replyTo:    Crashteam SIGNED AND ENCRYPTED <crashteams@security.rc.rug.nl>
-
-# reencrypt to which address(es)? (multiple members OK)
-member:     f.b.brokken@rug.nl
+replyTo:    Fill in your reply-to <somebody@somewhere.org>
 
 # where will the reencrypted mail be sent to (multiple recipients OK)
-recipient:  frank
+# recipient:  frank
+recipient:  mailing.list@somehost.org
+
+# reencrypt to which address(es)? (multiple members OK)
+member: user1@mailhost.org
+member: user2@mailhost.org
 
 # signature specs may be:   absent: none required, 
 #                           required: the encrypted file must have been signed
 #                           good: the signature must have been recognized as
 #                                 good
-signature:  good
-# signature:  required
+# signature:  good
+signature:  required
