@@ -19,11 +19,12 @@ void Remailer::mail()
 
     writeMail(mailStruct.boundary);
 
-    string recipient = d_step.substr(d_step.find(':'));
+    size_t pos = d_step.find(':');
 
-    if (recipient.length())
+    if (pos != string::npos)
     {
-        recipient.erase(0, 1);
+        string recipient = d_step.substr(pos + 1); 
+
         d_log << level(LOGDEFAULT) << "Ignoring recipients, mail sent to " <<
                  recipient << '\n';
         sendMail(recipient, mailStruct);

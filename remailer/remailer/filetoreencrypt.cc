@@ -33,7 +33,6 @@ void Remailer::fileToReencrypt()
                            line.find_first_not_of(" \t") != string::npos);
             out << endl;
         }
-
         signatureSection(out, "");
 
         out << "\n" <<

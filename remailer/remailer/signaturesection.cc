@@ -22,6 +22,8 @@ void Remailer::signatureSection(ostream &out, string const &boundary)
 
     SigStruct sigStruct = {out, NO_SIGNATURE};
 
+    out << "\n";
+
     for_each(istream_iterator<string>(sig), istream_iterator<string>(),
         FnWrap1c<string const &, SigStruct &> (signatureFilter, sigStruct));
 
