@@ -7,7 +7,7 @@ bool Remailer::step(char const *stepName)
 
     if (d_step.substr(0, d_step.find(':')) == stepName)
     {
-        d_log << level(LOGDEFAULT) << "Step " << stepName << " requested\n";
+        d_log << level(LOGDEFAULT) << "Step " << d_step << " request\n";
         return true;
     }
 
