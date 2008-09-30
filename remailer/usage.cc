@@ -26,6 +26,10 @@ void usage(std::string  const  &progname)
     "                           doc (create doc to send),\n"
     "                           enc (encrypt doc),\n"
     "                           mail (send mail)\n"
+    "                           mail:address (send mail only to the "
+                                                                "provided\n" 
+    "                                address, ignore recipient(s) in the\n"
+    "                                configuration file\n"
     "      --version (-v)   - show version information and terminate\n"
     "   config   - configuration file (~/etc/remailer.rc).\n"
     << endl;

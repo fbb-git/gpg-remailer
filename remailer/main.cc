@@ -41,12 +41,12 @@ try
     // sendmail's logs.
 catch(Errno const &err)     // handle exceptions
 {
-    cerr << "Remailer: " << err.what() << endl;
+    if (err.which() != 0)
+        cerr << "Remailer: " << err.what() << endl;
     return 0;
 }
 catch(int x)
 {
-    cerr << "Remailer: caught int " << x << " exception\n";
     return 0;
 }
 catch (...)

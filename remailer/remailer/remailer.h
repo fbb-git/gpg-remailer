@@ -116,10 +116,5 @@ class Remailer
         void testPermissions(std::string const &path, size_t permissions = 
                 FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);
 };
-
-inline bool Remailer::step(char const *stepName)
-{
-    return d_step.length() == 0 || d_step == stepName;
-}
         
 #endif

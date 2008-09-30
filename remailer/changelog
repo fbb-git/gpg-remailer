@@ -1,0 +1,13 @@
+remailer (2.32.1)
+
+  * Initial 'Content-Type:' line section is written before the signature. If
+    no such section is found, then the signature is shown first.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 30 Sep 2008 09:42:38 +0200
+
+remailer (2.32.0)
+
+  * Conversion from remailerScript to C++ program
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 28 Sep 2008 19:39:08 +0200
+

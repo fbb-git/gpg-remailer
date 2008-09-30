@@ -23,19 +23,22 @@ void Remailer::fileToReencrypt()
     {
         d_log << level(LOGDEBUG) << "No boundary, no multipart message\n";
 
-        // if no boundary and PGP then the initial lines are
-        // content-etc. lines: skip all lines until the first blank
-        while 
-        (
-            getline(in, line) && 
-            line.find_first_not_of(" \t") != string::npos
-        )
-            ;
-        out << "\n";
-        
+        // if no boundary and the first line is a content-type then 
+        // insert those lines first
+        if (line.find("Content-Type:") == 0)
+        {
+            do
+                out << line << endl;
+            while (getline(in, line) && 
+                           line.find_first_not_of(" \t") != string::npos);
+            out << endl;
+        }
+
         signatureSection(out, "");
+
         out << "\n" <<
-                line << in.rdbuf();
+                line << '\n' << 
+                in.rdbuf();
     }
     else
     {
