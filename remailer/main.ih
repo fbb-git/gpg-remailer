@@ -5,15 +5,10 @@
 
 #include "remailer/remailer.h"
 
-namespace Icmbuild
-{
-    extern char version[];
-    extern char year[];
-    extern char author[];
-};
+extern char version[];
+extern char year[];
 
 void usage(std::string const &progname);
 
 using namespace std;
 using namespace FBB;
-using namespace Icmbuild;

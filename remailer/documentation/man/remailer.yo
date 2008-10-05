@@ -1,4 +1,4 @@
-NOUSERMACRO(recipient)
+NOUSERMACRO(recipient remailer)
 
 COMMENT(includefile(../../release.yo))
 
