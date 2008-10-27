@@ -6,10 +6,10 @@ void Remailer::gpg(string const &command)
                     "--homedir " + d_user.homedir() + ".gnupg " +
                     d_gpgOptions + ' ' + command;
 
-    Process process(5, gpgCmd);
+    Process process(0, gpgCmd);         // No redirections
 
     d_log << level(LOGCOMMANDS) << gpgCmd << "\n";
 
     process.system();
-    process.wait();
+    process.waitForChild();
 }

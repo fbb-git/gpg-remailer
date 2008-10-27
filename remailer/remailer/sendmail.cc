@@ -20,9 +20,9 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
         return;
     }
 
-    Process mailProc(command.str());
+    Process mailProc(0, command.str());
     mailProc.system();
-    mailProc.wait();
+    mailProc.waitForChild();
 
     ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << ms.subject << 
                                    ") sent to " << recipient << '\n';
