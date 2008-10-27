@@ -1,3 +1,15 @@
+remailer (2.41.0)
+
+  * Repaired --no-mail handling, recompilation for new Process class
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 27 Oct 2008 17:05:19 +0100
+
+remailer (2.40.0)
+
+  * 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>
+
 remailer (2.32.1)
 
   * Initial 'Content-Type:' line section is written before the signature. If
