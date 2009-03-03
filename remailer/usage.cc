@@ -20,6 +20,7 @@ void usage(std::string  const  &progname)
     "                         >= 3: no log messages (2)\n"
     "      --no-mail        - do not send the reencrypted e-mail\n"
     "      --nr (-n) <nr>   - temporary files will use id number <nr>\n"
+    "      --relax          - relaxed directory/file permission tests\n"
     "      --step <name>    - perform a single step:\n"
     "                           org (info from mail),\n"
     "                           dec (decrypt info),\n"

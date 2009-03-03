@@ -12,6 +12,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("loglevel", 'L'),
         Arg::LongOption("nr", 'n'),
         Arg::LongOption("no-mail"),
+        Arg::LongOption("relax"),
         Arg::LongOption("step", Arg::Required),
         Arg::LongOption("version", 'v'),
     };

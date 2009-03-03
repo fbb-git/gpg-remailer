@@ -54,6 +54,7 @@ class Remailer
     SigType d_sigRequired;
     FBB::Pattern d_bdry;
 
+    bool d_relax;                       // relax permission tests
     public:
         Remailer();
         ~Remailer();
@@ -85,7 +86,9 @@ class Remailer
 
         void copyTo(std::ostream &out, std::istream &in, 
                                             std::string const &boundary);
-        void signatureSection(std::ostream &out, std::string const &boundary);
+        void signatureSection(std::ostream &out, 
+                                std::string const &signatureFileName, 
+                                std::string const &boundary);
         struct SigStruct
         {
             std::ostream &out;
@@ -130,12 +133,12 @@ class Remailer
 };
 
 inline bool Remailer::foundIn(std::string const &text, 
-                              std::string const &target)
+                              std::string const &target) const
 {
     return text.find(target) == 0;
 }
         
-inline bool Remailer::onlyWS(std::string const &text)
+inline bool Remailer::onlyWS(std::string const &text) const
 {
     return text.find_first_not_of(" \t") == std::string::npos;
 }

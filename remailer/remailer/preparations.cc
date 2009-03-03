@@ -13,6 +13,9 @@ void Remailer::preparations()
 
     setLog();                                   // define logging
 
+    if (d_relax)
+        d_log << level(LOGDEFAULT) << "WARNING: relaxed permission tests\n";
+
     testPermissions(d_user.homedir());
     testPermissions(d_configName, Stat::UR | Stat::UW);
     

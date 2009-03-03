@@ -2,6 +2,9 @@
 
 void Remailer::testPermissions(string const &path, size_t permissions)
 {
+    if (d_relax)
+        return;
+
     Stat stat(path);
 
     if (stat.mode() & ~permissions)

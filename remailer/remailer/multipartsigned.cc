@@ -31,17 +31,24 @@ bool Remailer::multipartSigned()
     if (!in)
         throw Errno(1, "multipart/signed: no boundary separator found");
     
-    copyTo(d_multipartSigned, in, boundary);
-    copyTo(d_detachedSignature, in, boundary);
+    copyTo(d_multipartSignedName, in, boundary);
+    copyTo(d_detachedSignatureName, in, boundary);
 
     ostringstream command;
 
-    ofopen(d_decryptedName);
-    ofopen(d_signatureName);    
-
     command << "--verify " << 
-            d_detachedSignature << " " << d_multipartSigned;
+            d_detachedSignatureName << " " << d_multipartSignedName;
     
     gpg(command.str());
+
+    ofstream out;
+    ofopen(d_reencryptName, &out);
+
+    signatureSection(out, d_detachedSignatureName, boundary);
+    
+    Msg::open(in, d_multipartSignedName);
+    out << in.rdbuf();
+
     return true;
 }
+
