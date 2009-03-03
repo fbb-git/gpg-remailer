@@ -4,7 +4,8 @@ Remailer::Remailer()
 :
     d_arg(Arg::instance()),
     d_config(ConfigFile::RemoveComment, ConfigFile::SearchCaseInsensitive),
-    d_keepFiles(false)
+    d_keepFiles(false),
+    d_bdry("boundary=\"([^\"]+)")
 {
     d_arg.option(&d_step, "step");
 

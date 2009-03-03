@@ -5,6 +5,10 @@ void Remailer::fileToReencrypt()
     if (!step("doc"))
         return;
 
+    if (multipartSigned())
+        return;
+
+
     ifstream in;
     Msg::open(in, d_decryptedName);
 
@@ -17,9 +21,7 @@ void Remailer::fileToReencrypt()
     d_log << level(LOGDEBUG) << d_decryptedName << 
                               " 1st line: " << line << "\n";
 
-    Pattern bdry("boundary=\"([^\"]+)");
-
-    if (!(bdry << line))            // no boundary found
+    if (!(d_bdry << line))          // no boundary found
     {
         d_log << level(LOGDEBUG) << "No boundary, no multipart message\n";
 
@@ -29,8 +31,8 @@ void Remailer::fileToReencrypt()
         {
             do
                 out << line << endl;
-            while (getline(in, line) && 
-                           line.find_first_not_of(" \t") != string::npos);
+            while (getline(in, line) && not onlyWS(line));
+
             out << endl;
         }
         signatureSection(out, "");
@@ -41,7 +43,7 @@ void Remailer::fileToReencrypt()
     }
     else
     {
-        string boundary = "--" + bdry[1];
+        string boundary = "--" + d_bdry[1];
 
         d_log << level(LOGDEBUG) << "Caught boundary " << boundary << 
                 ": multipart message\n";
