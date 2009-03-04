@@ -15,7 +15,7 @@ bool Remailer::multipartSigned()
     while (!(d_bdry << line))
     {
         if (!getline(in, line))
-            throw Errno(1, "multipart/signed: no boundary found");
+            msg() << "multipart/signed: no boundary found" << fatal;
     }
 
     // found the boundary
@@ -37,16 +37,20 @@ bool Remailer::multipartSigned()
     ostringstream command;
 
     command << "--verify " << 
-            d_detachedSignatureName << " " << d_multipartSignedName;
+            d_detachedSignatureName << " " << d_multipartSignedName <<
+            " 2> " << d_signatureName;
     
     gpg(command.str());
 
     ofstream out;
     ofopen(d_reencryptName, &out);
+    signatureSection(out, boundary);
 
-    signatureSection(out, d_detachedSignatureName, boundary);
-    
+    in.close();
     Msg::open(in, d_multipartSignedName);
+    cout << "Processing the multipart signed section " << 
+                                                d_multipartSignedName << "\n";
+
     out << in.rdbuf();
 
     return true;

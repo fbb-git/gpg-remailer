@@ -8,8 +8,7 @@ namespace std
     }
 }
 
-void Remailer::signatureSection(ostream &out, string const &signatureFileName,
-                                              string const &boundary)
+void Remailer::signatureSection(ostream &out, string const &boundary)
 {
     if (boundary.length())
         out <<
@@ -36,8 +35,7 @@ void Remailer::signatureSection(ostream &out, string const &signatureFileName,
         (d_sigRequired == SIGNATURE_FOUND && 
             sigStruct.sigType == NO_SIGNATURE)
     )
-        throw Errno(1, "Bad or missing signature in ") << insertable <<
-                    d_orgName << throwable;
+        msg() << "Bad or missing signature in " << d_orgName << fatal;
 
     out << "\n" <<
             boundary << "\n";

@@ -34,7 +34,7 @@ void Remailer::fileToReencrypt()
 
             out << endl;
         }
-        signatureSection(out, d_signatureName, "");
+        signatureSection(out, "");
 
         out << "\n" <<
                 line << '\n' << 
@@ -49,8 +49,8 @@ void Remailer::fileToReencrypt()
 
         out << line << endl;
         copyTo(out, in, boundary);  // copy all `in' info until the bdry
-        signatureSection(out, d_signatureName, // copy the signature
-                              boundary);    
+        signatureSection(out, boundary);        // copy the signature
+                              
         out << in.rdbuf();                      // copy the remainder of `in'
     }
 }

@@ -86,9 +86,7 @@ class Remailer
 
         void copyTo(std::ostream &out, std::istream &in, 
                                             std::string const &boundary);
-        void signatureSection(std::ostream &out, 
-                                std::string const &signatureFileName, 
-                                std::string const &boundary);
+        void signatureSection(std::ostream &out, std::string const &boundary);
         struct SigStruct
         {
             std::ostream &out;

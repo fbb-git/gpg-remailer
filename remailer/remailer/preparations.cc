@@ -5,7 +5,8 @@ void Remailer::preparations()
     d_user.verify();
 
     if (chdir(d_user.homedir().c_str()) != 0)   // change Homedir
-        throw Errno();
+        throw Errno(1, "Failed to change dir to ") << insertable <<
+                                            d_user.homedir() << throwable;
 
     d_config.open(d_configName);                // prepare configuration file
                                                 // MUST be following change to
@@ -54,7 +55,7 @@ void Remailer::preparations()
         rmQuotes(d_replyTo);
     }
     if (d_replyTo.empty())
-        throw Errno(1, "Missing replyTo specification in config file");
+        msg() << "Missing `replyTo' specification in config file" << fatal;
 
     d_sigRequired = 
         signatureRequired == "good"     ? GOOD_SIGNATURE :
