@@ -27,13 +27,19 @@ class Remailer
         LOGDEFAULT
     };
 
+    enum EncryptionEnum
+    {
+        SIMPLE,
+        MULTIPART,
+        MULTIPART_SIGNED
+    };
+
     FBB::Arg &d_arg;
 
     bool d_keepFiles;
     bool d_relax;                       // relax permission tests
 
     FBB::ConfigFile d_config;
-    FBB::Pattern d_bdry;
 
     FBB::User d_user;
     FBB::Log d_log;
@@ -59,6 +65,8 @@ class Remailer
 
     std::vector<std::string> d_members;
     std::vector<std::string> d_recipients;
+
+    static void (Remailer::*s_reEncrypt[])(std::ostream &, std::istream &);
 
     public:
         Remailer();
@@ -89,7 +97,7 @@ class Remailer
         void inspect(std::ostream &out, std::string const &line);
         void hexChar(std::ostream &out, std::istream &in);
 
-        void copyTo(std::ostream &out, std::istream &in);
+        void copyToBoundary(std::ostream &out, std::istream &in);
 
         void signatureSection(std::ostream &out, std::string const &boundary);
         struct SigStruct
@@ -100,7 +108,7 @@ class Remailer
         static void signatureFilter(std::string const &line, 
                                     SigStruct &sigStruct);
 
-        void copyTo(std::string const &destName, std::istream &in);
+        void copyToBoundary(std::string const &destName, std::istream &in);
 
         void fileToReencrypt();
         void writeReencrypted();
@@ -131,7 +139,15 @@ class Remailer
                                                                         const;
         bool onlyWS(std::string const &text) const;
 
-        bool multipartSigned();
+        EncryptionEnum encryptionType(std::ostream &out, std::istream &in);
+        void multipart(std::ostream &toReencrypt, std::istream &in);
+        void multipartSigned(std::ostream &toReencrypt, std::istream &in);
+        void simple(std::ostream &toReencrypt, std::istream &in);
+
+        bool findBoundary(std::istream &in);
+        bool hasBoundary(std::string const &line, 
+                                            std::string const &msgTypeName);
+
 };
 
 inline bool Remailer::foundIn(std::string const &text, 
