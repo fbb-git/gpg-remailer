@@ -3,10 +3,10 @@
 Remailer::Remailer()
 :
     d_arg(Arg::instance()),
-    d_config(ConfigFile::RemoveComment, ConfigFile::SearchCaseInsensitive),
     d_keepFiles(false),
-    d_bdry("boundary=\"([^\"]+)"),
-    d_relax(d_arg.option(0, "relax"))
+    d_relax(d_arg.option(0, "relax")),
+    d_config(ConfigFile::RemoveComment, ConfigFile::SearchCaseInsensitive),
+    d_bdry("boundary=\"([^\"]+)")
 {
     d_arg.option(&d_step, "step");
 

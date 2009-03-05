@@ -26,19 +26,29 @@ class Remailer
         LOGCOMMANDS,
         LOGDEFAULT
     };
+
     FBB::Arg &d_arg;
-    FBB::User d_user;
+
+    bool d_keepFiles;
+    bool d_relax;                       // relax permission tests
+
     FBB::ConfigFile d_config;
+    FBB::Pattern d_bdry;
+
+    FBB::User d_user;
     FBB::Log d_log;
+
+    SigType d_sigRequired;
+
     std::string d_configName;
     std::string d_step;
     std::string d_replyTo;
+    std::string d_boundary;
+    std::string d_subject;
+    std::string d_gpgOptions;
     
-    bool d_keepFiles;
-
     std::string d_nr;                   // nr assigned to files
     std::string d_decryptedName;
-    std::string d_detachedSignatureName;
     std::string d_errName;
     std::string d_mailName;
     std::string d_multipartSignedName;
@@ -49,12 +59,7 @@ class Remailer
 
     std::vector<std::string> d_members;
     std::vector<std::string> d_recipients;
-    std::string d_subject;
-    std::string d_gpgOptions;
-    SigType d_sigRequired;
-    FBB::Pattern d_bdry;
 
-    bool d_relax;                       // relax permission tests
     public:
         Remailer();
         ~Remailer();
@@ -84,8 +89,8 @@ class Remailer
         void inspect(std::ostream &out, std::string const &line);
         void hexChar(std::ostream &out, std::istream &in);
 
-        void copyTo(std::ostream &out, std::istream &in, 
-                                            std::string const &boundary);
+        void copyTo(std::ostream &out, std::istream &in);
+
         void signatureSection(std::ostream &out, std::string const &boundary);
         struct SigStruct
         {
@@ -95,8 +100,7 @@ class Remailer
         static void signatureFilter(std::string const &line, 
                                     SigStruct &sigStruct);
 
-        void copyTo(std::string const &destName, std::istream &in, 
-                                                 std::string const &boundary);
+        void copyTo(std::string const &destName, std::istream &in);
 
         void fileToReencrypt();
         void writeReencrypted();

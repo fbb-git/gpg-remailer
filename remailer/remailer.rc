@@ -22,13 +22,12 @@
 replyTo:    Fill in your reply-to <somebody@somewhere.org>
 
 # where will the reencrypted mail be sent to (multiple recipients OK)
-recipient:  frank@localhost
-# recipient:  mailing.list@somehost.org
+# recipient:  frank
+recipient:  mailing.list@somehost.org
 
 # reencrypt to which address(es)? (multiple members OK)
-member: f.b.brokken@rug.nl
-# member: user1@mailhost.org
-# member: user2@mailhost.org
+member: user1@mailhost.org
+member: user2@mailhost.org
 
 # signature specs may be:   absent: none required, 
 #                           required: the encrypted file must have been signed

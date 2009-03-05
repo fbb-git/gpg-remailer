@@ -51,6 +51,149 @@ to all the group members.
     A configuration file as well as command line options can be used to
 fine-tune the remailer's behavior. 
 
+manpagesection(FORMATS)
+
+    Even though PGP/GPG in e-mail is a simple issue, various formats of the
+e-mail are possible. Currently the remailer recognizes the following formats:
+    itemization(
+    it() Standard simple encrypted message.
+    it() Multi part encrypted message.
+    it() Encrypted message containing detached signature
+    )
+
+    Below a description is given of the actual contents of the PGP encrypted
+en decrypted files. 
+
+    All PGP encrypted e-mail shows the following headers:
+        verb(
+Content-Type: multipart/encrypted; protocol="application/pgp-encrypted";
+        boundary="+QahgC5+KEYLbs62"
+Content-Disposition: inline
+        )
+    All PGP encrypted e-mail shows the following organization (the lines are
+used to separate the e-mail organization from the text of this man-page and
+are not actually present in the e-mail or in the decrypted information; empty
+lines, where shown, are required):
+        verb(
+----------------------------------------------------------------------
+    mail headers
+
+--+QahgC5+KEYLbs62
+Content-Type: application/pgp-encrypted
+Content-Disposition: attachment
+
+Version: 1
+
+--+QahgC5+KEYLbs62
+Content-Type: application/octet-stream
+Content-Disposition: inline; filename="msg.asc"
+
+-----BEGIN PGP MESSAGE-----
+...
+-----END PGP MESSAGE-----
+
+--+QahgC5+KEYLbs62--
+----------------------------------------------------------------------
+        )
+    Note that boundaries consist of 
+    itemization(
+    it() a new line character
+    it() two dashes followed by the boundary text
+    it() the last boundary is followed by two dashes
+    it() a new line character
+    )
+
+    The various PGP encrypted e-mail formats differ in the way they organize
+the decrypted information.
+    itemization(
+    it() Standard simple encrypted message:
+    )  
+  
+    During decryption the signature is verified, and the result of the
+verification is written to the standard error stream. The decrypted message
+itself contains but one message, organized as follows:
+        verb(
+----------------------------------------------------------------------
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+decrypted text of the message
+----------------------------------------------------------------------
+        )
+
+    itemization(
+    it() Multi part encrypted message. 
+    )
+
+    During decryption the signature is verified, and the result of the
+verification is written to the standard error stream. The decrypted message
+itself contains multiple messages, organized as follows:
+        verb(
+----------------------------------------------------------------------
+Content-Type: multipart/mixed; boundary="f+W+jCU1fRNres8c"
+Content-Disposition: inline
+
+--f+W+jCU1fRNres8c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Text of the first attachment
+
+--f+W+jCU1fRNres8c
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="attachment.pdf"
+Content-Transfer-Encoding: base64
+
+text of the attachment.pdf in base64 encoding
+
+--f+W+jCU1fRNres8c--
+----------------------------------------------------------------------
+        )
+    Multiple attachments might follow in the same way.
+
+    itemization(
+    it() Encrypted message containing detached signature.
+    ) 
+   
+    During decryption the signature is em(not) verified (but the 
+recipient(s) is (are) shown) and the decrypted file is organized as follows:
+        verb(
+----------------------------------------------------------------------
+Content-Type: multipart/signed; micalg=pgp-sha1; protocol="application/pgp-signature";
+        boundary="=-TNwuMvq+TfajHhvqBuO7"
+
+--=-TNwuMvq+TfajHhvqBuO7
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Text of the message
+
+--=-TNwuMvq+TfajHhvqBuO7
+Content-Type: application/pgp-signature; name=signature.asc
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+... signature text
+-----END PGP SIGNATURE-----
+
+--=-TNwuMvq+TfajHhvqBuO7--
+----------------------------------------------------------------------
+        )
+    The last part is the detached signature, The contents section must be
+separated from the decrypted file (named, e.g., tt(decrypted)) (creating,
+e.g., the file tt(contents)). That latter file's signature may then be
+verified using the command 
+        verb(
+    gpg --verify decrypted contents
+        )
+    resulting in the signature verification written to the standard error (as
+usual). The contents start immediately following the first boundary, and
+continues up to, but not including, the new line just before the next
+boundary.
+    )
+
 manpagesection(REQUIREMENTS)
 
     In order to use the re-encrypting remailer the following requirements must
@@ -227,6 +370,8 @@ remailer.
         Higher levels will suppress logging. 
     it() bf(noMail:) tt(logic) (false)nl()
         When specified as tt(true) mail will not be sent.
+    it() bf(relax:) Tests for proper permissions of home directory and files
+are not performed, instead a warning is issued in the log-file nl()
     it() bf(recipient:) tt(e-mail address) nl()
         Multiple recipients may be specified. Recipients should be specified
 as a plain e-mail address (e.g., tt(destination@some.host.org)). The

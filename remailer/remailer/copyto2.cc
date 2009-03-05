@@ -2,8 +2,7 @@
 
 // the boundary has just been seen
 
-void Remailer::copyTo(string const &destName, istream &in, 
-                                                string const &boundary)
+void Remailer::copyTo(string const &destName, istream &in)
 {
     ofstream out;
     ofopen(destName, &out);
@@ -13,7 +12,7 @@ void Remailer::copyTo(string const &destName, istream &in,
     string *next = &line[1];
 
     getline(in, *last);
-    while (getline(in, *next) && !foundIn(*next, boundary))
+    while (getline(in, *next) && !foundIn(*next, d_boundary))
     {
         out << *last << endl;
         swap(last, next);

@@ -13,7 +13,6 @@ void Remailer::setFilenames()
     testPermissions(prefix);
 
     d_decryptedName = prefix + "decrypted.";
-    d_detachedSignatureName = prefix + "detachedsignature.";
     d_errName = prefix + "err.";
     d_mailName = prefix + "mail.";
     d_multipartSignedName = prefix + "multipartsigned.";
@@ -25,7 +24,6 @@ void Remailer::setFilenames()
     setSuffixNr();
         
     d_decryptedName += d_nr;
-    d_detachedSignatureName += d_nr;
     d_errName += d_nr;
     d_mailName += d_nr;
     d_multipartSignedName += d_nr;
