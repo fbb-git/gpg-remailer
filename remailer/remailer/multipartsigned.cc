@@ -3,10 +3,12 @@
     // Third format mentioned in the man-page
 void Remailer::multipartSigned(IOContext &io)
 {
-    findBoundary(io.decrypted);
+    findBoundary(io);
 
     ostream null(0);
     copyToBoundary(null, io.decrypted);           // skip all headers
+
+cout << "\n\nSIGNED DATA:\n\n";
 
     copyToBoundary(d_multipartSignedDataName, io.decrypted);
 

@@ -151,7 +151,7 @@ class Remailer
         void multipartSigned(IOContext &io);
         void simple(IOContext &io);
 
-        bool findBoundary(std::istream &in);
+        void findBoundary(IOContext &io);
         bool hasBoundary(std::string const &line, 
                                             std::string const &msgTypeName);
 

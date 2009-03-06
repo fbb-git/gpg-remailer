@@ -4,7 +4,7 @@ Remailer::EncryptionEnum Remailer::encryptionType(IOContext &io)
 {
     getline(io.decrypted, io.line);              
                                 // does this line contains multipart/signed ?
-    if (io.line.find("Content-Type: multipart/signed;") != 0)
+    if (io.line.find("Content-Type: multipart/signed;") == 0)
         return MULTIPART_SIGNED;
 
     if (hasBoundary(io.line, "multipart"))
