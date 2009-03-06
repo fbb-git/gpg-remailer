@@ -27,8 +27,8 @@ void Remailer::multipartSigned(IOContext &io)
 
 // Format of the decrypted PGP part:
 // ----------------------------------------------------------------------
-// Content-Type: multipart/signed; micalg=pgp-sha1; \
-                                        protocol="application/pgp-signature";
+// Content-Type: multipart/signed; micalg=pgp-sha1; \ (line continues)
+//                                      protocol="application/pgp-signature";
 //         boundary="=-TNwuMvq+TfajHhvqBuO7"
 // 
 // --=-TNwuMvq+TfajHhvqBuO7

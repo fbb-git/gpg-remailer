@@ -306,26 +306,45 @@ manpageoptions()
 following their associated long-option variants. Single letter options require
 arguments if their associated long options require arguments as well.
     itemization(
-    it() bf(--member) (tt(-m)) tt(PGP e-mail address) nl()
+    it() loption(debug) (soption(d)) nl()
+        When specified debug messages will be logged to the log-file (see
+below).  When this option is specified the files written by the remailer will
+not be removed when the remailer terminates.
+    it() loption(help) (soption(h)) nl()
+        A short summary of the usage is displayed to the standard output and
+the remailer terminates.
+    it() lsoption(logfile)(l)(filename)nl()
+        Specifies the file on which the remailer's log messages are written
+        (by default tt(etc/remailer.log)).
+    it()  lsoption(loglevel)(L)(level)nl() 
+        LogLevel 0 provides extensive debug output as well as all other
+            logmessages;nl()  
+        LogLevel 1 logs the executed commands and the default messages;nl()
+        LogLevel 2 logs the default messages (characteristics of incoming and
+            outgoing e-mail) (default);nl()
+        Higher levels will suppress logging. 
+    it() lsoption(member)(m)(PGP e-mail address) nl()
         The PGP address to re-encrypt the message for. Overrides the 
-tt(member)(s) listed in the configuration file.
-    it() bf(--recipient) (tt(-r)) tt(e-mail address) nl()
-        The recipient of the e-mail. Overrides the tt(recipient)(s) listed in
+member(s) listed in the configuration file.
+    it() loption(noMail)nl()
+        When specified no mail is sent.
+    it() lsoption(recipient)(r)(e-mail address) nl()
+        The recipient of the e-mail. Overrides the recipient(s) listed in
 the configuration file.
-    it() bf(relax:) Tests for proper permissions of home directory and files
-are not performed, instead a warning is issued in the log-file nl()
-    it() Several more: to do
-COMMENT(
-    it() lsoption(config-file)(c)(filename)nl()
-           The name of an bf(xd) configuration file. By default bf(xd) will
-            look for the file tt(.xdrc) in the user's home directory. The
-            existence of the default file is optional.
-)
-    it() loption(help) (soption(h))nl()
-           Basic usage information is written to the standard output stream.
+    it() loption(relax) Tests for proper permissions of home directory and
+files are not performed, instead a warning is issued in the log-file
+    it() laoption(step)(name)nl()
+        Perform a single step of the remailing process. Step names are:nl()
+            org (info from mail),nl()
+            dec (decrypt info),nl()
+            doc (create doc to send),nl()
+            enc (encrypt doc),nl()
+            mail (send mail),nl()
+            mail:address (send mail only to the provided address, ignore
+                    recipient(s) specified otherwise).
     it() loption(version) (soption(v))nl()
-           The remailer's version number is is written to the standard output
-            stream. 
+       The remailer's version number is is written to the standard output
+       stream. 
     )
     
 
@@ -337,7 +356,7 @@ directory. It may be overruled by a command line argument.
 Empty lines are ignored. Information at and beyond tt(#)-characters is
 interpreted as comment and is ignored as well.
 
-All directives in bf(xd) configuration files follow the pattern 
+All directives in the configuration file follow the pattern 
     verb(
     directive: value
     ) 
