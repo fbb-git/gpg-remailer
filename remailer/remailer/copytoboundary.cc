@@ -12,8 +12,6 @@ void Remailer::copyToBoundary(ostream &out, istream &in)
         if (foundIn(*next, d_boundary))
             return;
 
-        cout << *last << endl;
-
         out << *last << endl;
         swap(last, next);
     }

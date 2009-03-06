@@ -40,8 +40,8 @@ void Remailer::preparations()
 
     setFilenames();                         // define all used filenames 
 
-    multiField(d_members, "member");
-    multiField(d_recipients, "recipient");
+    multiField(d_members, "member", 'm');
+    multiField(d_recipients, "recipient", 'r');
 
     string signatureRequired = configField("signature");
 

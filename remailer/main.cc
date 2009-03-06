@@ -10,8 +10,10 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("help", 'h'),
         Arg::LongOption("logfile", 'l'),
         Arg::LongOption("loglevel", 'L'),
+        Arg::LongOption("member", 'm'),
         Arg::LongOption("nr", 'n'),
         Arg::LongOption("no-mail"),
+        Arg::LongOption("recipient", 'r'),
         Arg::LongOption("relax"),
         Arg::LongOption("step", Arg::Required),
         Arg::LongOption("version", 'v'),
@@ -25,7 +27,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    Arg::initialize("dhL:l:n:v", longOptions, longEnd, 
+    Arg::initialize("dhL:l:m:n:r:v", longOptions, longEnd, 
                     argc, argv).versionHelp(usage, version, 0);
 
     Remailer remailer;
@@ -42,8 +44,6 @@ try
     // sendmail's logs.
 catch(Errno const &err)     // handle exceptions
 {
-    if (err.which() != 0)
-        cerr << "Remailer: " << err.what() << endl;
     return 0;
 }
 catch(int x)

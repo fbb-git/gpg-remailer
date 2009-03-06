@@ -14,5 +14,5 @@ if [ $# == 2 ] ; then
     STEP="--step $2"
 fi
 
-tmp/bin/remailer --relax -d -l remailer.log -L 0 -n 1 ${STEP} \
-        $CWD/remailer.rc < $CWD/$1
+tmp/bin/remailer --relax -d -r frank -m f.b.brokken -l remailer.log \
+        -L 0 -n 1 ${STEP} $CWD/remailer.rc < $CWD/$1

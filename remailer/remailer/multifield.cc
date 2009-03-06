@@ -7,8 +7,15 @@ void Remailer::addField(string const &line, FieldStruct &fs)
 }
     
 
-void Remailer::multiField(vector<string> &dest, char const *keyWord)
+void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 {
+    string field;
+    if (d_arg.option(&field, opt))
+    {
+        dest.push_back(field);
+        return;
+    }
+
     string configRE("^\\s*");
     (configRE += keyWord) += ":";
 

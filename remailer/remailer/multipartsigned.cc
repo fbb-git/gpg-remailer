@@ -8,8 +8,6 @@ void Remailer::multipartSigned(IOContext &io)
     ostream null(0);
     copyToBoundary(null, io.decrypted);           // skip all headers
 
-cout << "\n\nSIGNED DATA:\n\n";
-
     copyToBoundary(d_multipartSignedDataName, io.decrypted);
 
     ostringstream command;
@@ -27,3 +25,25 @@ cout << "\n\nSIGNED DATA:\n\n";
 }
 
 
+// Format of the decrypted PGP part:
+// ----------------------------------------------------------------------
+// Content-Type: multipart/signed; micalg=pgp-sha1; \
+                                        protocol="application/pgp-signature";
+//         boundary="=-TNwuMvq+TfajHhvqBuO7"
+// 
+// --=-TNwuMvq+TfajHhvqBuO7
+// Content-Type: text/plain
+// Content-Transfer-Encoding: quoted-printable
+// 
+// Text of the message
+// 
+// --=-TNwuMvq+TfajHhvqBuO7
+// Content-Type: application/pgp-signature; name=signature.asc
+// Content-Description: This is a digitally signed message part
+// 
+// -----BEGIN PGP SIGNATURE-----
+// ... signature text
+// -----END PGP SIGNATURE-----
+// 
+// --=-TNwuMvq+TfajHhvqBuO7--
+// ----------------------------------------------------------------------

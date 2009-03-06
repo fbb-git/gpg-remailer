@@ -91,7 +91,9 @@ class Remailer
             FBB::Pattern &pattern;
             std::string &configRegex;
         };
-        void multiField(std::vector<std::string> &dest, char const *keyWord);
+        void multiField(std::vector<std::string> &dest, char const *keyWord,
+                                                                    int opt);
+
                                             // add members from config file
         static void addField(std::string const &line, FieldStruct &fs);
 
