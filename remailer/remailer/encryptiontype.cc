@@ -1,27 +1,16 @@
 #include "remailer.ih"
 
-Remailer::EncryptionEnum Remailer::encryptionType(ostream &out, istream &in)
+Remailer::EncryptionEnum Remailer::encryptionType(IOContext &io)
 {
-    Msg::open(in, d_decryptedName);
-
-    string line;
-    getline(in, line);              
+    getline(io.decrypted, io.line);              
                                 // does this line contains multipart/signed ?
-    if (line.find("Content-Type: multipart/signed;") != 0)
-    {
-        findBoundary(in);
-        ostream null(0);
-        copyToBoundary(null, in);
-
+    if (io.line.find("Content-Type: multipart/signed;") != 0)
         return MULTIPART_SIGNED;
-    }
 
-    if (has_boundary(line, "multipart"))
-    {
-        out << line << endl;
+    if (hasBoundary(io.line, "multipart"))
         return MULTIPART;
-    }
 
     d_log << level(LOGDEBUG) << "No boundary, no multipart message\n";
+
     return SIMPLE;    
 }

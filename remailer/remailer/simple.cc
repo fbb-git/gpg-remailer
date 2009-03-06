@@ -1,23 +1,33 @@
 #include "remailer.ih"
 
-void Remailer::simple(ostream &toReencrypt, istream &in)
+void Remailer::simple(IOContext &io)
 {
     d_log << level(LOGDEBUG) << "No boundary, no multipart message\n";
     
     // if no boundary and the first line is a content-type then 
     // insert those lines first
-    if (line.find("Content-Type:") == 0)
+    if (io.line.find("Content-Type:") == 0)
     {
         do
-            toReencrypt << line << endl;
-        while (getline(in, line) && not onlyWS(line));
+            io.toReencrypt << io.line << endl;
+        while (getline(io.decrypted, io.line) && not onlyWS(io.line));
     
-        toReencrypt << endl;
+        io.toReencrypt << endl;
     }
 
-    signatureSection(toReencrypt, "");
+    copySignature(io.toReencrypt, "");
     
-    toReencrypt << "\n" <<
-                    line << '\n' << 
-                    in.rdbuf();
+    io.toReencrypt << "\n" <<
+                    io.line << '\n' << 
+                    io.decrypted.rdbuf();
 }
+
+// Simple pgp encrypted file.
+// Format:
+// ----------------------------------------------------------------------
+// Content-Type: text/plain; charset=us-ascii
+// Content-Disposition: inline
+// Content-Transfer-Encoding: quoted-printable
+// 
+// decrypted text of the message
+// ----------------------------------------------------------------------

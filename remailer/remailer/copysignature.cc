@@ -8,7 +8,7 @@ namespace std
     }
 }
 
-void Remailer::signatureSection(ostream &out, string const &boundary)
+void Remailer::copySignature(ostream &out, string const &boundary)
 {
     if (boundary.length())
         out <<

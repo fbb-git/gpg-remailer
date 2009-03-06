@@ -1,8 +1,11 @@
 #include "remailer.ih"
 
-void Remailer::multipart(ostream &toReencrypt, istream &in)
+void Remailer::multipart(IOContext &io)
 {
-    copyToBoundary(toReencrypt, in);
-    signatureSection(toReencrypt, d_boundary);  // copy the signature
-    toReencrypt << in.rdbuf();                  // copy the remainder of `in'
+    io.toReencrypt << io.line << endl;  // line containing 
+                                        // Content-Type: multipart
+
+    copyToBoundary(io.toReencrypt, io.decrypted);
+    copySignature(io.toReencrypt, d_boundary);
+    io.toReencrypt << io.decrypted.rdbuf();
 }

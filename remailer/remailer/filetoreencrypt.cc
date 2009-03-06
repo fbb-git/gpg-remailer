@@ -5,13 +5,12 @@ void Remailer::fileToReencrypt()
     if (!step("doc"))
         return;
 
-    ofstream toReencrypt;
-    ofopen(d_reencryptName, &toReencrypt);
+    IOContext io;
 
-    ifstream in;
-    Msg::open(in, d_decryptedName);
+    ofopen(d_reencryptName, &io.toReencrypt);
+    Msg::open(io.decrypted, d_decryptedName);
 
-    (this->*s_reEncrypt[encryptionType(toReencrypt, in)])(toReencrypt, in);
+    (this->*s_reEncrypt[ encryptionType(io) ])(io);
 }
 
 

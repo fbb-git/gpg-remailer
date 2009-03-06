@@ -34,6 +34,13 @@ class Remailer
         MULTIPART_SIGNED
     };
 
+    struct IOContext
+    {
+        std::ifstream decrypted;
+        std::ofstream toReencrypt;
+        std::string   line;
+    };
+
     FBB::Arg &d_arg;
 
     bool d_keepFiles;
@@ -52,12 +59,12 @@ class Remailer
     std::string d_boundary;
     std::string d_subject;
     std::string d_gpgOptions;
-    
+                                            
     std::string d_nr;                   // nr assigned to files
     std::string d_decryptedName;
     std::string d_errName;
     std::string d_mailName;
-    std::string d_multipartSignedName;
+    std::string d_multipartSignedDataName;
     std::string d_orgName;
     std::string d_reencryptName;
     std::string d_reencryptedName;
@@ -66,7 +73,7 @@ class Remailer
     std::vector<std::string> d_members;
     std::vector<std::string> d_recipients;
 
-    static void (Remailer::*s_reEncrypt[])(std::ostream &, std::istream &);
+    static void (Remailer::*s_reEncrypt[])(IOContext &);
 
     public:
         Remailer();
@@ -99,7 +106,7 @@ class Remailer
 
         void copyToBoundary(std::ostream &out, std::istream &in);
 
-        void signatureSection(std::ostream &out, std::string const &boundary);
+        void copySignature(std::ostream &out, std::string const &boundary);
         struct SigStruct
         {
             std::ostream &out;
@@ -139,10 +146,10 @@ class Remailer
                                                                         const;
         bool onlyWS(std::string const &text) const;
 
-        EncryptionEnum encryptionType(std::ostream &out, std::istream &in);
-        void multipart(std::ostream &toReencrypt, std::istream &in);
-        void multipartSigned(std::ostream &toReencrypt, std::istream &in);
-        void simple(std::ostream &toReencrypt, std::istream &in);
+        EncryptionEnum encryptionType(IOContext &io);
+        void multipart(IOContext &io);
+        void multipartSigned(IOContext &io);
+        void simple(IOContext &io);
 
         bool findBoundary(std::istream &in);
         bool hasBoundary(std::string const &line, 

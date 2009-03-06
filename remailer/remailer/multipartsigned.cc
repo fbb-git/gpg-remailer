@@ -1,27 +1,27 @@
 #include "remailer.ih"
 
     // Third format mentioned in the man-page
-void Remailer::multipartSigned(ostream &toReencrypt, istream &in)
+void Remailer::multipartSigned(IOContext &io)
 {
-    copyToBoundary(d_multipartSignedDataName, in);
-    copyToBoundary(d_multipartSignedSignatureName, in);
+    findBoundary(io.decrypted);
+
+    ostream null(0);
+    copyToBoundary(null, io.decrypted);           // skip all headers
+
+    copyToBoundary(d_multipartSignedDataName, io.decrypted);
 
     ostringstream command;
     command << "--verify " << 
-            d_multipartSignedDataName << " " << 
-            d_multipartSignedSignatureName << " 2> " << d_signatureName;
+            d_decryptedName << " " << d_multipartSignedDataName << 
+            " 2> " << d_signatureName;
     gpg(command.str());
 
-
-    signatureSection(out, d_boundary);
+    copySignature(io.toReencrypt, d_boundary);
 
     ifstream data;
     Msg::open(data, d_multipartSignedDataName);
-    cout << "Processing the multipart signed section " << 
-            d_multipartSignedDataName << "\n";
 
-    out << data.rdbuf();
-
-    return true;
+    io.toReencrypt << data.rdbuf();
 }
+
 
