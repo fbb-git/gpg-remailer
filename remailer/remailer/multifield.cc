@@ -27,8 +27,8 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
             FnWrap1c<string const &, FieldStruct &>(addField, fs));
 
     if (dest.size() == 0)
-        msg() << "No `" << keyWord << 
-                 "' specifications found in " << d_configName << fatal;
+        d_log << level(LOGDEFAULT) << "No `" << keyWord << 
+                 "' specifications found in " << d_configName << FATAL;
 
     ostringstream out;
     copy(dest.begin(), dest.end(), ostream_iterator<string>(out, " "));

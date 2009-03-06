@@ -35,7 +35,8 @@ void Remailer::copySignature(ostream &out, string const &boundary)
         (d_sigRequired == SIGNATURE_FOUND && 
             sigStruct.sigType == NO_SIGNATURE)
     )
-        msg() << "Bad or missing signature in " << d_orgName << fatal;
+        d_log << level(LOGDEFAULT) << 
+                "Bad or missing signature in " << d_orgName << fatal;
 
     out << "\n" <<
             boundary << "\n";

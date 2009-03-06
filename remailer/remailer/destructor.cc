@@ -5,6 +5,9 @@ Remailer::~Remailer()
     if (d_keepFiles)
         return;
 
+    d_log << level(LOGDEFAULT) << 
+            "Removing all remporary files\n";
+
     unlink(d_decryptedName.c_str());
     unlink(d_errName.c_str());
     unlink(d_mailName.c_str());
