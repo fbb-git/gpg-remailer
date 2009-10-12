@@ -1,3 +1,9 @@
+remailer (2.50.1)
+
+  * Multiple changes see the svn diffs, Using the --std=c++0x compiler option.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 12 Oct 2009 09:52:11 +0200
+
 remailer (2.41.0)
 
   * Repaired --no-mail handling, recompilation for new Process class
