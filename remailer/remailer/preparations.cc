@@ -10,7 +10,6 @@ void Remailer::preparations()
 
     d_config.open(d_configName);                // prepare configuration file
                                                 // MUST be following change to
-                                                // the user's homedir
 
     setLog();                                   // define logging
 

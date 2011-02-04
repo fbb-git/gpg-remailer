@@ -23,7 +23,8 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 
     FieldStruct fs = {dest, pattern, configRE};
 
-    for_each(d_config.beginRE(configRE), d_config.endRE(), 
+//    for_each(d_config.beginRE(configRE), d_config.endRE(), 
+    for_each(d_config.begin(), d_config.end(), 
             FnWrap1c<string const &, FieldStruct &>(addField, fs));
 
     if (dest.size() == 0)
