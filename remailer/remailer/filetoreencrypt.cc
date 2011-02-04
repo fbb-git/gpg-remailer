@@ -8,7 +8,7 @@ void Remailer::fileToReencrypt()
     IOContext io;
 
     ofopen(d_reencryptName, &io.toReencrypt);
-    Msg::open(io.decrypted, d_decryptedName);
+    Errno::open(io.decrypted, d_decryptedName);
 
     (this->*s_reEncrypt[ encryptionType(io) ])(io);
 }

@@ -55,7 +55,7 @@ void Remailer::preparations()
     }
     if (d_replyTo.empty())
         d_log << level(LOGDEFAULT) << 
-            "Missing `replyTo' specification in config file" << FATAL;
+            "Missing `replyTo' specification in config file\n" << FATAL;
 
     d_sigRequired = 
         signatureRequired == "good"     ? GOOD_SIGNATURE :

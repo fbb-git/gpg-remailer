@@ -4,7 +4,7 @@
 
 void usage(std::string  const  &progname)
 {
-    cout << "\n" <<
+    cout << '\n' <<
     progname << " by f.b.brokken@rug.nl\n" <<
     progname << " V" << version << " " << year << "\n"
     "\n"

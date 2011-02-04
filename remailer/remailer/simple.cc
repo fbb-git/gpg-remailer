@@ -17,7 +17,7 @@ void Remailer::simple(IOContext &io)
 
     copySignature(io.toReencrypt, "");
     
-    io.toReencrypt << "\n" <<
+    io.toReencrypt << '\n' <<
                     io.line << '\n' << 
                     io.decrypted.rdbuf();
 }

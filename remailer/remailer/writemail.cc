@@ -6,7 +6,7 @@ void Remailer::writeMail(string const &boundary)
     ofopen(d_mailName, &out);
 
     ifstream in;
-    Msg::open(in, d_reencryptedName);
+    Errno::open(in, d_reencryptedName);
 
     out << "\n"                         // create the mail te send.
         "--" << boundary << "\n"
@@ -19,8 +19,8 @@ void Remailer::writeMail(string const &boundary)
         "Content-Type: application/octet-stream; name=gpg.asc\n"
         "Content-Transfer-Encoding: 7bit\n"
         "\n" <<
-        in.rdbuf() << "\n" <<
-        "\n" <<
+        in.rdbuf() << "\n"
+        "\n"
         "--" << boundary << "--\n";
 
     out.close();

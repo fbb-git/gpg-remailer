@@ -23,13 +23,12 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 
     FieldStruct fs = {dest, pattern, configRE};
 
-//    for_each(d_config.beginRE(configRE), d_config.endRE(), 
     for_each(d_config.begin(), d_config.end(), 
-            FnWrap1c<string const &, FieldStruct &>(addField, fs));
+            FnWrap::unary(addField, fs));
 
     if (dest.size() == 0)
         d_log << level(LOGDEFAULT) << "No `" << keyWord << 
-                 "' specifications found in " << d_configName << FATAL;
+             "' specifications found in " << d_configName << '\n' << FATAL;
 
     ostringstream out;
     copy(dest.begin(), dest.end(), ostream_iterator<string>(out, " "));

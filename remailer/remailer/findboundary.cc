@@ -6,6 +6,6 @@ void Remailer::findBoundary(IOContext &io)
     {
         if (!getline(io.decrypted, io.line))
             d_log << level(LOGDEFAULT) << 
-                        "multipart/signed: no boundary found" << FATAL;
+                        "multipart/signed: no boundary found\n" << FATAL;
     }
 }

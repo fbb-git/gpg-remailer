@@ -13,14 +13,16 @@
 #include <iomanip>
 #include <iterator>
 
-#include <bobcat/fnwrap1c>
+#include <bobcat/fnwrap>
 #include <bobcat/process>
 #include <bobcat/irandstream>
 #include <bobcat/x2a>
 #include <bobcat/a2x>
 #include <bobcat/string>
 #include <bobcat/level>
-#include <bobcat/msg>
+#include <bobcat/errno>
+#include <bobcat/stringline>
+
 
 using namespace std;
 using namespace FBB;

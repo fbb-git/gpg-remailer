@@ -32,7 +32,6 @@ void Remailer::mail()
     else
     {
         for_each(d_recipients.begin(), d_recipients.end(), 
-            FnWrap1c<string const &, MailStruct const &>
-                    (sendMail, mailStruct));
+                                        FnWrap::unary(sendMail, mailStruct));
     }
 }

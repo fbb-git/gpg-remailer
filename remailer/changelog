@@ -1,3 +1,9 @@
+remailer (2.50.00)
+
+  * Adapted sources to bobcat 2.13.0
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 04 Feb 2011 22:23:52 +0100
+
 remailer (2.50.1)
 
   * Multiple changes see the svn diffs, Using the --std=c++0x compiler option.

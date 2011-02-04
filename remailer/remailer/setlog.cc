@@ -21,6 +21,7 @@ void Remailer::setLog()
     testPermissions(name);
         
     d_log.setLevel(A2x(level));
-
-    Msg::setInfoBuf(d_log.rdbuf());
 }
+
+
+

@@ -1,13 +1,5 @@
 #include "remailer.ih"
 
-namespace std
-{
-    inline istream &operator>>(istream &in, string &line)
-    {
-        return getline(in, line);
-    }
-}
-
 void Remailer::copySignature(ostream &out, string const &boundary)
 {
     if (boundary.length())
@@ -18,14 +10,14 @@ void Remailer::copySignature(ostream &out, string const &boundary)
             "\n";
 
     ifstream sig;
-    Msg::open(sig, d_signatureName);
+    Errno::open(sig, d_signatureName);
 
     SigStruct sigStruct = {out, NO_SIGNATURE};
 
-    out << "\n";
+    out << '\n';
 
-    for_each(istream_iterator<string>(sig), istream_iterator<string>(),
-        FnWrap1c<string const &, SigStruct &> (signatureFilter, sigStruct));
+    for_each(istream_iterator<StringLine>(sig), istream_iterator<StringLine>(),
+                                FnWrap::unary(signatureFilter, sigStruct));
 
     if 
     (
@@ -35,11 +27,11 @@ void Remailer::copySignature(ostream &out, string const &boundary)
         (d_sigRequired == SIGNATURE_FOUND && 
             sigStruct.sigType == NO_SIGNATURE)
     )
-        d_log << level(LOGDEFAULT) << 
-                "Bad or missing signature in " << d_orgName << fatal;
+        d_log << level(LOGDEFAULT) << "[Fatal] "
+                "Bad or missing signature in " << d_orgName << '\n' << FATAL;
 
-    out << "\n" <<
-            boundary << "\n";
+    out << '\n' <<
+            boundary << '\n';
 }
 
 

@@ -8,7 +8,7 @@ void Remailer::gpg(string const &command)
 
     Process process(0, gpgCmd);         // No redirections
 
-    d_log << level(LOGCOMMANDS) << gpgCmd << "\n";
+    d_log << level(LOGCOMMANDS) << gpgCmd << '\n';
 
     process.system();
     process.waitForChild();
