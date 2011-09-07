@@ -19,9 +19,8 @@ void Remailer::setLog()
     d_log.open(name);
     chmod(name.c_str(), S_IRUSR | S_IWUSR);
     testPermissions(name);
-        
+
     d_log.setLevel(A2x(level));
+
+    Msg::setInfoBuf(d_log.rdbuf());
 }
-
-
-

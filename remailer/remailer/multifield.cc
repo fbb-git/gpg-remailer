@@ -23,8 +23,13 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 
     FieldStruct fs = {dest, pattern, configRE};
 
-    for_each(d_config.begin(), d_config.end(), 
-            FnWrap::unary(addField, fs));
+    auto begin = d_config.beginRE(configRE);
+    for_each(begin, d_config.endRE(), 
+        [&](string const &line)
+        {
+            addField(line, fs);
+        }
+    );
 
     if (dest.size() == 0)
         d_log << level(LOGDEFAULT) << "No `" << keyWord << 

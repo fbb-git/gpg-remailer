@@ -1,6 +1,5 @@
 #include "remailer.ih"
 
-
 Remailer::Remailer()
 :
     d_arg(Arg::instance()),

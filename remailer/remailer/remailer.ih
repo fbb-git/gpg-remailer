@@ -1,6 +1,5 @@
 #include "remailer.h"
 
-
 #include <unistd.h>
 #include <ctime>
 
@@ -13,7 +12,6 @@
 #include <iomanip>
 #include <iterator>
 
-#include <bobcat/fnwrap>
 #include <bobcat/process>
 #include <bobcat/irandstream>
 #include <bobcat/x2a>
@@ -22,7 +20,7 @@
 #include <bobcat/level>
 #include <bobcat/errno>
 #include <bobcat/stringline>
-
+#include <bobcat/msg>
 
 using namespace std;
 using namespace FBB;

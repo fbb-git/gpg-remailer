@@ -16,8 +16,12 @@ void Remailer::copySignature(ostream &out, string const &boundary)
 
     out << '\n';
 
-    for_each(istream_iterator<StringLine>(sig), istream_iterator<StringLine>(),
-                                FnWrap::unary(signatureFilter, sigStruct));
+    for_each(istream_iterator<string>(sig), istream_iterator<string>(),
+        [&](string const &line)
+        {
+            signatureFilter(line, sigStruct);
+        }
+    );
 
     if 
     (
