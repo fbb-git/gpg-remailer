@@ -85,17 +85,8 @@ class Remailer
         void mail();
 
     private:
-        struct FieldStruct
-        {
-            std::vector<std::string> &dest;
-            FBB::Pattern &pattern;
-            std::string &configRegex;
-        };
         void multiField(std::vector<std::string> &dest, char const *keyWord,
                                                                     int opt);
-
-                                            // add members from config file
-        static void addField(std::string const &line, FieldStruct &fs);
 
         void setLog();
         std::string configField(std::string const &field);

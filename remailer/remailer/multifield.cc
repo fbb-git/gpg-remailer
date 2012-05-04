@@ -1,12 +1,5 @@
 #include "remailer.ih"
 
-void Remailer::addField(string const &line, FieldStruct &fs)
-{
-    if (fs.pattern << line)
-        fs.dest.push_back(fs.pattern[1]);
-}
-    
-
 void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 {
     string field;
@@ -21,16 +14,13 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 
     Pattern pattern(configRE + "\\s*(\\S+)");
 
-    FieldStruct fs = {dest, pattern, configRE};
-
-    auto begin = d_config.beginRE(configRE);
-    for_each(begin, d_config.endRE(), 
-        [&](string const &line)
-        {
-            addField(line, fs);
-        }
-    );
-
+    auto iters = d_config.beginEndRE(configRE);
+    for (auto &line: ranger(iters.first, iters.second))
+    {
+        if (pattern << line)
+            dest.push_back(pattern[1]);
+    }
+            
     if (dest.size() == 0)
         d_log << level(LOGDEFAULT) << "No `" << keyWord << 
              "' specifications found in " << d_configName << '\n' << FATAL;

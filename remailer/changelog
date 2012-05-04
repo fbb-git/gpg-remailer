@@ -1,3 +1,9 @@
+remailer (2.53.00)
+
+  * Sources adapted to Bobcat 3.00.00
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 04 May 2012 16:18:41 +0200
+
 remailer (2.52.00)
 
   * Used lambda functions and modifications required for amd64 architectures

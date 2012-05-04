@@ -20,9 +20,10 @@
 #include <bobcat/level>
 #include <bobcat/errno>
 #include <bobcat/stringline>
-#include <bobcat/msg>
+#include <bobcat/ranger>
 
 using namespace std;
 using namespace FBB;
+
 
 
