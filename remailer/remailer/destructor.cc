@@ -6,7 +6,7 @@ Remailer::~Remailer()
         return;
 
     d_log << level(LOGDEFAULT) << 
-            "Removing all remporary files\n";
+            "Removing all temporary files\n";
 
     unlink(d_decryptedName.c_str());
     unlink(d_errName.c_str());

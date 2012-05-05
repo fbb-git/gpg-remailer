@@ -4,8 +4,10 @@ CWD=`pwd`
 
 if [ $# == 0 ] ; then
     echo first argument must be the file to test, in $CWD
-    echo the second arg is optional and is the part to run: 
+    echo For this, use a pgp signed and encripted e-mail file.
+    echo The second arg is optional and is the part to run: 
     echo org, dec, doc, enc. 
+    echo Temporary files are in ~/tmp
     echo Mail is not sent
     exit 1
 fi
@@ -14,7 +16,7 @@ if [ $# == 2 ] ; then
     STEP="--step $2"
 fi
 
-#DEBG=-d
+DEBG=-d
 
 tmp/bin/remailer --relax $DEBG -r frank -m f.b.brokken -l /tmp/remailer.log \
-        -L 2 -n 1 ${STEP} $CWD/remailer2.rc < $CWD/$1
+        -L 2 -n 1 ${STEP} $CWD/remailer.rc < $CWD/$1

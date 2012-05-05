@@ -13,7 +13,7 @@
 # noMail: true
 
 # keepfiles keeps the files, and requires sufix nr of files to write
-# keepfiles: 1
+keepfiles: 1
 
 # tmp: location tmp dir (absolute or relative to $HOME)
 # tmp: tmp 

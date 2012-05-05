@@ -12,11 +12,14 @@ void Remailer::copySignature(ostream &out, string const &boundary)
     ifstream sig;
     Errno::open(sig, d_signatureName);
 
+    d_log << level(LOGDEBUG) << "Signature expected on " << d_signatureName <<
+                                                                    '\n';
+
     SigStruct sigStruct = {out, NO_SIGNATURE};
 
     out << '\n';
 
-    for_each(istream_iterator<string>(sig), istream_iterator<string>(),
+    for_each(istream_iterator<StringLine>(sig), istream_iterator<StringLine>(),
         [&](string const &line)
         {
             signatureFilter(line, sigStruct);
