@@ -1,5 +1,4 @@
-#define MANPAGE "../../tmp/man/" ${PROJECT} ".1"
-#define MANHTML "../../tmp/manhtml/" ${PROJECT} "man.html"
+#define MANPAGE "../../tmp/man/" ${PROGRAM} ".1"
 
 void manpage()
 {
@@ -9,10 +8,11 @@ void manpage()
 
     chdir("documentation/man");
 
-    if (PROJECT ".yo" younger MANPAGE || "release.yo" younger MANPAGE)
+    if (PROGRAM ".yo" younger MANPAGE || "release.yo" younger MANPAGE)
     {
-        run("yodl2man  -o " MANPAGE " " PROJECT);
-        run("yodl2html  -o " MANHTML " " PROJECT);
+        run("yodl2man  --no-warnings -o " MANPAGE " "  PROGRAM);
+        run("yodl2html  --no-warnings "
+                "-o ../../tmp/manhtml/" PROGRAM "man.html " PROGRAM);
     }
     exit(0);
 }

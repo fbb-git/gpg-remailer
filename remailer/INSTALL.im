@@ -1,53 +1,32 @@
-#define EXTENSION ""
-    // EXTENSION should be changed to ".exe" when compiling Bisonc++ for 
-    // Cygwin environments. Don't forget the initial dot (.)
-    // See also README.CYGWIN
+    // Specify the name of the program created by this project:
+#define PROGRAM             "remailer"
 
-string BASE;
+    // When defined, these overrule COMPILER and COMPILER_OPTIONS
+    // COMPILER and COMPILER_OPTIONS are now obsolete
+    // Instead of CXX and CXXFLAGS, CC and CFLAGS can be used.
+    // Their #define values are overruled by identically named environment
+    // variables. 
 
-    // BASE=is the directory below which ALL bisonc++ files will be stored.
+#define CXX                 "g++"
+    // the compiler to use. 
 
-    // For an operational non-Debian installation, you probably must be
-    // `root', and BASE "/usr" or BASE "/usr/local" is suggested (see
-    // below). `BASE' itself is not used outside of this file, so feel free to
-    // define BIN, SKEL, MAN and DOC (below) in any which way you like.
+#define CXXFLAGS            "--std=c++0x -Wall -O2 -g"
+    // the compiler options to use.
 
-string BIN;
-    // the directory in which bisonc++ will be stored
+#define LDFLAGS             ""
+    // flags passed to the linker
 
-string SKEL;
-    // SKEL is the directory below BASE in which the skeleton files will be
-    // stored
+// =========================================================================
+// The following locations are overruled by `build install' arguments
 
-string MAN;
-    // MAN is the directory in which the manual page will be stored
+#define BINARY     "/usr/bin/"${PROGRAM}
+    // the full path of the final program
 
-string DOC;
-    // DOC is the directory in which all other documentation will be stored
+#define MAN     "/usr/share/man/man1"
+    // the directory whre the manual page is stored
 
-string COMPILER;
-    // COMPILER specifies the compiler to use. Bisonc++ is coined as
-    // belonging to the Debian `unstable' distribution, which may use a
-    // different version of the compiler you currently have in your
-    // system. E.g., in july 2006 the Debian `testing' version of the compiler
-    // was 4.0.4, but the `unstable' version's compiler was 4.1.2. By defining
-    // COMPILER with a specific version (e.g., COMPILER=g++-4.1) that
-    // particular version can be used. The distributed definition uses the
-    // `default' compiler version.
+#define STD     "/usr/share/doc/"${PROGRAM}
+    // the directory where the standard documentation is stored 
 
-//#define PROFILE "-pg"
-    // Uncomment the above #define to construct a binary program that can be
-    // used with the gprof profiler. When specified, no stripping is performed
-    // at ./build program strip (see INSTALL)
 
-void setLocations()
-{
-    BASE  = "/usr";
-    BIN  = BASE + "/bin";
-    SKEL = BASE + "/share/" PROJECT;
-    MAN  = BASE + "/share/man/man1";    
-    DOC  = BASE + "/share/doc/" PROJECT;
-
-    COMPILER = "g++";
-}
 
