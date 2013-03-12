@@ -2,11 +2,8 @@
 
 void Remailer::preparations()
 {
-    d_user.verify();
-
     if (chdir(d_user.homedir().c_str()) != 0)   // change Homedir
-        throw Errno(1, "Failed to change dir to ") << insertable <<
-                                            d_user.homedir() << throwable;
+        throw Exception() << "Failed to change dir to " << d_user.homedir();
 
     d_config.open(d_configName);                // prepare configuration file
                                                 // MUST be following change to

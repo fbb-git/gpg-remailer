@@ -37,13 +37,12 @@ try
     remailer.decrypt();
     remailer.reencrypt();
     remailer.mail();
-
-    return 0;
 }
     // ALL exceptions return 0 to prevent unexpected mailer errors in 
     // sendmail's logs.
-catch(Errno const &err)     // handle exceptions
+catch(exception const &err)     // handle exceptions
 {
+    cerr << "[Fatal] " << err.what() << '\n';
     return 0;
 }
 catch(int x)
@@ -52,8 +51,6 @@ catch(int x)
 }
 catch (...)
 {
-    cerr << "Remailer: unexpected exception caught in main()\n";
+    cerr << "unexpected exception caught in main()\n";
     return 0;
 }
-
-

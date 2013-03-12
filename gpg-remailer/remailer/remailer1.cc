@@ -9,5 +9,5 @@ Remailer::Remailer()
 {
     d_arg.option(&d_step, "step");
 
-    d_configName = d_arg.nArgs() == 0 ? "etc/remailer.rc" : d_arg[0];
+    d_configName = d_arg.nArgs() == 0 ? "etc/gpg-remailer.rc" : d_arg[0];
 }

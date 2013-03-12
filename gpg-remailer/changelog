@@ -1,3 +1,12 @@
+remailer (2.54.00)
+
+  * Sources adapted to Bobcat 3.12.00
+
+  * Program renamed to gpg-remailer, default configuration file now
+    etc/gpg-remailer.rc
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 12 Mar 2013 13:42:48 +0100
+
 remailer (2.53.00)
 
   * Sources adapted to Bobcat 3.00.00

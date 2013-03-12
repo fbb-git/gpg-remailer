@@ -1,4 +1,4 @@
-#!/usr/bin/icmake -qt/tmp/remailer
+#!/usr/bin/icmake -qt/tmp/gpg-remailer
 
 #include "icmconf"
 

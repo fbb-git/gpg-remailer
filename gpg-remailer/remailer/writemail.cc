@@ -6,7 +6,7 @@ void Remailer::writeMail(string const &boundary)
     ofopen(d_mailName, &out);
 
     ifstream in;
-    Errno::open(in, d_reencryptedName);
+    Exception::open(in, d_reencryptedName);
 
     out << "\n"                         // create the mail te send.
         "--" << boundary << "\n"

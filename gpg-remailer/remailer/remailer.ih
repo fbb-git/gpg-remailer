@@ -12,15 +12,28 @@
 #include <iomanip>
 #include <iterator>
 
+#include <bobcat/arg>
+#include <bobcat/pattern>
 #include <bobcat/process>
 #include <bobcat/irandstream>
 #include <bobcat/x2a>
 #include <bobcat/a2x>
 #include <bobcat/string>
 #include <bobcat/level>
-#include <bobcat/errno>
+#include <bobcat/exception>
 #include <bobcat/stringline>
 #include <bobcat/ranger>
+
+inline bool Remailer::foundIn(std::string const &text, 
+                              std::string const &target) const
+{
+    return text.find(target) == 0;
+}
+        
+inline bool Remailer::onlyWS(std::string const &text) const
+{
+    return text.find_first_not_of(" \t") == std::string::npos;
+}
 
 using namespace std;
 using namespace FBB;

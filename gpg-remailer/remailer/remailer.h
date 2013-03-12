@@ -6,25 +6,28 @@
 
 #include <bobcat/user>
 #include <bobcat/configfile>
-#include <bobcat/arg>
-#include <bobcat/pattern>
-#include <bobcat/log>
 #include <bobcat/stat>
+#include <bobcat/log>
+
+namespace FBB
+{
+    class Arg;
+};
 
 class Remailer
 {
-    enum SigType
-    {
-        NO_SIGNATURE,
-        SIGNATURE_FOUND,
-        GOOD_SIGNATURE 
-    };
-
     enum LOGLEVELS
     {
         LOGDEBUG,
         LOGCOMMANDS,
         LOGDEFAULT
+    };
+
+    enum SigType
+    {
+        NO_SIGNATURE,
+        SIGNATURE_FOUND,
+        GOOD_SIGNATURE 
     };
 
     enum EncryptionEnum
@@ -49,7 +52,7 @@ class Remailer
     FBB::ConfigFile d_config;
 
     FBB::User d_user;
-    FBB::Log d_log;
+    FBB::Log  d_log;
 
     SigType d_sigRequired;
 
@@ -74,7 +77,7 @@ class Remailer
     std::vector<std::string> d_recipients;
 
     static void (Remailer::*s_reEncrypt[])(IOContext &);
-
+    
     public:
         Remailer();
         ~Remailer();
@@ -149,17 +152,5 @@ class Remailer
                                             std::string const &msgTypeName);
 
 };
-
-inline bool Remailer::foundIn(std::string const &text, 
-                              std::string const &target) const
-{
-    return text.find(target) == 0;
-}
-        
-inline bool Remailer::onlyWS(std::string const &text) const
-{
-    return text.find_first_not_of(" \t") == std::string::npos;
-}
-        
 
 #endif

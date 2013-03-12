@@ -10,7 +10,7 @@ void Remailer::copySignature(ostream &out, string const &boundary)
             "\n";
 
     ifstream sig;
-    Errno::open(sig, d_signatureName);
+    Exception::open(sig, d_signatureName);
 
     d_log << level(LOGDEBUG) << "Signature expected on " << d_signatureName <<
                                                                     '\n';

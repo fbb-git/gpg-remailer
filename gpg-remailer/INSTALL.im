@@ -1,5 +1,5 @@
     // Specify the name of the program created by this project:
-#define PROGRAM             "remailer"
+#define PROGRAM             "gpg-remailer"
 
     // When defined, these overrule COMPILER and COMPILER_OPTIONS
     // COMPILER and COMPILER_OPTIONS are now obsolete

@@ -19,7 +19,7 @@ void Remailer::multipartSigned(IOContext &io)
     copySignature(io.toReencrypt, d_boundary);
 
     ifstream data;
-    Errno::open(data, d_multipartSignedDataName);
+    Exception::open(data, d_multipartSignedDataName);
 
     io.toReencrypt << data.rdbuf();
 }
