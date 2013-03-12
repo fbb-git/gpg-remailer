@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT=remailer
+PROJECT=gpg-remailer
                                         # load the version
 VERSION=`grep VERSION ${PROJECT}/VERSION |
     sed 's/#define[[:space:]]\+VERSION[[:space:]]\+"\([^"]*\).*/\1/'`
