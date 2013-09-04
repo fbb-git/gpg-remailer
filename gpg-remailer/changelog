@@ -1,3 +1,9 @@
+remailer (2.54.01)
+
+  * The distribution is now provided with a (GPL) LICENCE file 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 04 Sep 2013 15:07:26 +0200
+
 remailer (2.54.00)
 
   * Sources adapted to Bobcat 3.12.00
