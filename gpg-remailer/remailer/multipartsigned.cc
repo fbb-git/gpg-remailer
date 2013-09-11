@@ -12,9 +12,9 @@ void Remailer::multipartSigned(IOContext &io)
 
     ostringstream command;
     command << "--verify " << 
-            d_decryptedName << " " << d_multipartSignedDataName << 
-            " 2> " << d_signatureName;
-    gpg(command.str());
+            d_decryptedName << " " << d_multipartSignedDataName;
+
+    gpg(command.str(), d_signatureName);
 
     copySignature(io.toReencrypt, d_boundary);
 

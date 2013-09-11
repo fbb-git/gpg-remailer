@@ -95,6 +95,7 @@ class Remailer
         std::string configField(std::string const &field);
         void gpg(std::string const &command, std::string const &in,
                     std::string const &out, std::string const &err);
+        void gpg(std::string const &command, std::string const &err);
         void setFilenames();
         bool PGPmessage(std::ostream &out);
         void filter(std::ostream &out);
@@ -136,8 +137,7 @@ class Remailer
 
         void rmQuotes(std::string &str) const;
 
-        static std::ofstream &open(std::ofstream &out,
-                                     std::string const &name);
+        std::ofstream &open(std::ofstream &out, std::string const &name);
 
         void testPermissions(std::string const &path, size_t permissions = 
                 FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);

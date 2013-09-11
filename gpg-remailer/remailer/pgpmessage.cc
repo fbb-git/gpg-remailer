@@ -2,7 +2,7 @@
 
 bool Remailer::PGPmessage(ostream &out)
 {
-    static Pattern subject(R"(^Subject:\s*"));
+    static Pattern subject(R"(^Subject:\s*)");
 
     string line;
     

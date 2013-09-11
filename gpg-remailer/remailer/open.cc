@@ -2,18 +2,20 @@
 
 ofstream &Remailer::open(ofstream &out, string const &name)
 {
-    if (Stat stat(name))
+    Stat stat(name);
+
+    if (stat)
     {
         if (stat.mode() != 0600 && not d_relax)
-            d_log << "Incorrect mode for existing " << argv[1] << '\n' <<
+            d_log << "Incorrect mode for existing " << name << '\n' <<
                      FATAL; 
     }
     else
     {
-        int fd = open(argv[1], O_CREAT, S_IRUSR | S_IWUSR);
+        int fd = ::open(name.c_str(), O_CREAT, S_IRUSR | S_IWUSR);
 
         if (fd < 0)
-            d_log << "Can't create 0600 " << argv[1] << '\n' << FATAL;
+            d_log << "Can't create 0600 " << name << '\n' << FATAL;
 
         close(fd);
     }

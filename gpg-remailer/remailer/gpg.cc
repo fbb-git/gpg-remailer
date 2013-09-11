@@ -12,11 +12,16 @@ void Remailer::gpg(string const &command, string const &in, string const &out,
     ofstream errStream;
     open(errStream, err);
     
-    d_log << level(LOGCOMMANDS) << gpgCmd << '\n';
-
     Process process("/usr/bin/gpg "
                     "--homedir " + d_user.homedir() + ".gnupg " +
                     d_gpgOptions + ' ' + command);
+
+    d_log << level(LOGCOMMANDS) << process.str() << 
+            " < " << in <<
+            " >> " << out <<
+            " 2>> " << err <<
+            '\n';
+
 
     process.start();
 

@@ -7,9 +7,9 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
     command << "/usr/bin/mail -s '" << ms.subject << "' "
                 "-a \"Reply-To: " << ms.replyTo << "\" "
                 "-a 'Content-Type: multipart/encrypted; "
-                    R"(protocol="application/pgp-encrypted"; )"
-                    R"(boundary=")" << ms.boundary << R"("' )" <<
-                recipient << " < " << ms.mailName;
+                R"(protocol="application/pgp-encrypted"; )"
+                R"(boundary=")" << ms.boundary << R"("' )" <<
+                recipient;
 
     ms.log << level(LOGCOMMANDS) << command.str() << '\n';
 
@@ -20,10 +20,15 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
         return;
     }
 
-    process(command.str(), ms.mailName);
+    ifstream in;
+    Exception::open(in, ms.mailName);
 
-    Process mailProc(0, command.str());
-    mailProc.system();
+    Process mailProc(Process::CIN, command.str());
+    mailProc.start();
+    
+    mailProc << in.rdbuf();
+    mailProc.close();
+
     mailProc.waitForChild();
 
     ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << ms.subject << 

@@ -4,6 +4,6 @@ void Remailer::rmQuotes(string &str) const
 {
     size_t pos;                     // remove quotes/dquotes
 
-    while ((pos = str.find_first_of(Rquotes"('")"quotes) != string::npos))
+    while ((pos = str.find_first_of(R"quotes('")quotes") != string::npos))
         str.erase(pos, 1);
 }
