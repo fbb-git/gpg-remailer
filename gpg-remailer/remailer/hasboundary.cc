@@ -2,7 +2,7 @@
 
 bool Remailer::hasBoundary(string const &line, string const &msgTypeName)
 {
-    static Pattern d_bdry("boundary=\"([^\"]+)");
+    static Pattern d_bdry( R"(boundary="([^\"]+))" );
 
     if (d_bdry << line)
     {

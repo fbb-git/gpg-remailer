@@ -5,15 +5,14 @@ void Remailer::decrypt()
     if (!step("dec"))
         return;
 
-    ostringstream command;
+    gpg("--decrypt " + d_gpgOptions, 
+        d_orgName, d_decryptedName, d_signatureName);
 
-    ofopen(d_decryptedName);
-    ofopen(d_signatureName);    
 
-    command << "--decrypt " << d_gpgOptions << 
-            " < " << d_orgName << 
-            " >> " << d_decryptedName <<
-            " 2>> " << d_signatureName;
-
-    gpg(command.str());
+//    command << "--decrypt " << d_gpgOptions << 
+//            " < " << d_orgName << 
+//            " >> " << d_decryptedName <<
+//            " 2>> " << d_signatureName;
+//
+//    gpg(command.str());
 }

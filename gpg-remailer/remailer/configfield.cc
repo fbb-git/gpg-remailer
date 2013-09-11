@@ -2,10 +2,10 @@
 
 string Remailer::configField(string const &field)
 {
-    static Pattern pattern("^\\s*\\S+\\s+(\\S+)");  // pick 2nd term as [1]
+    static Pattern pattern( R"(^\s*\S+\s+(\S+))" );  // pick 2nd term as [1]
 
-    ConfigFile::const_iterator iter = d_config.findRE("^\\s*" + field + ':');
-
+    ConfigFile::const_iterator iter = 
+                                d_config.findRE(R"(^\s*)" + field + ':');
     if (iter == d_config.end())
         return "";
 

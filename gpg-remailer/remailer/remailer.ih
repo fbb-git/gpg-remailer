@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iterator>
+#include <thread>
 
 #include <bobcat/arg>
 #include <bobcat/pattern>
@@ -23,6 +24,7 @@
 #include <bobcat/exception>
 #include <bobcat/stringline>
 #include <bobcat/ranger>
+#include <bobcat/stat>
 
 inline bool Remailer::foundIn(std::string const &text, 
                               std::string const &target) const

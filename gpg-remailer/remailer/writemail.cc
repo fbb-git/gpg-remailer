@@ -3,12 +3,12 @@
 void Remailer::writeMail(string const &boundary)
 {
     ofstream out;
-    ofopen(d_mailName, &out);
+    open(out, d_mailName);
 
     ifstream in;
     Exception::open(in, d_reencryptedName);
 
-    out << "\n"                         // create the mail te send.
+    out << "\n"                         // create the mail to send.
         "--" << boundary << "\n"
         "Content-Type: application/pgp-encrypted\n"
         "Content-Transfer-Encoding: 7bit\n"

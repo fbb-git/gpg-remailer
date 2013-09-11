@@ -1,15 +1,41 @@
 #include "remailer.ih"
 
-void Remailer::gpg(string const &command)
+void Remailer::gpg(string const &command, string const &in, string const &out,
+                   string const &err)
 {
-    string gpgCmd = "/usr/bin/gpg "
-                    "--homedir " + d_user.homedir() + ".gnupg " +
-                    d_gpgOptions + ' ' + command;
+    ifstream inStream;
+    Exception::open(inStream, in);
 
-    Process process(0, gpgCmd);         // No redirections
+    ofstream outStream;
+    open(outStream, out);
 
+    ofstream errStream;
+    open(errStream, err);
+    
     d_log << level(LOGCOMMANDS) << gpgCmd << '\n';
 
-    process.system();
+    Process process("/usr/bin/gpg "
+                    "--homedir " + d_user.homedir() + ".gnupg " +
+                    d_gpgOptions + ' ' + command);
+
+    process.start();
+
+    process << inStream.rdbuf();
+    process.close();
+    
+    thread outThread(collect, &outStream, &process);
+    thread errThread(collect, &errStream, &process.cerr());
+
+    outThread.join();
+    errThread.join();
+
     process.waitForChild();
 }
+
+
+
+
+
+
+
+

@@ -1,3 +1,14 @@
+remailer (2.55.00)
+
+  * As per RFC 2822 (pg. 8), multiple subject lines in incoming e-mail are now
+    recognized. 
+
+  * remailer/sendmail.cc and remailer/gpg.cc no longer uses /bin/sh when
+    sending e-mail 
+
+  * NTBSs escaping \-chars or "-chars are converted to Raw String Literals
+    where considered sensible.
+
 remailer (2.54.01)
 
   * The distribution is now provided with a (GPL) LICENCE file 

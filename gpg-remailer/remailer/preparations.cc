@@ -42,7 +42,7 @@ void Remailer::preparations()
 
     string signatureRequired = configField("signature");
 
-    ConfigFile::const_iterator iter = d_config.findRE("^\\s*replyTo:");
+    ConfigFile::const_iterator iter = d_config.findRE(R"(^\s*replyTo:"));
     if (iter != d_config.end())
     {
         d_replyTo = String::trim(*iter);

@@ -8,9 +8,8 @@ void Remailer::unhex()
     d_log << level(LOGDEBUG) << "Original PGP file in " << d_orgName << '\n';
 
     ofstream out;
-    ofopen(d_orgName, &out);
 
-    if (!PGPmessage(out))
+    if (!PGPmessage(open(out, d_orgName)))
         d_log << level(LOGDEFAULT) << "Not a PGP encrypted e-mail\n" << FATAL;
 
     filter(out);

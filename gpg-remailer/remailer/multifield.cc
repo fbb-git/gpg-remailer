@@ -9,10 +9,10 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
         return;
     }
 
-    string configRE("^\\s*");
+    string configRE( R"(^\s*)" );
     (configRE += keyWord) += ":";
 
-    Pattern pattern(configRE + "\\s*(\\S+)");
+    Pattern pattern(configRE + R"(\s*(\S+))" );
 
     auto iters = d_config.beginEndRE(configRE);
     for (auto &line: ranger(iters.first, iters.second))

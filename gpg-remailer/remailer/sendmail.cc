@@ -7,8 +7,8 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
     command << "/usr/bin/mail -s '" << ms.subject << "' "
                 "-a \"Reply-To: " << ms.replyTo << "\" "
                 "-a 'Content-Type: multipart/encrypted; "
-                    "protocol=\"application/pgp-encrypted\"; "
-                    "boundary=\"" << ms.boundary << "\"' " <<
+                    R"(protocol="application/pgp-encrypted"; )"
+                    R"(boundary=")" << ms.boundary << R"("' )" <<
                 recipient << " < " << ms.mailName;
 
     ms.log << level(LOGCOMMANDS) << command.str() << '\n';
@@ -19,6 +19,8 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
                     "Sending mail suppressed by config/option\n";
         return;
     }
+
+    process(command.str(), ms.mailName);
 
     Process mailProc(0, command.str());
     mailProc.system();

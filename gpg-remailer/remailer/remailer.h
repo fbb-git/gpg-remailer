@@ -93,7 +93,8 @@ class Remailer
 
         void setLog();
         std::string configField(std::string const &field);
-        void gpg(std::string const &command);
+        void gpg(std::string const &command, std::string const &in,
+                    std::string const &out, std::string const &err);
         void setFilenames();
         bool PGPmessage(std::ostream &out);
         void filter(std::ostream &out);
@@ -134,7 +135,10 @@ class Remailer
                                 MailStruct const &mailStruct); 
 
         void rmQuotes(std::string &str) const;
-        void ofopen(std::string const &name, std::ofstream *out = 0);
+
+        static std::ofstream &open(std::ofstream &out,
+                                     std::string const &name);
+
         void testPermissions(std::string const &path, size_t permissions = 
                 FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);
 
@@ -151,6 +155,7 @@ class Remailer
         bool hasBoundary(std::string const &line, 
                                             std::string const &msgTypeName);
 
+        static void collect(std::ostream *dest, std::istream *in);
 };
 
 #endif
