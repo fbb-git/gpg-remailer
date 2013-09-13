@@ -1,0 +1,234 @@
+oxref by Frank B. Brokken (f.b.brokken@rug.nl)
+oxref V0.91.00 2012-2013
+
+CREATED Fri, 13 Sep 2013 19:58:44 +0000
+CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
+----------------------------------------------------------------------
+
+collect(std::ostream*, std::istream*)
+  Full name: Remailer::collect(std::ostream*, std::istream*)
+  Source:    collect.cc 
+  Used By:
+    gpg.cc: Remailer::gpg(std::string const&, std::string const&, std::string const&, std::string const&)
+    gpg2.cc: Remailer::gpg(std::string const&, std::string const&)
+
+configField(std::string const&)
+  Full name: Remailer::configField(std::string const&)
+  Source:    configfield.cc 
+  Used By:
+    mail.cc: Remailer::mail()
+    preparations.cc: Remailer::preparations()
+    setfilenames.cc: Remailer::setFilenames()
+    setlog.cc: Remailer::setLog()
+
+copySignature(std::ostream&, std::string const&)
+  Full name: Remailer::copySignature(std::ostream&, std::string const&)
+  Source:    copysignature.cc 
+  Used By:
+    multipart.cc: Remailer::multipart(Remailer::IOContext&)
+    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
+    simple.cc: Remailer::simple(Remailer::IOContext&)
+
+copyToBoundary(std::ostream&, std::istream&)
+  Full name: Remailer::copyToBoundary(std::ostream&, std::istream&)
+  Source:    copytoboundary.cc 
+  Used By:
+    copytoboundary2.cc: Remailer::copyToBoundary(std::string const&, std::istream&)
+    multipart.cc: Remailer::multipart(Remailer::IOContext&)
+    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
+
+copyToBoundary(std::string const&, std::istream&)
+  Full name: Remailer::copyToBoundary(std::string const&, std::istream&)
+  Source:    copytoboundary2.cc 
+  Used By:
+    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
+
+encryptionType(Remailer::IOContext&)
+  Full name: Remailer::encryptionType(Remailer::IOContext&)
+  Source:    encryptiontype.cc 
+  Used By:
+    filetoreencrypt.cc: Remailer::fileToReencrypt()
+
+fileToReencrypt()
+  Full name: Remailer::fileToReencrypt()
+  Source:    filetoreencrypt.cc 
+  Used By:
+    reencrypt.cc: Remailer::reencrypt()
+
+filter(std::ostream&)
+  Full name: Remailer::filter(std::ostream&)
+  Source:    filter.cc 
+  Used By:
+    unhex.cc: Remailer::unhex()
+
+findBoundary(Remailer::IOContext&)
+  Full name: Remailer::findBoundary(Remailer::IOContext&)
+  Source:    findboundary.cc 
+  Used By:
+    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
+
+gpg(std::string const&, std::string const&)
+  Full name: Remailer::gpg(std::string const&, std::string const&)
+  Source:    gpg2.cc 
+  Used By:
+    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
+
+gpg(std::string const&, std::string const&, std::string const&, std::string const&)
+  Full name: Remailer::gpg(std::string const&, std::string const&, std::string const&, std::string const&)
+  Source:    gpg.cc 
+  Used By:
+    decrypt.cc: Remailer::decrypt()
+    writereencrypted.cc: Remailer::writeReencrypted()
+
+hasBoundary(std::string const&, std::string const&)
+  Full name: Remailer::hasBoundary(std::string const&, std::string const&)
+  Source:    hasboundary.cc 
+  Used By:
+    encryptiontype.cc: Remailer::encryptionType(Remailer::IOContext&)
+    findboundary.cc: Remailer::findBoundary(Remailer::IOContext&)
+
+hexChar(std::ostream&, std::istream&)
+  Full name: Remailer::hexChar(std::ostream&, std::istream&)
+  Source:    hexchar.cc 
+  Used By:
+    inspect.cc: Remailer::inspect(std::ostream&, std::string const&)
+
+inspect(std::ostream&, std::string const&)
+  Full name: Remailer::inspect(std::ostream&, std::string const&)
+  Source:    inspect.cc 
+  Used By:
+    filter.cc: Remailer::filter(std::ostream&)
+
+makeBoundary()
+  Full name: Remailer::makeBoundary()
+  Source:    makeboundary.cc 
+  Used By:
+    mail.cc: Remailer::mail()
+
+multiField(std::vector<std::string, std::allocator<std::string> >&, char const*, int)
+  Full name: Remailer::multiField(std::vector<std::string, std::allocator<std::string> >&, char const*, int)
+  Source:    multifield.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+multipart(Remailer::IOContext&)
+  Full name: Remailer::multipart(Remailer::IOContext&)
+  Source:    multipart.cc 
+  Used By:
+    data.cc: GLOBALS data.cc 1data.o
+
+multipartSigned(Remailer::IOContext&)
+  Full name: Remailer::multipartSigned(Remailer::IOContext&)
+  Source:    multipartsigned.cc 
+  Used By:
+    data.cc: GLOBALS data.cc 1data.o
+
+open(std::basic_ofstream<char, std::char_traits<char> >&, std::string const&, Remailer::ExistingFile)
+  Full name: Remailer::open(std::basic_ofstream<char, std::char_traits<char> >&, std::string const&, Remailer::ExistingFile)
+  Source:    open.cc 
+  Used By:
+    copytoboundary2.cc: Remailer::copyToBoundary(std::string const&, std::istream&)
+    filetoreencrypt.cc: Remailer::fileToReencrypt()
+    gpg.cc: Remailer::gpg(std::string const&, std::string const&, std::string const&, std::string const&)
+    gpg2.cc: Remailer::gpg(std::string const&, std::string const&)
+    unhex.cc: Remailer::unhex()
+    writemail.cc: Remailer::writeMail(std::string const&)
+
+PGPmessage(std::ostream&)
+  Full name: Remailer::PGPmessage(std::ostream&)
+  Source:    pgpmessage.cc 
+  Used By:
+    unhex.cc: Remailer::unhex()
+
+rmQuotes(std::string&) const
+  Full name: Remailer::rmQuotes(std::string&) const
+  Source:    rmquotes.cc 
+  Used By:
+    pgpmessage.cc: Remailer::PGPmessage(std::ostream&)
+    preparations.cc: Remailer::preparations()
+
+s_reEncrypt
+  Full name: Remailer::s_reEncrypt
+  Source:    data.cc 
+  Used By:
+    filetoreencrypt.cc: Remailer::fileToReencrypt()
+
+sendMail(std::string const&, Remailer::MailStruct const&)
+  Full name: Remailer::sendMail(std::string const&, Remailer::MailStruct const&)
+  Source:    sendmail.cc 
+  Used By:
+    mail.cc: Remailer::mail()
+
+setFilenames()
+  Full name: Remailer::setFilenames()
+  Source:    setfilenames.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+setLog()
+  Full name: Remailer::setLog()
+  Source:    setlog.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+setSuffixNr()
+  Full name: Remailer::setSuffixNr()
+  Source:    setsuffixnr.cc 
+  Used By:
+    setfilenames.cc: Remailer::setFilenames()
+
+signatureFilter(std::string const&, Remailer::SigStruct&)
+  Full name: Remailer::signatureFilter(std::string const&, Remailer::SigStruct&)
+  Source:    signaturefilter.cc 
+  Used By:
+    copysignature.cc: Remailer::copySignature(std::ostream&, std::string const&)
+
+simple(Remailer::IOContext&)
+  Full name: Remailer::simple(Remailer::IOContext&)
+  Source:    simple.cc 
+  Used By:
+    data.cc: GLOBALS data.cc 1data.o
+
+step(char const*)
+  Full name: Remailer::step(char const*)
+  Source:    step.cc 
+  Used By:
+    decrypt.cc: Remailer::decrypt()
+    filetoreencrypt.cc: Remailer::fileToReencrypt()
+    mail.cc: Remailer::mail()
+    unhex.cc: Remailer::unhex()
+    writereencrypted.cc: Remailer::writeReencrypted()
+
+testPermissions(std::string const&, unsigned int)
+  Full name: Remailer::testPermissions(std::string const&, unsigned int)
+  Source:    testpermissions.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+    setfilenames.cc: Remailer::setFilenames()
+    setlog.cc: Remailer::setLog()
+
+version
+  Full name: version
+  Source:    version.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+
+writeMail(std::string const&)
+  Full name: Remailer::writeMail(std::string const&)
+  Source:    writemail.cc 
+  Used By:
+    mail.cc: Remailer::mail()
+
+writeReencrypted()
+  Full name: Remailer::writeReencrypted()
+  Source:    writereencrypted.cc 
+  Used By:
+    reencrypt.cc: Remailer::reencrypt()
+
+year
+  Full name: year
+  Source:    version.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+
+

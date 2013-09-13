@@ -3,10 +3,6 @@
 #include <unistd.h>
 #include <ctime>
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
 #include <fstream>
 #include <algorithm>
 #include <cstdlib>
@@ -15,18 +11,16 @@
 #include <iterator>
 #include <thread>
 
+#include <bobcat/stat>
 #include <bobcat/arg>
 #include <bobcat/pattern>
 #include <bobcat/process>
 #include <bobcat/irandstream>
-#include <bobcat/x2a>
-#include <bobcat/a2x>
 #include <bobcat/string>
 #include <bobcat/level>
 #include <bobcat/exception>
 #include <bobcat/stringline>
 #include <bobcat/ranger>
-#include <bobcat/stat>
 
 inline bool Remailer::foundIn(std::string const &text, 
                               std::string const &target) const

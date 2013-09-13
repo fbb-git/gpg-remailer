@@ -13,10 +13,10 @@ void Remailer::setSuffixNr()
         do
         {
             rs >> value;
-            string name = d_orgName + static_cast<string>(X2a(value));
+            string name = d_orgName + to_string(value);
         } 
         while (Stat(name));
-        d_nr = X2a(value);
+        d_nr = to_string(value);
     }
 
     d_log << level(LOGDEBUG) << "File Nrs will be: " << d_nr << " (" <<

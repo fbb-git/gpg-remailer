@@ -1,23 +1,19 @@
  #include "remailer.ih"
 
-ofstream &Remailer::open(ofstream &out, string const &name)
+ofstream &Remailer::open(ofstream &out, string const &name, 
+                         ExistingFile action)
 {
-    Stat stat(name);
+    if (action == UNLINK && unlink(name.c_str()) != 0 && errno != ENOENT)
+        d_log << "Can't rm " << name << '\n' << FATAL;
 
-    if (stat)
+    try
     {
-        if (stat.mode() != 0600 && not d_relax)
-            d_log << "Incorrect mode for existing " << name << '\n' <<
-                     FATAL; 
+        Exception::protection(name, 0600);
     }
-    else
+    catch (exception const &exc)
     {
-        int fd = ::open(name.c_str(), O_CREAT, S_IRUSR | S_IWUSR);
-
-        if (fd < 0)
-            d_log << "Can't create 0600 " << name << '\n' << FATAL;
-
-        close(fd);
+        if (not d_relax)
+            d_log << exc.what() << '\n' << FATAL; 
     }
 
     out.open(name, ios::ate);

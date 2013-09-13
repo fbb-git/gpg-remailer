@@ -7,7 +7,7 @@ void Remailer::fileToReencrypt()
 
     IOContext io;
 
-    open(io.toReencrypt, d_reencryptName);
+    open(io.toReencrypt, d_reencryptName, UNLINK);
 
     Exception::open(io.decrypted, d_decryptedName);
 

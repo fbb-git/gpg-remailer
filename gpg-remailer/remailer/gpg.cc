@@ -7,10 +7,10 @@ void Remailer::gpg(string const &command, string const &in, string const &out,
     Exception::open(inStream, in);
 
     ofstream outStream;
-    open(outStream, out);
+    open(outStream, out, UNLINK);
 
     ofstream errStream;
-    open(errStream, err);
+    open(errStream, err, UNLINK);
     
     Process process(
                     "/usr/bin/gpg --quiet --batch "

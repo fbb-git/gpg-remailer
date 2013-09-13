@@ -6,5 +6,5 @@ void Remailer::copyToBoundary(string const &destName, istream &in)
 {
     ofstream out;
     
-    copyToBoundary(open(out, destName), in);
+    copyToBoundary(open(out, destName, DONT_UNLINK), in);
 }

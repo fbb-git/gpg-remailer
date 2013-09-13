@@ -6,7 +6,7 @@ void Remailer::multipartSigned(IOContext &io)
     findBoundary(io);
 
     ostream null(0);
-    copyToBoundary(null, io.decrypted);           // skip all headers
+    copyToBoundary(null, io.decrypted);  // skip all headers
 
     copyToBoundary(d_multipartSignedDataName, io.decrypted);
 

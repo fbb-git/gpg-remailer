@@ -9,7 +9,7 @@ void Remailer::unhex()
 
     ofstream out;
 
-    if (!PGPmessage(open(out, d_orgName)))
+    if (!PGPmessage(open(out, d_orgName, UNLINK)))
         d_log << level(LOGDEFAULT) << "Not a PGP encrypted e-mail\n" << FATAL;
 
     filter(out);

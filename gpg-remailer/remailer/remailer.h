@@ -37,6 +37,12 @@ class Remailer
         MULTIPART_SIGNED
     };
 
+    enum ExistingFile
+    {
+        DONT_UNLINK,
+        UNLINK,
+    };
+
     struct IOContext
     {
         std::ifstream decrypted;
@@ -137,7 +143,8 @@ class Remailer
 
         void rmQuotes(std::string &str) const;
 
-        std::ofstream &open(std::ofstream &out, std::string const &name);
+        std::ofstream &open(std::ofstream &out, std::string const &name,
+                            ExistingFile action);
 
         void testPermissions(std::string const &path, size_t permissions = 
                 FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);

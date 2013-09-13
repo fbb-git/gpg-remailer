@@ -3,7 +3,7 @@
 void Remailer::writeMail(string const &boundary)
 {
     ofstream out;
-    open(out, d_mailName);
+    open(out, d_mailName, UNLINK);
 
     ifstream in;
     Exception::open(in, d_reencryptedName);
@@ -22,6 +22,7 @@ void Remailer::writeMail(string const &boundary)
         in.rdbuf() << "\n"
         "\n"
         "--" << boundary << "--\n";
-
-    out.close();
 }
+
+
+
