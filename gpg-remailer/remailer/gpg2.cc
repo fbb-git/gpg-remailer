@@ -5,7 +5,7 @@ void Remailer::gpg(string const &command, string const &err)
     ofstream errStream;
     open(errStream, err);
     
-    Process process("/usr/bin/gpg "
+    Process process("/usr/bin/gpg  --quiet --batch "
                     "--homedir " + d_user.homedir() + ".gnupg " +
                     d_gpgOptions + ' ' + command);
 
