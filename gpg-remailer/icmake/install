@@ -30,7 +30,8 @@ void install(string what, string where)
         where = setWhere(where, MAN);
 
         printf("  INSTALLING the manual page at `", where, "'\n");
-        run("gzip -9 < tmp/man/" PROGRAM ".1 > " + where + "/" PROGRAM ".1.gz");
+        run("gzip -n -9 < tmp/man/" PROGRAM ".1 > " + where + 
+                                                    "/" PROGRAM ".1.gz");
         exit(0);
     }
 
@@ -39,7 +40,7 @@ void install(string what, string where)
         where = setWhere(where, STD);
 
         printf("  INSTALLING the changelog at `", where, "\n");
-        run("gzip -9 < changelog > " + where + "/changelog.gz");
+        run("gzip -n -9 < changelog > " + where + "/changelog.gz");
     
         printf("  INSTALLING the html-manual page at `", where, "\n");
         run("cp tmp/manhtml/" PROGRAM "man.html " + where);
