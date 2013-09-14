@@ -1,48 +1,24 @@
 To Install skeleton by hand instead of using the binary distribution perform
 the following steps:
 
-    0. To do skeleton mainenance icmake should be used. For this, a top-level
-        script (build) and support scripts in the ./icmake/
-        directory are available. Icmake is available on a great many
-        architectures. See the file INSTALL (and INSTALL.im for further
-        details. 
+    0. To build the gpg-remailer the following programs/packages must be
+        available:
+            libbobcat3 (>= 3.16.00), libbobcat-dev (>= 3.16.00), 
+            icmake (>= 7.21.00), g++ (>= 4.8.1), and
+            yodl (>= 3.00.0) if you want to create the man-page.
 
-    1. Skip this UNLESS you're intending to compile skeleton under
-            CYGWIN under Windows
+       To use the gpg-remailer /usr/bin/gpg and /usr/bin/mail must be
+        available.
 
-        When compiling for CYGWIN, do as follows:
+    1. Inspect the values of the variables in the file INSTALL.im Modify these
+       when necessary. The default destinations are:
 
-        a. Change the #define EXTENSION directive in INSTALL.im to:
+        * For the man-page:                 /usr/share/man/man1/
+        * For additional documentation:     /usr/share/doc/gpg-remailer/
 
-            #define EXTENSION ".exe"
+    2. The binary program is at ./tmp/bin/binary. Using the 'build' script it
+        can be installed in a directory of your choice. To see build's options
+        call ./build without arguments.
 
-        b. The Bobcat library must be available under CYGWIN. As skeleton does
-            not use all classes of the Bobcat library. When compiling Bobcat
-            only for skeleton, replace Bobcat's CLASSES file by the file
-            CLASSES.bobcat also found in this directory, then follow the
-            compilation instructions provided with Bobcat.
-
-        c. Note that CYGWIN is not an official target environment for
-            skeleton. When encountering problems I may or may not be able to
-            provide assistance.
-
-    2. Inspect the values of the variables in the file INSTALL.im Modify these
-       when necessary. The default skeleton filenames are compiled into
-       skeleton through the definitions in parser/dataskel.cc
-
-    3. Make sure the bobcat library has been installed. 
-
-       (If you compile the bobcat library yourself, note that skeleton does
-        not use the classes Milter and Xpointer; they may --as far as skeleton
-        is concerned-- be left out of the library)
-
-    4. Run 
-            ./build program [strip]
-        to compile skeleton. Optionally provide `strip' to strip the
-        executable (not with PROFILE, see INSTALL.im)
-
-    5. Run (probably as root) 
-            ./build install
-       to install. Optionally add an additional argument as a base directory
-       below which the software should be installed. 
-
+    3. ./build program creates the program
+       ./build man creates the man-page

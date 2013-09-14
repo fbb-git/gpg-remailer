@@ -7,13 +7,12 @@ void Remailer::writeReencrypted()
 
     ostringstream command;
     
-    command << "--trust-model always --armor "
-               "--group members=";
+    command << R"(--trust-model always --armor --group members=")";
 
     copy(d_members.begin(), d_members.end(), 
             ostream_iterator<string>(command, " "));
 
-    command << " -r members --encrypt --sign ";
+    command << R"(" -r members --encrypt --sign )";
 
     gpg(command.str(), d_reencryptName, d_reencryptedName, d_errName);
 }

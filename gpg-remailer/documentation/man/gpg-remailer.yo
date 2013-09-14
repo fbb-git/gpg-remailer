@@ -33,38 +33,342 @@ manpagename(gpg-remailer)
 
 COMMENT( all other: add after () )
 manpagesynopsis()
-       bf(gpg-remailer) [OPTIONS] tt(arguments)
+       bf(gpg-remailer) [OPTIONS] 
 
 manpagedescription()
 
     Gpg-remailer decrypts received PGP/GPG messages, verifies the received
-signature and re-encrypts the e-mail for a well defined group of
-recipients. Using gpg-remailer the list of members of a group of people who
-want to exchange encrypted and authenticated e-mail can be maintained at
-one location, allowing the members of the group to specify just one e-mail
-address to send PGP/GPG signed and encrypted e-mail to.
+signature, and re-encrypts the e-mail for a well defined group of
+recipients. 
+
+    Using gpg-remailer the list of members of a group of people who want to
+exchange encrypted and authenticated e-mails can be maintained at one
+location, allowing the members of the group to specify just one e-mail address
+to send PGP/GPG signed and encrypted e-mail to.
 
     Gpg-remailer reads incoming e-mail from its standard input stream and
-sends the processed input as a signed and encrypted PGP/GPG e-mail to all
-group members.
+sends the processed input as a signed and encrypted PGP/GPG e-mail, encrypted
+for every member of the group, to one or more e-mail addresses. The address
+the signed and encrypted mail is sent to could, e.g., be a mailing list
+address. 
 
     A configuration file as well as command line options can be used to
 fine-tune gpg-remailer's behavior. 
 
+manpagesection(RETURN VALUE)
+
+    Gpg-remailer always returns 0 to the operating system to prevent
+tt(unknown mailer error) messages in the MTA's logs. However, when 
+gpg-remailer ends prematurely an error message is written to the standard
+error stream.
+
+manpagesection(REQUIREMENTS)
+
+    In order to use gpg-remailer the following requirements must be met (all
+commands should be issued by the tt(root) user):
+
+    itemization(
+    it() Since multiple groups may use gpg-remailer it is advised to define
+functional accounts handling e-mail to be processed by gpg-remailer. A
+functional account tt(secmail) can be defined using a command like this:
+    verb(
+    adduser --home /var/lib/secmail --disabled-password secmail
+    )
+
+    it() All locations used by the gpg-remailer must be given highly
+restrictive permissions. E.g., use tt(chmod -R og-rwx /var/lib/secmail) for
+the functional accounts. Gpg-remailer will not process e-mail unless these
+permissions were set.
+
+    it() Consider making all functional gpg-remailer accounts members of a
+special group (e.g., tt(gpg-remailer)) and allow execution of
+tt(/usr/sbin/gpg-remailer) only my members of that group:
+        verb(
+    addgroup gpg-remailer
+    adduser secmail gpg-remailer
+    chown root.gpg-remailer /usr/sbin/gpg-remailer
+    chmod o-rx /usr/bin/gpg-remailer
+    )    
+
+    it() To allow the functional account to handle incoming e-mail
+bf(sudo)(1) can be used. In the file tt(/etc/sudoers) the following lines can
+be entered (tt(REMAILERS) can be given a comma separated list of functional
+account names, tt(mailhost.org) should be replaced by the name of the host
+handling incoming e-mail):
+    verb(
+Runas_Alias REMAILERS = secmail
+
+mail    mailhost.org=(REMAILERS) NOPASSWD:  /usr/sbin/gpg-remailer
+    )
+    E.g., if gpg-remailer runs on a computer named tt(remailer.mydomain.nl)
+which may receive incoming e-mails, then specify tt(remailer.mydomain.nl) for
+tt(mailhost.org).
+
+
+    it() An e-mail address must be defined to where the mail to reencrypt must
+be sent to. This e-mail address must be known by the members of the group who
+want to use the gpg-remailer. Such an account could be, e.g.,
+tt(secmail@mailhost.org), appearing as a defined mail address in, e.g.,
+tt(/etc/mail/aliases). The address for this example would be entered in the
+tt(/etc/mail/aliases) file (some installations use tt(/etc/aliases)) in this
+way:
+    verb(
+    secmail:         "|sudo -u secmail /usr/sbin/gpg-remailer"
+    )
+        )
+
+manpagesection(THE PSEUDO USER'S PGP KEY RINGS)
+
+    itemization(
+    it() The functional account must be provided with a GPG/PGP keypair. Its
+public key must be distributed over the people who are allowed to send mail to
+the gpg-remailer (which may be the world if the public key is published at a
+PGP key server). Since the gpg-remailer must be able to act on its own, the
+secret key must not require a passphrase. The key can be created as follows
+(after the initial command, which is specified by tt(root), the remaining
+commands through the final tt(exit) command at the end of this section are
+executed by the pseudo-user tt(secmail)):
+        verb(
+    su - secmail
+
+    gpg --gen-key
+        )
+    At the tt(gpg --gen-key) command the tt(gpg) program asks for some
+details. Accept the defaults unless you have reason not to, but make sure you
+do not require a pass-phrase: press tt(Enter) twice when asked for one.
+    )
+
+bf(Some additional suggestions:)
+
+    itemization(
+    it() Details for defining a PGP key without password: 
+
+    define default  RSA key, size 2048, never to expire+nl()
+    real name: secmail gpg-remailer functional account+nl()
+    email address: secmail@mailhost.org+nl()
+No passphrase required: press Enter twice.+nl()
+
+    it() Specify the key-id of the just created gpg-key as the default key in
+the file tt(~/.gnupg/gpg.conf) (or tt(~/.gnupg/options), whichever is
+used). E.g.,
+    verb(
+default-key 1234ABCD
+    )
+
+    it() Also add a line containing
+    verb(
+force-mdc
+    ) 
+    to tt(~/.gnupg/gpg.conf).  This prevents the warning
+    verb(
+WARNING: message was not integrity protected
+    )  
+
+    it() If you want to allow non-group members to send e-mail to the
+gpg-remailer consider adding a key server specification to
+tt(~/.gnupg/gpg.conf) as well, to allow the automatic retrieval of missing
+public keys. E.g., add a line like
+    verb(
+keyserver keys.gnupg.net
+    )
+    to tt(~/.gnupg/gpg.conf).
+
+    it() Next use tt(gpg --search-keys), tt(gpg --recv-keys) or tt(gpg
+--import) (see the bf(gpg)(1) man-page for the required formats of these
+commands) to already add the public keys of all the members of the group who
+will be using gpg-remailer to the pseudo user's public key ring.
+
+    it() If a group member exists who has signed the GPG/PGP keys of all other
+members, then consider to trust this member fully, to prevent warnings
+resulting from using untrusted keys.
+
+    it() Once the gpg-remailer's GPG key pair has been created, provide the
+remailer's public key to the members of the group. These members should import
+the public key and they should be advised to sign the remailer's public key to
+prevent warnings about using an unverified public key. The remailer's public
+key can be be exported to file using
+        verb(
+    gpg --armor --export secmail > secmail.pub
+        )
+    and the members of the group can import the remailer's public key using:
+        verb(
+    gpg --import secmail.pub
+        )
+
+    it() When a new member is added to the group he/she should add the
+remailer's public key to his/her public key ring and provide his/her
+public key for import into the functional account's public key ring.
+
+    it() Gpg-remailer requires the existence of a configuration file and of a
+directory to store its temporary files in. See the section bf(CONFIGURATION
+FILE) below.
+
+    it() Having prepared the pseudo user's PGP key rings, the command tt(exit)
+takes you back to the tt(root) user's session.
+    )
+
+manpageoptions()
+
+    If available, single letter options are listed between parentheses
+following their associated long-option variants. Single letter options require
+arguments if their associated long options require arguments as well.
+    itemization(
+
+    it() loption(debug) (soption(d)) nl()
+        When specified, debug messages are logged to the log-file (see
+below).  When this option is specified the files written by gpg-remailer are
+not removed after gpg-remailer has processed an incoming e-mail.
+
+    it() loption(help) (soption(h)) nl()
+        A short summary of the usage is displayed to the standard output after
+which gpg-remailer terminates.
+
+    it() lsoption(logfile)(l)(filename)nl()
+        Specifies the file on which gpg-remailer's log messages are written
+        (by default tt(~/etc/gpg-remailer.log)).
+
+    it()  lsoption(loglevel)(L)(level)nl() 
+        LogLevel 0 provides extensive debug output as well as all other
+            logmessages;nl()  
+        LogLevel 1 logs the executed commands and the default messages;nl()
+        LogLevel 2 logs the default messages (characteristics of incoming and
+            outgoing e-mail) (default);nl()
+        Higher levels will suppress logging. 
+
+    it() lsoption(member)(m)(PGP e-mail address) nl()
+        The PGP-key e-mail address or PGP-key ID to re-encrypt the message
+for. Overrides the member(s) listed in the configuration file. This option may
+be specified multiple times when multiple members must be specified on the
+command line.
+
+    it() loption(noMail)nl()
+        When specified no mail is sent.
+
+    it() lsoption(recipient)(r)(e-mail address) nl()
+        The recipient of the e-mail. Overrides the recipient(s) listed in
+the configuration file. As with the tt(--members) option, multiple recipients
+may be specified by providing multiple tt(--recipient) options.
+
+    it() loption(relax) nl()
+        Tests for proper permissions of home directory and files are not
+performed, instead a warning is issued in the log-file.
+
+    it() laoption(step)(name)nl()
+        Perform the indicated step of the remailing process. Step names
+are:nl()
+            org (info from mail),nl()
+            dec (decrypt info),nl()
+            doc (create doc to send),nl()
+            enc (encrypt doc),nl()
+            mail (send mail),nl()
+            mail:address (send mail only to the provided address, ignore
+                    recipient(s) specified otherwise).
+
+        Later steps depend on earlier steps. E.g., tt(--step doc) can
+only be requested after having specified tt(--step dec) in a previous run. 
+
+    it() loption(version) (soption(v))nl()
+       Gpg-remailer's version number is is written to the standard output
+stream after which gpg-remailer terminates.
+    )
+    
+
+manpagesection(CONFGURATION FILE)
+
+The default configuration file is tt(~/etc/gpg-remailer.rc) under the pseudo
+user's home directory. Its path may be altered using a program option.
+
+Empty lines are ignored. Information at and beyond tt(#)-characters is
+interpreted as comment and is ignored as well.
+
+All directives in the configuration file obey the pattern 
+    verb(
+    directive: value
+    ) 
+
+A line may at most contain one directive, but white space (including comment
+at the end of the line) is OK. Several directives may be specified multiple
+times; otherwise the first occurrence of a directive is used. All directives
+are interpreted em(case insensitively), but their values are used as
+specified. E.g., tt(DeBUG: true) is as good as tt(debug: true), but tt(debug:
+TRUE) is not recognized.  Non-empty lines not starting with a recognized
+directive are silently ignored.
+
+    The following directives are supported (default values are shown between
+parentheses; when none is specified there is no default). When equivalent 
+command line options are used then they overrule the configuration file
+specifications.
+
+    itemization(
+    it() bf(debug:) tt(logic) (false)nl()
+        When tt(logic) is specified as tt(true) debug messages will be logged
+to the log-file (see below). Command line options: tt(--debug, -d). When this
+option is specified the files written by gpg-remailer will not be removed when
+gpg-remailer terminates.
+
+    it() bf(keepFiles:) tt(nr) nl()
+        When a number is specified all files written by gpg-remailer use the
+specified number and are not removed when gpg-remailer terminates. When this
+option is not specified the files receive a random numeric extension resulting
+in the creation of new, as yet non-existing tt(*.<nr>) files. 
+
+    it() bf(logfile:) tt(filename) (etc/gpg-remailer.log)nl()
+        The file on which gpg-remailer's log messages are written.
+
+    it() bf(loglevel:) tt(value) (2)nl()
+        LogLevel 0 provides extensive debug output as well as all other
+            logmessages;nl()  
+        LogLevel 1 logs the executed commands and the default messages;nl()
+        LogLevel 2 logs the default messages (characteristics of incoming and
+            outgoing e-mail);nl()
+        With higher levels  logging is suppressed. 
+
+    it() bf(noMail:) tt(logic) (false)nl()
+        When specified as tt(true) no mail is sent.
+
+    it() bf(recipient:) tt(e-mail address) nl()
+        Multiple recipients may be specified. Recipients should be specified
+as a plain e-mail address (e.g., tt(destination@some.host.org)). The
+re-encrypted mail is sent to each recipient in turn.
+
+    it() bf(replyTo:) tt(full address) nl()
+        The reply to address may be any e-mail reply-to address. The reply-to
+will be the default reply address for the recipient receiving gpg-remailer's
+e-mail message. Quotes and double quotes are removed from the reply to
+address. A reply-to specification could be, e.g.,
+        verb(
+    SECMAIL signed AND encrypted <secmail@mailhost.org>
+        )
+
+    it() bf(signature:) tt(requirement) (required)nl()
+        This option is used to control signature checking. Recognized values
+are:nl()
+        tt(none) (or not specified): no signature checking is performed;nl()
+        tt(required): a PGP signature must have been provided;nl()
+        tt(good): the PGP signature must be recognized as a a `good
+        signature'. 
+
+    it() bf(tmp) tt(directory) (tmp/)nl()
+        The directory into which gpg-remailer writes its temporary files.
+    )
+)
+                    
 manpagesection(FORMATS)
 
-    Although using PGP/GPG in e-mail is a simple issue, various formats of the
-e-mail are possible. Currently gpg-remailer recognizes the following formats:
+    Although using PGP/GPG in e-mail is established technology, various
+formats of the e-mail are possible. Currently gpg-remailer recognizes the
+following formats:
     itemization(
-    it() Standard simple encrypted messages;
+    it() Simple encrypted messages, consisting of an encrypted e-mail body;
     it() Multi-part encrypted messages;
     it() Encrypted messages containing detached signatures.
     )
 
-    Below a description is given of the actual contents of the PGP encrypted
+    Below a description is given of the actual contents of PGP encrypted
 en decrypted files. 
 
-    All PGP encrypted e-mail shows the following headers:
+    All PGP encrypted e-mail shows the following headers (the boundary values
+will differ over different e-mail messages):
         verb(
 Content-Type: multipart/encrypted; protocol="application/pgp-encrypted";
         boundary="+QahgC5+KEYLbs62"
@@ -105,9 +409,9 @@ Content-Disposition: inline; filename="msg.asc"
 
     The various PGP encrypted e-mail formats differ in the way they organize
 the decrypted information.
-    itemization(
-    it() Standard simple encrypted message:
-    )  
+
+
+bf(Simple Encrypted Messages.)
   
     During decryption the signature is verified, and the result of the
 verification is written to the standard error stream. The decrypted message
@@ -122,9 +426,8 @@ decrypted text of the message
 ----------------------------------------------------------------------
         )
 
-    itemization(
-    it() Multi part encrypted message. 
-    )
+
+bf(Multi-part Encrypted Messages.) 
 
     During decryption the signature is verified, and the result of the
 verification is written to the standard error stream. The decrypted message
@@ -153,9 +456,8 @@ text of the attachment.pdf in base64 encoding
         )
     Multiple attachments might follow in the same way.
 
-    itemization(
-    it() Encrypted message containing detached signature.
-    ) 
+bf(Encrypted Messages Containing Detached Signatures.)
+
    
     During decryption the signature is em(not) verified (but the 
 recipient(s) is (are) shown) and the decrypted file is organized as follows:
@@ -181,10 +483,10 @@ Content-Description: This is a digitally signed message part
 --=-TNwuMvq+TfajHhvqBuO7--
 ----------------------------------------------------------------------
         )
-    The last part is the detached signature, The contents section must be
-separated from the decrypted file (named, e.g., tt(decrypted)) (creating,
+    The last part represents the detached signature, The contents section must
+be separated from the decrypted file (named, e.g., tt(decrypted)) (creating,
 e.g., the file tt(contents)). That latter file's signature may then be
-verified using the command 
+verified using the command
         verb(
     gpg --verify decrypted contents
         )
@@ -194,236 +496,6 @@ continues up to, but not including, the new line just before the next
 boundary.
     )
 
-manpagesection(REQUIREMENTS)
-
-    In order to use gpg-remailer the following requirements must be met:
-    itemization(
-    it() Since multiple groups may use gpg-remailer it is advised to define
-functional accounts handling e-mail to be processed by gpg-remailer. A
-functional account tt(secmail) can be defined using a command like this:
-    verb(
-    adduser --home /var/lib/secmail --disabled-password secmail
-    )
-    it() All locations used by the gpg-remailer must be given highly
-restrictive permissions. E.g., use tt(chmod -R og-rwx /var/lib/secmail) for
-the functional accounts. Gpg-remailer will not process e-mail unless these
-permissions were set.
-    it() Consider making all functional gpg-remailer accounts members of a
-special group (e.g., tt(gpg-remailer)) and allow execution of
-tt(/usr/sbin/gpg-remailer) only my members of that group:
-        verb(
-    addgroup gpg-remailer
-    adduser secmail gpg-remailer
-    chown root.gpg-remailer /usr/sbin/gpg-remailer
-    chmod o-rx /usr/bin/gpg-remailer
-    )    
-    it() To allow the functional account to handle incoming e-mail
-bf(sudo)(1) can be used. In the file tt(/etc/sudoers) the following lines can
-be entered (tt(REMAILERS) can be given a comma separated list of functional
-account names, tt(mailhost.org) should be replaced by the name of your host
-handling the incoming e-mail):
-    verb(
-Runas_Alias REMAILERS = secmail
-
-mail    mailhost.org=(REMAILERS) NOPASSWD:  /usr/sbin/gpg-remailer
-    )
-    it() An e-mail address is defined to where the mail to reencrypt must be
-sent. This e-mail address must be known by the members of the group who want
-to use the gpg-remailer. Such an account could be, e.g.,
-tt(secmail@mailhost.org), appearing as a defined mail address in, e.g.,
-tt(/etc/mail/aliases). A definition like the following could be entered in the
-tt(/etc/mail/aliases) file:
-    verb(
-    secmail:         "|sudo -u secmail /usr/sbin/gpg-remailer"
-    )
-    it() The functional account must be provided with a GPG/PGP keypair. Its
-public key must be distributed over the people who are allowed to send mail to
-the gpg-remailer (which may be the world if the public key is published at a
-PGP key server). Since the gpg-remailer must be able to act on its own, the
-secret key must not require a passphrase. The key can be created as follows
-(execute the initial command as tt(root):
-        verb(
-    su - secmail
-    gpg --gen-key
-    exit
-        )
-    At the tt(gpg --gen-key) command the tt(gpg) program asks for several
-details. Accept the defaults unless you have reason not to, but make sure you
-do not require a pass phrase by pressing tt(Enter) twice when asked for one.
-Some additional suggestions:
-
-Decrypting key without password: 
-
-    define default  RSA key, size 2048, never to expire+nl()
-    real name: secmail gpg-remailer functional account+nl()
-    email address: secmail@mailhost.org+nl()
-No passphrase required: press 2 x enter.+nl()
-
-Edit this gpg key, and add a subkey (use the tt(addkey) command): RSA for
-encryption only. 
-
-Next use tt(--search-keys) or tt(--recv-keys) or tt(--import) to provide the
-pseudo user's public key ring with the group member's public keys, and add the
-names or key-ids to the `members' definition in secmail's tt(gnupg/gpg.conf)
-file.
-
-Add tt(force-mdc) to gpg.conf.  This prevents the `WARNING: message was not
-integrity protected' warning.  If you want non-group members to send e-mail to
-the gpg-remailer consider adding, e.g., tt(keyserver wwwkeys.eu.pgp.net) to
-gpg.conf.
-
-    If a group member exists who has signed the GPG/PGP keys of all other
-members, then consider to trust this member fully, to prevent warnings
-resulting from using untrusted keys.
-    it() Once the gpg-remailer's GPG key pair has been created, distribute the
-public key over the members of the group. These members should import the
-public key and they should be advised to sign the remailer's public key to
-prevent warnings about using an unverified public key. The key could be
-exported using
-        verb(
-    gpg --armor --export secmail > secmail.pub
-        )
-    and the members of the group can import the public key using:
-        verb(
-    gpg --import secmail.pub
-        )
-    it() Conversely, all public keys of all group members must be obtained and
-added to the functional account's public keyring. When a new member is added
-to the group he/she should add the functional account's public key to his/her
-public key and provide his/her public key for import into the functional
-account's public key ring. 
-    it() Gpg-remailer requires the existence of a configuration file and of a
-directory to store its temporary files in. See below.
-    )
-
-manpagesection(RETURN VALUE)
-
-    Gpg-remailer always returns 0 to the operating system to prevent
-tt(unknown mailer error) messages in the MTA's logs. However, when 
-gpg-remailer ends prematurely an error message is written to the standard
-error stream.
-
-manpageoptions()
-
-    If available, single letter options are listed between parentheses
-following their associated long-option variants. Single letter options require
-arguments if their associated long options require arguments as well.
-    itemization(
-    it() loption(debug) (soption(d)) nl()
-        When specified debug messages will be logged to the log-file (see
-below).  When this option is specified the files written by gpg-remailer will
-not be removed when gpg-remailer terminates.
-    it() loption(help) (soption(h)) nl()
-        A short summary of the usage is displayed to the standard output and
-gpg-remailer terminates.
-    it() lsoption(logfile)(l)(filename)nl()
-        Specifies the file on which gpg-remailer's log messages are written
-        (by default tt(etc/gpg-remailer.log)).
-    it()  lsoption(loglevel)(L)(level)nl() 
-        LogLevel 0 provides extensive debug output as well as all other
-            logmessages;nl()  
-        LogLevel 1 logs the executed commands and the default messages;nl()
-        LogLevel 2 logs the default messages (characteristics of incoming and
-            outgoing e-mail) (default);nl()
-        Higher levels will suppress logging. 
-    it() lsoption(member)(m)(PGP e-mail address) nl()
-        The PGP address to re-encrypt the message for. Overrides the 
-member(s) listed in the configuration file.
-    it() loption(noMail)nl()
-        When specified no mail is sent.
-    it() lsoption(recipient)(r)(e-mail address) nl()
-        The recipient of the e-mail. Overrides the recipient(s) listed in
-the configuration file.
-    it() loption(relax) Tests for proper permissions of home directory and
-files are not performed, instead a warning is issued in the log-file
-    it() laoption(step)(name)nl()
-        Perform a single step of the remailing process. Step names are:nl()
-            org (info from mail),nl()
-            dec (decrypt info),nl()
-            doc (create doc to send),nl()
-            enc (encrypt doc),nl()
-            mail (send mail),nl()
-            mail:address (send mail only to the provided address, ignore
-                    recipient(s) specified otherwise).
-    it() loption(version) (soption(v))nl()
-       Gpg-remailer's version number is is written to the standard output
-       stream. 
-    )
-    
-
-manpagesection(CONFGURATION FILE)
-
-The default configuration file is tt(etc/gpg-remailer.rc) under the user's home
-directory. It may be overruled by a command line argument.
-
-Empty lines are ignored. Information at and beyond tt(#)-characters is
-interpreted as comment and is ignored as well.
-
-All directives in the configuration file follow the pattern 
-    verb(
-    directive: value
-    ) 
-
-A line may at most contain one directive, but white space (including comment
-at the end of the line) is OK. Several directives may be specified multiple
-times; otherwise the first occurrence of a directive is used. All directives
-are interpreted em(case sensitively), but their values are used as
-specified. E.g., tt(DeBUG: true) is as good as tt(debug: true), but tt(debug:
-TRUE) is not recognized.  Non-empty lines not beginning with a recognized
-directive are silently ignored.
-
-    The following directives were defined (default values are shown between
-parentheses; when none specified there is no default). When equivalent 
-command line options are used then they overrule the configuration file
-specifications.
-    itemization(
-    it() bf(debug:) tt(logic) (false)nl()
-        When specified as tt(true) debug messages will be logged to the
-log-file (see below). Command line options: tt(--debug, -d). When this option 
-is specified the files written by gpg-remailer will not be removed when 
-gpg-remailer terminates.
-    it() bf(keepFiles:) tt(nr) nl()
-        When a number is specified all files written by gpg-remailer will use
-the specified number and will not be removed when gpg-remailer
-terminates. When this option is not specified the files will have a random
-number resulting in the creation of a new, as yet non-existing tt(org.<nr>)
-file. No existency check is performed on the other files written by 
-gpg-remailer. 
-    it() bf(logfile:) tt(filename) (etc/gpg-remailer.log)nl()
-        The file on which gpg-remailer's log messages are written.
-    it() bf(loglevel:) tt(value) (2)nl()
-        LogLevel 0 provides extensive debug output as well as all other
-            logmessages;nl()  
-        LogLevel 1 logs the executed commands and the default messages;nl()
-        LogLevel 2 logs the default messages (characteristics of incoming and
-            outgoing e-mail);nl()
-        Higher levels will suppress logging. 
-    it() bf(noMail:) tt(logic) (false)nl()
-        When specified as tt(true) mail will not be sent.
-    it() bf(recipient:) tt(e-mail address) nl()
-        Multiple recipients may be specified. Recipients should be specified
-as a plain e-mail address (e.g., tt(destination@some.host.org)). The
-re-encrypted mail will be sent to each recipient in turn.
-    it() bf(replyTo:) tt(full address) nl()
-        The reply to address may be any e-mail reply-to address. The reply-to
-will be shown to the receiver when he/she wants to send a reply. Quotes and
-double quotes are removed from the reply to address. A reply to specification
-could be, e.g.,
-        verb(
-    SEC MAIL signed AND encrypted <secmail@mailhost.org>
-        )
-    it() bf(signature:) tt(requirement) (required)nl()
-        This option is used to control signature checking. Recognized values
-are:nl()
-        tt(none) (or not specified): no signature checking is performed;nl()
-        tt(required): a PGP signature must have been provided;nl()
-        tt(good): the PGP signature must be recognized as a a `good
-        signature'. 
-    it() bf(tmp) tt(directory) (tmp/)nl()
-        The directory into which gpg-remailer will write its temporary files.
-    )
-)
-                    
 COMMENT(
 manpagesection(EXAMPLES)
 

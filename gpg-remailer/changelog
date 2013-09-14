@@ -12,7 +12,11 @@ remailer (2.55.00)
     gpg-remailer package are all free software in accordance with the GPL
     V. 3.
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 13 Sep 2013 21:31:52 +0200
+  * Updated the man-page
+
+  * Gzipped documents were generated using the -n flag to avoid timestamps
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 14 Sep 2013 13:33:20 +0200
 
 remailer (2.54.01)
 
