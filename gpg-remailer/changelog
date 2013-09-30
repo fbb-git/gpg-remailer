@@ -1,4 +1,11 @@
-remailer (2.55.00)
+gpg-remailer (2.55.01)
+
+  * Added missing -pthread flag to icmconf: without it, compiling succeeds,
+    but execution ends in a Fatal exception.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 30 Sep 2013 16:06:56 +0200
+
+gpg-remailer (2.55.00)
 
   * As per RFC 2822 (pg. 8), multiple subject lines in incoming e-mail are now
     recognized. 
@@ -18,13 +25,13 @@ remailer (2.55.00)
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 14 Sep 2013 13:33:20 +0200
 
-remailer (2.54.01)
+gpg-remailer (2.54.01)
 
   * The distribution is now provided with a (GPL) LICENCE file 
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 04 Sep 2013 15:07:26 +0200
 
-remailer (2.54.00)
+gpg-remailer (2.54.00)
 
   * Sources adapted to Bobcat 3.12.00
 
