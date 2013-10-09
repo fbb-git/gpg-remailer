@@ -239,15 +239,22 @@ which gpg-remailer terminates.
         The PGP-key e-mail address or PGP-key ID to re-encrypt the message
 for. Overrides the member(s) listed in the configuration file. This option may
 be specified multiple times when multiple members must be specified on the
-command line.
+command line. With each tt(--member) option only provide one e-mail
+address (e.g., tt(member@domain.iso). This format is not checked by
+bf(gpg-remailer), but a failure to comply may result in bf(gpg-remailer) being
+unable to re-encrypt or e-mail messages.
 
     it() loption(noMail)nl()
         When specified no mail is sent.
 
     it() lsoption(recipient)(r)(e-mail address) nl()
-        The recipient of the e-mail. Overrides the recipient(s) listed in
-the configuration file. As with the tt(--members) option, multiple recipients
-may be specified by providing multiple tt(--recipient) options.
+        The recipient of the e-mail. Overrides the recipient(s) listed in the
+configuration file. As with the tt(--members) option, multiple recipients may
+be specified by providing multiple tt(--recipient) options. each
+tt(--recipient) option should only provide one e-mail address (e.g.,
+tt(recipient@domain.iso). This format is not checked by bf(gpg-remailer), but
+a failure to comply may result in bf(gpg-remailer) being unable to re-encrypt
+or e-mail messages.
 
     it() loption(relax) nl()
         Tests for proper permissions of home directory and files are not

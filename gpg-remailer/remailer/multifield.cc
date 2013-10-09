@@ -2,10 +2,14 @@
 
 void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
 {
-    string field;
-    if (d_arg.option(&field, opt))
+    if (size_t index = d_arg.option(opt))
     {
-        dest.push_back(field);
+        for (; index--; )
+        {
+            string field;
+            d_arg.option(index, &field, opt);
+            dest.push_back(field);
+        }
         return;
     }
 
@@ -29,3 +33,6 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
     copy(dest.begin(), dest.end(), ostream_iterator<string>(out, " "));
     d_log << level(LOGDEBUG) << keyWord << ": " << out.str() << '\n';
 }
+
+
+

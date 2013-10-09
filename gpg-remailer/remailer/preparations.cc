@@ -60,4 +60,3 @@ void Remailer::preparations()
         signatureRequired == "required" ? SIGNATURE_FOUND :
                                           NO_SIGNATURE;
 }
-

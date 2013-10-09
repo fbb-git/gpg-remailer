@@ -1,3 +1,10 @@
+gpg-remailer (2.56.00)
+
+  * Repaired handling of multiple -m or -r options: now all -m and -r options
+    are recognized. Each -m or -r option should contain just one e-mail
+    address. 
+
+
 gpg-remailer (2.55.01)
 
   * Added missing -pthread flag to icmconf: without it, compiling succeeds,
