@@ -4,6 +4,7 @@ gpg-remailer (2.56.00)
     are recognized. Each -m or -r option should contain just one e-mail
     address. 
 
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 09 Oct 2013 21:27:25 +0200
 
 gpg-remailer (2.55.01)
 
