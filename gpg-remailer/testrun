@@ -18,6 +18,10 @@ fi
 
 DEBG=-d
 
-tmp/bin/binary --relax $DEBG -r frank -m a.pothaar -m f.b.brokken \
-         -l /tmp/remailer.log \
-        -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
+REMAILER=tmp/bin/binary
+REMAILER=/usr/bin/gpg-remailer
+
+${REMAILER} --relax $DEBG -r frank -m a.pothaar -m f.b.brokken \
+	    -l /tmp/remailer.log \
+	    -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
+
