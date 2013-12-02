@@ -99,9 +99,9 @@ class Remailer
 
         void setLog();
         std::string configField(std::string const &field);
-        void gpg(std::string const &command, std::string const &in,
+        void gpg(std::string command, std::string const &in,
                     std::string const &out, std::string const &err);
-        void gpg(std::string const &command, std::string const &err);
+        void gpg(std::string command, std::string const &err);
         void setFilenames();
         bool PGPmessage(std::ostream &out);
         void filter(std::ostream &out);

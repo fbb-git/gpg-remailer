@@ -19,7 +19,7 @@ fi
 DEBG=-d
 
 REMAILER=tmp/bin/binary
-REMAILER=/usr/bin/gpg-remailer
+# REMAILER=/usr/bin/gpg-remailer
 
 ${REMAILER} --relax $DEBG -r frank -m a.pothaar -m f.b.brokken \
 	    -l /tmp/remailer.log \

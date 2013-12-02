@@ -2,6 +2,8 @@
 
 void Remailer::multipart(IOContext &io)
 {
+    d_log << level(LOGDEBUG) << "Multipart\n";
+
     io.toReencrypt << io.line << endl;  // line containing 
                                         // Content-Type: multipart
 

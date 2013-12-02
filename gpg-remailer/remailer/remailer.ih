@@ -1,26 +1,23 @@
 #include "remailer.h"
 
-#include <unistd.h>
-#include <ctime>
+#include <iostream>
 
-#include <fstream>
 #include <algorithm>
-#include <cstdlib>
 #include <sstream>
 #include <iomanip>
-#include <iterator>
-#include <thread>
 
 #include <bobcat/stat>
 #include <bobcat/arg>
 #include <bobcat/pattern>
-#include <bobcat/process>
 #include <bobcat/irandstream>
 #include <bobcat/string>
 #include <bobcat/level>
 #include <bobcat/exception>
+
 #include <bobcat/stringline>
 #include <bobcat/ranger>
+
+#include "../spawn/spawn.h"
 
 inline bool Remailer::foundIn(std::string const &text, 
                               std::string const &target) const

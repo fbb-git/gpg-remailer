@@ -19,7 +19,8 @@ keepfiles: 1
 # tmp: tmp 
 
 # The Reply-To header (one line, no (double) quotes)
-replyTo:    Fill in your reply-to <somebody@somewhere.org>
+#replyTo:    Fill in your reply-to <somebody@somewhere.org>
+replyTo: Frank <frank@localhost>
 
 # where will the reencrypted mail be sent to (multiple recipients OK)
 # recipient:  frank

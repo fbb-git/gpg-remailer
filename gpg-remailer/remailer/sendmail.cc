@@ -20,16 +20,8 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
         return;
     }
 
-    ifstream in;
-    Exception::open(in, ms.mailName);
-
-    Process mailProc(Process::CIN, command.str());
-    mailProc.start();
-    
-    mailProc << in.rdbuf();
-    mailProc.close();
-
-    mailProc.waitForChild();
+    Spawn mail(command.str(), ms.mailName, "/dev/null", "/tmp/null");
+    mail.fork();
 
     ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << ms.subject << 
                                    ") sent to " << recipient << '\n';

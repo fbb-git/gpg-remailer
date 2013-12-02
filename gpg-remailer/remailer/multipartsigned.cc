@@ -3,6 +3,8 @@
     // Third format mentioned in the man-page
 void Remailer::multipartSigned(IOContext &io)
 {
+    d_log << level(LOGDEBUG) << "MultipartSigned\n";
+
     findBoundary(io);
 
     ostream null(0);
