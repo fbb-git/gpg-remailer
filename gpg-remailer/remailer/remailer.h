@@ -9,19 +9,15 @@
 #include <bobcat/stat>
 #include <bobcat/log>
 
+#include "../enums/enums.h"
+
 namespace FBB
 {
     class Arg;
 };
 
-class Remailer
+class Remailer: private Enums
 {
-    enum LOGLEVELS
-    {
-        LOGDEBUG,
-        LOGCOMMANDS,
-        LOGDEFAULT
-    };
 
     enum SigType
     {

@@ -8,5 +8,6 @@ void Spawn::childProcess()
     char const **args = String::argv(cmd);
     
     execv(args[0], const_cast<char *const *>(args));
-    throw 0;
+
+    throw 0;    // this should not be reached, but if so main properly ends.
 }

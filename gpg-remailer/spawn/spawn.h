@@ -6,9 +6,16 @@
 #include <bobcat/fork>
 #include <bobcat/redirector>
 
-class Spawn: public FBB::Fork
+#include "../enums/enums.h"
+
+namespace FBB
 {
-    int d_in;      // using -2 to indicate `ignore'
+    class Log;
+};
+
+class Spawn: private Enums, public FBB::Fork
+{
+    int d_in;      // -2 indicates `ignore'
     int d_out;
     int d_err;
 
@@ -19,10 +26,10 @@ class Spawn: public FBB::Fork
     std::string d_command;
 
     public:
-        Spawn(std::string const &command,
-            std::string const &in, 
-            std::string const &out,
-            std::string const &err);
+        Spawn(FBB::Log &log, 
+            std::string const &command,
+            std::string const &in, std::string const &out, 
+                                                std::string const &err);
     
     private:
         void childProcess() override;

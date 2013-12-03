@@ -10,6 +10,7 @@
 #include <bobcat/level>
 #include <bobcat/exception>
 #include <bobcat/string>
+#include <bobcat/log>
 
 using namespace std;
 using namespace FBB;

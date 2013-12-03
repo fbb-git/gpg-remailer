@@ -340,12 +340,15 @@ re-encrypted mail is sent to each recipient in turn.
 
     it() bf(replyTo:) tt(full address) nl()
         The reply to address may be any e-mail reply-to address. The reply-to
-will be the default reply address for the recipient receiving gpg-remailer's
+becomes the default reply address for the recipient receiving gpg-remailer's
 e-mail message. Quotes and double quotes are removed from the reply to
 address. A reply-to specification could be, e.g.,
         verb(
     SECMAIL signed AND encrypted <secmail@mailhost.org>
         )
+        This specification should be according to the requirements defined in
+        RFC 822: em(Standard for ARPA Internet Text Messages), or the mail
+        sending program may not end.
 
     it() bf(signature:) tt(requirement) (required)nl()
         This option is used to control signature checking. Recognized values

@@ -2,8 +2,11 @@
 
 void Spawn::childRedirections()
 {
-    d_inRedirector.through(Redirector::STDIN);
-    d_outRedirector.through(Redirector::STDOUT);
-    d_errRedirector.through(Redirector::STDERR);    
+    if (d_in != -2)
+        d_inRedirector.through(Redirector::STDIN);
+    if (d_out != -2)
+        d_outRedirector.through(Redirector::STDOUT);
+    if (d_err != -2)
+        d_errRedirector.through(Redirector::STDERR);    
 }
 
