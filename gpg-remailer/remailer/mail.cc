@@ -17,9 +17,9 @@ void Remailer::mail()
                              d_arg.option(0, "no-mail") || 
                                     configField("noMail") == "true"};
 
-    writeMail(mailStruct.boundary);
+    writeMail(mailStruct.boundary); // construct the mail from reencrypted.x
 
-    size_t pos = d_step.find(':');
+    size_t pos = d_step.find(':');  // any explicit mail recipient?
 
     if (pos != string::npos)
     {

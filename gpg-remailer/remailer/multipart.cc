@@ -1,18 +1,6 @@
 #include "remailer.ih"
 
-void Remailer::multipart(IOContext &io)
-{
-    d_log << level(LOGDEBUG) << "Multipart\n";
-
-    io.toReencrypt << io.line << endl;  // line containing 
-                                        // Content-Type: multipart
-
-    copyToBoundary(io.toReencrypt, io.decrypted);
-    copySignature(io.toReencrypt, d_boundary);
-    io.toReencrypt << io.decrypted.rdbuf();
-}
-
-// Format of the decrypted PGP part:
+// Format of the decrypted PGP part (near line 427 in gpg-remailer(1)):
 // ----------------------------------------------------------------------
 // Content-Type: multipart/mixed; boundary="f+W+jCU1fRNres8c"
 // Content-Disposition: inline
@@ -33,3 +21,16 @@ void Remailer::multipart(IOContext &io)
 // 
 // --f+W+jCU1fRNres8c--
 // ----------------------------------------------------------------------
+
+void Remailer::multipart(IOContext &io)
+{
+    d_log << level(LOGDEBUG) << "Multipart\n";
+
+    io.toReencrypt << io.line << endl;  // line containing 
+                                        // Content-Type: multipart
+
+    copyToBoundary(io.toReencrypt, io.decrypted);
+    copySignature(io.toReencrypt, d_boundary);
+    io.toReencrypt << io.decrypted.rdbuf();
+}
+

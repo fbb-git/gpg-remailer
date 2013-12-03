@@ -1,5 +1,6 @@
 #include "remailer.ih"
 
+    // static member, hence ms needs the log field.
 void Remailer::sendMail(string const &recipient, MailStruct const &ms)
 {
     ostringstream command;
@@ -20,13 +21,12 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
         return;
     }
 
-    Spawn mail(command.str(), ms.mailName, "/dev/null", "/tmp/null");
+    Spawn mail(ms.log, command.str(), ms.mailName, "", "");
     mail.fork();
 
     ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << ms.subject << 
                                    ") sent to " << recipient << '\n';
 }
-
 
 
 

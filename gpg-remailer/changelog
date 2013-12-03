@@ -1,3 +1,13 @@
+gpg-remailer (2.57.00)
+
+  * Long encrypted messages broke the remailer. Repaired by simplifying child
+    process handling in a separate class `Spawn'.
+
+  * Added additional comment to various remailer/ source files, and to
+    remailer/remailer.h 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 03 Dec 2013 11:32:14 +0100
+
 gpg-remailer (2.56.00)
 
   * Repaired handling of multiple -m or -r options: now all -m and -r options

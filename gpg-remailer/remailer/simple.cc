@@ -1,5 +1,16 @@
 #include "remailer.ih"
 
+// Simple pgp encrypted file (near line 410 in gpg-remailer(1))
+// Format:
+// ----------------------------------------------------------------------
+// Content-Type: text/plain; charset=us-ascii
+// Content-Disposition: inline
+// Content-Transfer-Encoding: quoted-printable
+// 
+// decrypted text of the message
+// ----------------------------------------------------------------------
+
+
 void Remailer::simple(IOContext &io)
 {
     d_log << level(LOGDEBUG) << "Simple: No boundary, no multipart message\n";
@@ -22,12 +33,3 @@ void Remailer::simple(IOContext &io)
                     io.decrypted.rdbuf();
 }
 
-// Simple pgp encrypted file.
-// Format:
-// ----------------------------------------------------------------------
-// Content-Type: text/plain; charset=us-ascii
-// Content-Disposition: inline
-// Content-Transfer-Encoding: quoted-printable
-// 
-// decrypted text of the message
-// ----------------------------------------------------------------------

@@ -83,11 +83,26 @@ class Remailer: private Enums
     public:
         Remailer();
         ~Remailer();
-        void preparations();
-        void unhex();
-        void decrypt();
-        void reencrypt();
-        void mail();
+
+        // main() calls these members in sequence:
+
+        void preparations();        // check permissions, set config-args
+
+        void unhex();               // convert =20 etc. hex-specs in the
+                                    // received mail to chars
+                                    // extracts the Subject: and writes the
+                                    // new file org.x
+
+        void decrypt();             // decrypts the original mail, writes new
+                                    // files decrypted.x and signature.x
+
+        void reencrypt();           // writes reencrypted.x and maybe 
+                                    //        multipartsigned.x
+
+        void mail();                // mails the re-encrypted file to the
+                                    // recipient(s). Correctly specifying the
+                                    // Reply-To header is the responsibility 
+                                    // of the user.
 
     private:
         void multiField(std::vector<std::string> &dest, char const *keyWord,
@@ -95,9 +110,12 @@ class Remailer: private Enums
 
         void setLog();
         std::string configField(std::string const &field);
+
+                                    // use empty file names if a file isn't
+                                    // used.
         void gpg(std::string command, std::string const &in,
                     std::string const &out, std::string const &err);
-        void gpg(std::string command, std::string const &err);
+
         void setFilenames();
         bool PGPmessage(std::ostream &out);
         void filter(std::ostream &out);

@@ -22,10 +22,11 @@ Spawn::Spawn(
         string empty("--");
 
         log << level(LOGDEFAULT) << 
-            "No file desciptors with " << command << ": " << 
-                    d_in << " (" << in.empty() ? empty : in << "), " <<
-                    d_out << " (" << out.empty() ? empty : out << "), " <<
-                    d_err << " (" << err.empty() ? empty : err << ")";
-        throw 0;
+            "No file desciptors for `" << command << "': " << 
+                    d_in <<  " (" << (in.empty()  ? empty : in)  << "), " <<
+                    d_out << " (" << (out.empty() ? empty : out) << "), " <<
+                    d_err << " (" << (err.empty() ? empty : err) << ")\n" <<
+                    FATAL;
     }
 }
+

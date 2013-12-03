@@ -2,6 +2,8 @@
 
 void Remailer::reencrypt()
 {
-    fileToReencrypt();          // requires step 'doc'
-    writeReencrypted();         // requires step 'enc'
+    fileToReencrypt();          // requires step 'doc'. Writes reencrypt.x and
+                                //  maybe multipartsigned.x
+
+    writeReencrypted();         // requires step 'enc'. Writes reencrypted.x
 }

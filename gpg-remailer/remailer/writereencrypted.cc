@@ -1,5 +1,6 @@
 #include "remailer.ih"
 
+        // writes reencrypted.x and err.x (should be empty)
 void Remailer::writeReencrypted()
 {
     if (!step("enc"))
