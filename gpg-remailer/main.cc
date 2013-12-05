@@ -33,9 +33,13 @@ try
     Remailer remailer;
 
     remailer.preparations();
-    remailer.unhex();
-    remailer.decrypt();
-    remailer.reencrypt();
+
+    if (remailer.pgpMail())
+    {
+        remailer.decrypt();
+        remailer.reencrypt();
+    }
+
     remailer.mail();
 }
     // ALL exceptions return 0 to prevent unexpected mailer errors in 

@@ -59,4 +59,10 @@ void Remailer::preparations()
         signatureRequired == "good"     ? GOOD_SIGNATURE :
         signatureRequired == "required" ? SIGNATURE_FOUND :
                                           NO_SIGNATURE;
+
+    d_clearText =   configField("clear-text") == "accepted" ?
+                        ACCEPTED
+                    :
+                        REJECTED;
 }
+

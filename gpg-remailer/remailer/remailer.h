@@ -18,12 +18,23 @@ namespace FBB
 
 class Remailer: private Enums
 {
+    enum ClearText
+    {
+        ACCEPTED,
+        REJECTED
+    };
+
+    enum MailType
+    {
+        CLEAR,
+        ENCRYPTED
+    };
 
     enum SigType
     {
-        NO_SIGNATURE,
-        SIGNATURE_FOUND,
-        GOOD_SIGNATURE 
+        NO_SIGNATURE,           // no signature,
+        SIGNATURE_FOUND,        // signature required
+        GOOD_SIGNATURE          // signature required and OK
     };
 
     enum EncryptionEnum
@@ -57,6 +68,8 @@ class Remailer: private Enums
     FBB::Log  d_log;
 
     SigType d_sigRequired;
+    ClearText d_clearText = REJECTED;    
+    MailType d_mailType = ENCRYPTED;
 
     std::string d_configName;
     std::string d_step;
@@ -88,10 +101,12 @@ class Remailer: private Enums
 
         void preparations();        // check permissions, set config-args
 
-        void unhex();               // convert =20 etc. hex-specs in the
-                                    // received mail to chars
-                                    // extracts the Subject: and writes the
-                                    // new file org.x
+        bool pgpMail();             // extracts the Subject.
+                                    // With PGP mail:
+                                    // convert =20 etc. hex-specs in the
+                                    // received mail to chars. 
+                                    // Plain mail is merely copied.
+                                    // The new file org.x is written.
 
         void decrypt();             // decrypts the original mail, writes new
                                     // files decrypted.x and signature.x
@@ -151,6 +166,7 @@ class Remailer: private Enums
             std::string const &replyTo;
             FBB::Log &log;
             bool nomail;
+            bool clearMail;
         };
         static void sendMail(std::string const &recipient, 
                                 MailStruct const &mailStruct); 

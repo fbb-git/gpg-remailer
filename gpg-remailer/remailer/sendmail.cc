@@ -5,7 +5,12 @@ void Remailer::sendMail(string const &recipient, MailStruct const &ms)
 {
     ostringstream command;
 
-    command << "/usr/bin/mail -s '" << ms.subject << "' "
+    if (ms.clearMail)
+        command << "/usr/bin/mail -s '" << ms.subject << "' "
+                "-a \"Reply-To: " << ms.replyTo << "\" " <<
+                recipient;
+    else
+        command << "/usr/bin/mail -s '" << ms.subject << "' "
                 "-a \"Reply-To: " << ms.replyTo << "\" "
                 "-a 'Content-Type: multipart/encrypted; "
                 R"(protocol="application/pgp-encrypted"; )"

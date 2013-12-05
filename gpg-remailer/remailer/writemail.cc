@@ -6,23 +6,33 @@ void Remailer::writeMail(string const &boundary)
     open(out, d_mailName, UNLINK);
 
     ifstream in;
-    Exception::open(in, d_reencryptedName);
+    if (d_mailType == CLEAR)
+    {
+        Exception::open(in, d_orgName);
+        out << in.rdbuf();
+    }
+    else
+    {
+        Exception::open(in, d_reencryptedName);
 
-    out << "\n"                         // create the mail to send.
-        "--" << boundary << "\n"
-        "Content-Type: application/pgp-encrypted\n"
-        "Content-Transfer-Encoding: 7bit\n"
-        "\n"
-        "Version: 1\n"
-        "\n"
-        "--" << boundary << "\n"
-        "Content-Type: application/octet-stream; name=gpg.asc\n"
-        "Content-Transfer-Encoding: 7bit\n"
-        "\n" <<
-        in.rdbuf() << "\n"
-        "\n"
-        "--" << boundary << "--\n";
+        out << "\n"                         // create the mail to send.
+            "--" << boundary << "\n"
+            "Content-Type: application/pgp-encrypted\n"
+            "Content-Transfer-Encoding: 7bit\n"
+            "\n"
+            "Version: 1\n"
+            "\n"
+            "--" << boundary << "\n"
+            "Content-Type: application/octet-stream; name=gpg.asc\n"
+            "Content-Transfer-Encoding: 7bit\n"
+            "\n" <<
+            in.rdbuf() << "\n"
+            "\n"
+            "--" << boundary << "--\n";
+    }
 }
+
+
 
 
 

@@ -2,7 +2,7 @@
 
 void Remailer::mail()
 {
-    if (!step("mail"))
+    if (!step("mail") && !step("clr"))
         return;
 
     string subject = d_subject.empty() ? 
@@ -10,14 +10,20 @@ void Remailer::mail()
                      : 
                          d_subject;
 
+    if (step("clr"))
+        d_mailType = CLEAR;
+
     MailStruct mailStruct = {makeBoundary(), d_mailName, 
                              subject,
                              d_replyTo,
                              d_log,
                              d_arg.option(0, "no-mail") || 
-                                    configField("noMail") == "true"};
+                                    configField("noMail") == "true",
+                             d_mailType == CLEAR
+                            };
 
     writeMail(mailStruct.boundary); // construct the mail from reencrypted.x
+                                    // or (with CLEAR mail) org.x
 
     size_t pos = d_step.find(':');  // any explicit mail recipient?
 
