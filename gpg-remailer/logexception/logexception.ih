@@ -1,0 +1,6 @@
+#include "logexception.h"
+
+#include <iostream>
+
+using namespace std;
+

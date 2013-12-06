@@ -1,0 +1,12 @@
+#include "mail.h"
+
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+
+#include <bobcat/exception>
+#include <bobcat/log>
+#include <bobcat/argconfig>
+
+using namespace std;
+using namespace FBB;

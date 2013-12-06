@@ -1,6 +1,6 @@
-#include "remailer.ih"
+#include "mail.ih"
 
-void Remailer::hexChar(ostream &out, istream &in)
+void Mail::hexChar(ostream &out, istream &in)
 {
     int value;
                                     // char beyond = is not a hex-char?

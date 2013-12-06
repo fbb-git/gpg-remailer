@@ -1,12 +1,15 @@
 #include "remailer.ih"
 
-string Remailer::makeBoundary()
+string Remailer::makePGPBoundary()
 {
     string boundary;
 
+    if (d_mailType != ENCRYPTED)
+        return boundary;
+
     IRandStream rs(' ' + 1, '~', time(0));
 
-    for (int idx = 0; idx < 16; ++idx)
+    for (int idx = 0; idx != 16; ++idx)
     {
         while (true)
         {

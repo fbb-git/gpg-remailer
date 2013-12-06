@@ -4,12 +4,13 @@
 
 void Remailer::fileToReencrypt()
 {
-    if (!step("doc"))
+    if (not (step("doc") || d_mailType == ENCRYPTED))
         return;
 
     IOContext io;
 
-    open(io.toReencrypt, d_reencryptName, UNLINK);
+    IO::unlink(d_reencryptName);
+    IO::open(io.toReencrypt, d_reencryptName, d_relax);
 
     Exception::open(io.decrypted, d_decryptedName);
 

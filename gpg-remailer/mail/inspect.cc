@@ -1,6 +1,6 @@
-#include "remailer.ih"
+#include "mail.ih"
 
-void Remailer::inspect(ostream &out, string const &line)
+void Mail::inspect(ostream &out, string const &line)
 {
     istringstream in(line);
     char c;

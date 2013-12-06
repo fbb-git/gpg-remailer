@@ -32,18 +32,27 @@ try
 
     Remailer remailer;
 
-    remailer.preparations();
-
-    if (remailer.pgpMail())
+    try
     {
-        remailer.decrypt();
-        remailer.reencrypt();
-    }
+        remailer.preparations();    // writes .hdr
+        remailer.mailContents();    // writes .org + sets mailtype
+    
+        remailer.decrypt();         // decrypts at step dec or mailtype ENCR.
+        remailer.reencrypt();       // reencrypts at step enc or ^^idem^^
 
-    remailer.mail();
+        remailer.mail();
+    }
+    catch (LogException const &err)
+    {
+        char const *msg = err.msg();
+        d_log << "[Fatal] " << msg << '\n';
+
+        // ALL exceptions return 0 to prevent unexpected mailer errors in 
+        // sendmail's logs.
+
+        return 0;
+    }
 }
-    // ALL exceptions return 0 to prevent unexpected mailer errors in 
-    // sendmail's logs.
 catch(exception const &err)     // handle exceptions
 {
     cerr << "[Fatal] " << err.what() << '\n';

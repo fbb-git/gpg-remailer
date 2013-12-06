@@ -6,7 +6,7 @@ void Remailer::writeMail(string const &boundary)
     open(out, d_mailName, UNLINK);
 
     ifstream in;
-    if (d_mailType == CLEAR)
+    if (d_mailType == CLEAR)                // copy the clear-text mail as-is
     {
         Exception::open(in, d_orgName);
         out << in.rdbuf();

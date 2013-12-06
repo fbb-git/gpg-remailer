@@ -1,0 +1,8 @@
+#include "gpg.h"
+
+#include <bobcat/log>
+
+#include "../spawn/spawn.h"
+
+using namespace std;
+

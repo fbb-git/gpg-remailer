@@ -17,6 +17,7 @@
 #include <bobcat/stringline>
 #include <bobcat/ranger>
 
+#include "../logexception/logexception.h"
 #include "../spawn/spawn.h"
 
 inline bool Remailer::foundIn(std::string const &text, 

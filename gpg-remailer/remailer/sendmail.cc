@@ -1,35 +1,26 @@
 #include "remailer.ih"
 
-    // static member, hence ms needs the log field.
-void Remailer::sendMail(string const &recipient, MailStruct const &ms)
+void Remailer::sendMail(string const &recipient, string const &subject,
+                        string const &boundary)
 {
-    ostringstream command;
+    string command =  d_mailType == CLEAR?
+                        clearMailCommand(recipient, subject)
+                    :
+                        pgpMailCommand(recipient, subject, boundary);
 
-    if (ms.clearMail)
-        command << "/usr/bin/mail -s '" << ms.subject << "' "
-                "-a \"Reply-To: " << ms.replyTo << "\" " <<
-                recipient;
-    else
-        command << "/usr/bin/mail -s '" << ms.subject << "' "
-                "-a \"Reply-To: " << ms.replyTo << "\" "
-                "-a 'Content-Type: multipart/encrypted; "
-                R"(protocol="application/pgp-encrypted"; )"
-                R"(boundary=")" << ms.boundary << R"("' )" <<
-                recipient;
+    d_log << level(LOGCOMMANDS) << command << '\n';
 
-    ms.log << level(LOGCOMMANDS) << command.str() << '\n';
-
-    if (ms.nomail)
+    if (d_arg.option(0, "no-mail") || configField("noMail") == "true")
     {
-        ms.log << level(LOGDEBUG) << 
-                    "Sending mail suppressed by config/option\n";
+        d_log << level(LOGDEBUG) << 
+                 "Sending mail suppressed by config/option\n";
         return;
     }
 
-    Spawn mail(ms.log, command.str(), ms.mailName, "", "");
+    Spawn mail(d_log, command, d_mailName, "", "");
     mail.fork();
 
-    ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << ms.subject << 
+    ms.log << level(LOGDEFAULT) << "Reencrypted mail (" << subject << 
                                    ") sent to " << recipient << '\n';
 }
 

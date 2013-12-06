@@ -16,7 +16,8 @@ void Remailer::setFilenames()
     d_errName = prefix + "err.";
     d_mailName = prefix + "mail.";
     d_multipartSignedDataName = prefix + "multipartsigned.";
-    d_orgName = prefix + "org.";
+    d_contentsName = prefix + "org.";
+    d_hdrsName = prefix + "hdrs.";
     d_reencryptName = prefix + "reencrypt.";
     d_reencryptedName = prefix + "reencrypted.";
     d_signatureName = prefix + "signature.";
@@ -27,7 +28,8 @@ void Remailer::setFilenames()
     d_errName += d_nr;
     d_mailName += d_nr;
     d_multipartSignedDataName += d_nr;
-    d_orgName += d_nr;
+    d_contentsName += d_nr;
+    d_hdrsName += d_nr;
     d_reencryptName += d_nr;
     d_reencryptedName += d_nr;
     d_signatureName += d_nr;

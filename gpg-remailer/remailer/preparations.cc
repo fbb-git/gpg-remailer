@@ -2,15 +2,6 @@
 
 void Remailer::preparations()
 {
-    if (chdir(d_user.homedir().c_str()) != 0)   // change Homedir
-        throw Exception() << "Failed to change dir to " << d_user.homedir();
-
-    d_config.open(d_configName);                // prepare configuration file
-                                                // MUST be following change to
-                                                // the user's homedir
-
-    setLog();                                   // define logging
-
     if (d_relax)
         d_log << level(LOGDEFAULT) << "WARNING: relaxed permission tests\n";
 
@@ -28,9 +19,8 @@ void Remailer::preparations()
     {
         d_keepFiles = true;
         d_log.setLevel(LOGDEBUG);
+        d_gpg.debug();
     }
-    else
-        d_gpgOptions = "--quiet --batch";
 
     d_log << level(LOGDEBUG) << 
         "User: " << d_user.name() << " (" << d_user.userid() << ")\n";
@@ -52,8 +42,8 @@ void Remailer::preparations()
         rmQuotes(d_replyTo);
     }
     if (d_replyTo.empty())
-        d_log << level(LOGDEFAULT) << 
-            "Missing `replyTo' specification in config file\n" << FATAL;
+        throw LogException() << 
+                    "Missing `replyTo' specification in config file";
 
     d_sigRequired = 
         signatureRequired == "good"     ? GOOD_SIGNATURE :
@@ -64,5 +54,7 @@ void Remailer::preparations()
                         ACCEPTED
                     :
                         REJECTED;
-}
 
+    if (step("hdrs"))
+        d_mail.writeHeaders(d_hdrsName);
+}

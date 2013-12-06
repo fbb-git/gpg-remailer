@@ -2,10 +2,10 @@
 
 void Remailer::decrypt()
 {
-    if (!step("dec"))
+    if (not step("dec") || d_mailType == ENCRYPTED))
         return;
                             // decrypt the original file, write new files
                             // containing the decrypted info and the signature
-    gpg("--decrypt ",                   
-        d_orgName, d_decryptedName, d_signatureName);
+
+    d_gpg.decrypt(d_orgName, d_decryptedName, d_signatureName);
 }

@@ -1,6 +1,6 @@
-#include "remailer.ih"
+#include "mail.ih"
 
-void Remailer::filter(ostream &out)
+void Mail::filter(ostream &out)
 {
     string line;
 

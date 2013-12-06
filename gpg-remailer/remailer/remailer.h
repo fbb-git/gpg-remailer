@@ -8,6 +8,7 @@
 #include <bobcat/configfile>
 #include <bobcat/stat>
 #include <bobcat/log>
+#include <bobcat/mailheaders>
 
 #include "../enums/enums.h"
 
@@ -26,15 +27,16 @@ class Remailer: private Enums
 
     enum MailType
     {
+        UNKNOWN,                // at step-processing
         CLEAR,
         ENCRYPTED
     };
 
     enum SigType
     {
-        NO_SIGNATURE,           // no signature,
-        SIGNATURE_FOUND,        // signature required
-        GOOD_SIGNATURE          // signature required and OK
+        NO_SIGNATURE,           // no signature found
+        SIGNATURE_FOUND,        // signature found
+        GOOD_SIGNATURE          // good signature found
     };
 
     enum EncryptionEnum
@@ -42,12 +44,6 @@ class Remailer: private Enums
         SIMPLE,
         MULTIPART,
         MULTIPART_SIGNED
-    };
-
-    enum ExistingFile
-    {
-        DONT_UNLINK,
-        UNLINK,
     };
 
     struct IOContext
@@ -67,23 +63,25 @@ class Remailer: private Enums
     FBB::User d_user;
     FBB::Log  d_log;
 
+    Mail d_mail;
+    GPG  d_gpg;
+
     SigType d_sigRequired;
     ClearText d_clearText = REJECTED;    
-    MailType d_mailType = ENCRYPTED;
+    MailType d_mailType = UNKNOWN;
 
     std::string d_configName;
     std::string d_step;
     std::string d_replyTo;
     std::string d_boundary;
-    std::string d_subject;
-    std::string d_gpgOptions;
                                             
     std::string d_nr;                   // nr assigned to files
     std::string d_decryptedName;
     std::string d_errName;
     std::string d_mailName;
     std::string d_multipartSignedDataName;
-    std::string d_orgName;
+    std::string d_hdrsName;
+    std::string d_contentsName;
     std::string d_reencryptName;
     std::string d_reencryptedName;
     std::string d_signatureName;
@@ -126,16 +124,7 @@ class Remailer: private Enums
         void setLog();
         std::string configField(std::string const &field);
 
-                                    // use empty file names if a file isn't
-                                    // used.
-        void gpg(std::string command, std::string const &in,
-                    std::string const &out, std::string const &err);
-
         void setFilenames();
-        bool PGPmessage(std::ostream &out);
-        void filter(std::ostream &out);
-        void inspect(std::ostream &out, std::string const &line);
-        void hexChar(std::ostream &out, std::istream &in);
 
         void copyToBoundary(std::ostream &out, std::istream &in);
 
@@ -155,21 +144,28 @@ class Remailer: private Enums
         void setSuffixNr();
         bool step(char const *stepName);
 
-        std::string makeBoundary();
+        std::string makePGPBoundary();
         void writeMail(std::string const &boundary);
 
-        struct MailStruct
-        {
-            std::string boundary;
-            std::string const &mailName;
-            std::string const &subject;
-            std::string const &replyTo;
-            FBB::Log &log;
-            bool nomail;
-            bool clearMail;
-        };
-        static void sendMail(std::string const &recipient, 
-                                MailStruct const &mailStruct); 
+//        struct MailStruct
+//        {
+//            std::string boundary;
+//            std::string const &mailName;
+//            std::string const &subject;
+//            std::string const &replyTo;
+//            FBB::Log &log;
+//            bool nomail;
+//            bool clearMail;
+//        };
+
+        void sendMail(std::string const &recipient,
+                        std::string const &boundary);
+
+        std::string clearMailCommand(std::string const &recipient,
+                                   std::string const &subject);
+        std::string pgpMailCommand(std::string const &recipient, 
+                                   std::string const &subject,
+                                   std::string const &boundary);
 
         void rmQuotes(std::string &str) const;
 
