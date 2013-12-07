@@ -1,19 +1,17 @@
 #ifndef INCLUDED_IO_
 #define INCLUDED_IO_
 
+#include <iosfwd>
 
 class IO
 {
     public:
-        IO();
-
-        static std::ofstream &open(ofstream &out, string const &name, 
-                                    bool relax);
+        static std::ofstream &open(std::ofstream &out, 
+                                   std::string const &name, 
+                                   bool relax);
 
                                     // unlink if existing
         static void unlink(std::string const &name);
-
-    private:
 };
         
 #endif

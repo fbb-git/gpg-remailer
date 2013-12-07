@@ -15,7 +15,7 @@ ofstream &IO::open(ofstream &out, string const &name, bool relax)
     out.open(name, ios::ate);
 
     if (!out)
-        throw LogException << "Can't open (ios::ate) " << name;
+        throw LogException() << "Can't open (ios::ate) " << name;
 
     return out;
 }
