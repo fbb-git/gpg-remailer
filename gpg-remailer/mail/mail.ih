@@ -1,12 +1,17 @@
 #include "mail.h"
 
+#include <iostream>
 #include <iomanip>
-#include <sstream>
 #include <fstream>
 
+#include <bobcat/irandstream>
 #include <bobcat/exception>
 #include <bobcat/log>
-#include <bobcat/argconfig>
+#include <bobcat/level>
+#include <bobcat/string>
+
+#include "../io/io.h"
+#include "../spawn/spawn.h"
 
 using namespace std;
 using namespace FBB;

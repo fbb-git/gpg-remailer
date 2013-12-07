@@ -1,9 +1,9 @@
 #include "mail.ih"
 
-Mail::Mail(Log &log)
+Mail::Mail(Log &log, bool relax)
 :
-    d_arg(ArgConfig::instance()),
     d_log(log),
-    d_mailHeaders(cin)
+    d_headers(cin),
+    d_relax(relax)
 {
 }

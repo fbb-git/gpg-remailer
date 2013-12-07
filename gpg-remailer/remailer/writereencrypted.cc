@@ -11,7 +11,7 @@ void Remailer::writeReencrypted()
     for(auto &member: d_members)
         members += member + ' ';
 
-    d_gpg.encrypt(command, d_reencryptName, d_reencryptedName, d_errName);
+    d_gpg.encrypt(members, d_reencryptName, d_reencryptedName, d_errName);
 }
 
 

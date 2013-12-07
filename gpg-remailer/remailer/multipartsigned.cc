@@ -31,15 +31,12 @@ void Remailer::multipartSigned(IOContext &io)
     findBoundary(io);
 
     ostream null(0);
+
     copyToBoundary(null, io.decrypted);  // skip all headers
 
     copyToBoundary(d_multipartSignedDataName, io.decrypted);
 
-    ostringstream command;
-    command << "--verify " << 
-            d_decryptedName << " " << d_multipartSignedDataName;
-
-    gpg(command.str(), "", "", d_signatureName);
+    d_gpg.verify(d_decryptedName, d_multipartSignedDataName, d_signatureName);
 
     copySignature(io.toReencrypt, d_boundary);
 

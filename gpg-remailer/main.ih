@@ -2,7 +2,9 @@
 #include <string>
 
 #include <bobcat/argconfig>
+#include <bobcat/log>
 
+#include "logexception/logexception.h"
 #include "remailer/remailer.h"
 
 extern char version[];

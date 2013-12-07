@@ -38,8 +38,7 @@ void Remailer::preparations()
         d_replyTo = String::trim(*iter);
         d_replyTo = String::trim(
                         d_replyTo.substr(d_replyTo.find_first_of(" \t")));
-
-        rmQuotes(d_replyTo);
+        d_replyTo = String::escape(d_replyTo);
     }
     if (d_replyTo.empty())
         throw LogException() << 
@@ -49,12 +48,15 @@ void Remailer::preparations()
         signatureRequired == "good"     ? GOOD_SIGNATURE :
         signatureRequired == "required" ? SIGNATURE_FOUND :
                                           NO_SIGNATURE;
-
-    d_clearText =   configField("clear-text") == "accepted" ?
-                        ACCEPTED
-                    :
-                        REJECTED;
-
     if (step("hdrs"))
         d_mail.writeHeaders(d_hdrsName);
+
+    d_mail.setClearTextMode(
+                configField("clear-text") == "accepted" ?
+                        ACCEPTED
+                    :
+                        REJECTED
+    );
+
+
 }

@@ -5,7 +5,7 @@ void GPG::run(string command, string const &in, string const &out,
 {
     command = 
         "/usr/bin/gpg " + d_options + 
-        " --homedir " + homedir + ".gnupg " + command;
+        " --homedir " + d_homedir + ".gnupg " + command;
 
     d_log << level(LOGCOMMANDS) << command << 
             " < " << in <<

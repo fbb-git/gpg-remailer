@@ -8,9 +8,10 @@
 #include <bobcat/configfile>
 #include <bobcat/stat>
 #include <bobcat/log>
-#include <bobcat/mailheaders>
 
 #include "../enums/enums.h"
+#include "../mail/mail.h"
+#include "../gpg/gpg.h"
 
 namespace FBB
 {
@@ -19,19 +20,6 @@ namespace FBB
 
 class Remailer: private Enums
 {
-    enum ClearText
-    {
-        ACCEPTED,
-        REJECTED
-    };
-
-    enum MailType
-    {
-        UNKNOWN,                // at step-processing
-        CLEAR,
-        ENCRYPTED
-    };
-
     enum SigType
     {
         NO_SIGNATURE,           // no signature found
@@ -67,7 +55,6 @@ class Remailer: private Enums
     GPG  d_gpg;
 
     SigType d_sigRequired;
-    ClearText d_clearText = REJECTED;    
     MailType d_mailType = UNKNOWN;
 
     std::string d_configName;
@@ -99,7 +86,7 @@ class Remailer: private Enums
 
         void preparations();        // check permissions, set config-args
 
-        bool pgpMail();             // extracts the Subject.
+        void mailContents();        // extracts the Subject.
                                     // With PGP mail:
                                     // convert =20 etc. hex-specs in the
                                     // received mail to chars. 
@@ -116,6 +103,8 @@ class Remailer: private Enums
                                     // recipient(s). Correctly specifying the
                                     // Reply-To header is the responsibility 
                                     // of the user.
+
+        FBB::Log &log();            // log stream to use
 
     private:
         void multiField(std::vector<std::string> &dest, char const *keyWord,
@@ -144,34 +133,6 @@ class Remailer: private Enums
         void setSuffixNr();
         bool step(char const *stepName);
 
-        std::string makePGPBoundary();
-        void writeMail(std::string const &boundary);
-
-//        struct MailStruct
-//        {
-//            std::string boundary;
-//            std::string const &mailName;
-//            std::string const &subject;
-//            std::string const &replyTo;
-//            FBB::Log &log;
-//            bool nomail;
-//            bool clearMail;
-//        };
-
-        void sendMail(std::string const &recipient,
-                        std::string const &boundary);
-
-        std::string clearMailCommand(std::string const &recipient,
-                                   std::string const &subject);
-        std::string pgpMailCommand(std::string const &recipient, 
-                                   std::string const &subject,
-                                   std::string const &boundary);
-
-        void rmQuotes(std::string &str) const;
-
-        std::ofstream &open(std::ofstream &out, std::string const &name,
-                            ExistingFile action);
-
         void testPermissions(std::string const &path, size_t permissions = 
                 FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);
 
@@ -190,5 +151,10 @@ class Remailer: private Enums
 
         static void collect(std::ostream *dest, std::istream *in);
 };
+
+inline FBB::Log &Remailer::log()
+{
+    return d_log;
+}
 
 #endif

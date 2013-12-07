@@ -1,6 +1,5 @@
 #include "mail.ih"
 
-
 bool Mail::PGPmessage(ostream &out)
 {
     string line;

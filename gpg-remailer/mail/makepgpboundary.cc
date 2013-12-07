@@ -1,11 +1,8 @@
-#include "remailer.ih"
+#include "mail.ih"
 
-string Remailer::makePGPBoundary()
+string Mail::makePGPBoundary()
 {
     string boundary;
-
-    if (d_mailType != ENCRYPTED)
-        return boundary;
 
     IRandStream rs(' ' + 1, '~', time(0));
 

@@ -45,7 +45,7 @@ try
     catch (LogException const &err)
     {
         char const *msg = err.msg();
-        d_log << "[Fatal] " << msg << '\n';
+        remailer.log() << "[Fatal] " << msg << '\n';
 
         // ALL exceptions return 0 to prevent unexpected mailer errors in 
         // sendmail's logs.

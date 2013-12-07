@@ -10,6 +10,19 @@ struct Enums
         LOGCOMMANDS,
         LOGDEFAULT
     };
+
+    enum MailType
+    {
+        UNKNOWN,                // at step-processing
+        CLEAR,
+        ENCRYPTED
+    };
+
+    enum ClearText
+    {
+        ACCEPTED,
+        REJECTED
+    };
 };
         
 #endif

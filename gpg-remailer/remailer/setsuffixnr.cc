@@ -7,13 +7,13 @@ void Remailer::setSuffixNr()
     if (random)
     {
         IRandStream rs(1, 99999, time(0));
-        string name(d_orgName);
+        string name(d_contentsName);
         size_t value;
 
         do
         {
             rs >> value;
-            string name = d_orgName + to_string(value);
+            string name = d_contentsName + to_string(value);
         } 
         while (Stat(name));
         d_nr = to_string(value);

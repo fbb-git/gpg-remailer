@@ -3,14 +3,14 @@
 
 #include <string>
 
-#include <../enums/enums.h>
+#include "../enums/enums.h"
 
-namespace FBB: private Enums
+namespace FBB
 {
-    class Log
+    class Log;
 };
 
-class GPG
+class GPG: private Enums
 {
     FBB::Log &d_log;
     std::string d_homedir;
@@ -24,6 +24,10 @@ class GPG
         void decrypt(std::string const &in, 
                      std::string const &out, std::string const &err);
 
+        void verify(std::string const &detachedSig, 
+                    std::string const &signedMessage,
+                    std::string const &signatureOutput);
+
         void encrypt(std::string const &recipients, 
                      std::string const &in, 
                      std::string const &out, std::string const &err);
@@ -33,7 +37,7 @@ class GPG
                  std::string const &out, std::string const &err);
 };
         
-inlien GPG::debug()
+inline void GPG::debug()
 {
     d_options.clear();
 }
