@@ -2,7 +2,7 @@
 
 char const *LogException::msg() const
 {
-    char const *cp = what();
+    char const *cp = exception::what();
     if (d_stdErr)
         cerr << cp << '\n';
     return cp;

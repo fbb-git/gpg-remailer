@@ -6,13 +6,14 @@
     // Any fatal situations that should be logged. If stdErr == true the
     // message is first written to cerr. Logging is the responsibility of the
     // catch handler, catching a LogException.
-struct LogException: public FBB:Exception
+class LogException: public FBB::Exception
 {
     bool d_stdErr;
 
-    LogException(bool stdErr = false);
-
-    public char const *msg();
+    public:
+        LogException(bool stdErr = false);
+    
+        char const *msg() const;
 };
         
 inline LogException::LogException(bool stdErr)
@@ -21,3 +22,6 @@ inline LogException::LogException(bool stdErr)
 {}
 
 #endif
+
+
+
