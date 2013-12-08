@@ -4,12 +4,12 @@ CWD=`pwd`
 
 if [ $# == 0 ] ; then
     echo first argument must be the file to test, in $CWD
-    echo For this, use a pgp signed and encripted e-mail file.
+    echo For this, use a pgp signed and encripted e-mail file, or a plain
+    echo non-encrypted mail
     echo The second arg is optional and is the part to run: 
-    echo org, dec, doc, enc. 
-    echo Temporary files are in ~/tmp
-    echo Mail is not sent
-    exit 1
+    echo hdrs, org, dec, doc, enc, clearmail[:recipient], pgpmail[:recipient]. 
+    echo Temporary files are in /tmp, having extensions .1
+    exit 0
 fi
 
 if [ $# == 2 ] ; then
@@ -21,7 +21,13 @@ DEBG=-d
 REMAILER=tmp/bin/binary
 # REMAILER=/usr/bin/gpg-remailer
 
-${REMAILER} --relax $DEBG -r frank -m a.pothaar -m f.b.brokken \
-	    -l /tmp/remailer.log \
-	    -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
+${REMAILER} --relax $DEBG -t /tmp -r frank -m a.pothaar -m f.b.brokken \
+            -l /tmp/remailer.log \
+            -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
+
+
+
+
+
+
 

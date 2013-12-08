@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <cstring>
 
 #include <bobcat/irandstream>
 #include <bobcat/exception>

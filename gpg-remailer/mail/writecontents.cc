@@ -2,7 +2,7 @@
 
 Enums::MailType Mail::writeContents(std::string const &contentsName)
 {
-    d_log << level(LOGDEBUG) << "Original mail contents in " << 
+    d_log << level(LOGDEBUG) << "Original mail contents to " << 
                                 contentsName << '\n';
     ofstream out;
 

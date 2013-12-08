@@ -16,7 +16,7 @@
 keepfiles: 1
 
 # tmp: location tmp dir (absolute or relative to $HOME)
-# tmp: tmp 
+#tmp: tmp 
 
 # The Reply-To header (one line, no (double) quotes)
 #replyTo:    Fill in your reply-to <somebody@somewhere.org>

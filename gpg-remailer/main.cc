@@ -16,6 +16,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("recipient", 'r'),
         Arg::LongOption("relax"),
         Arg::LongOption("step", Arg::Required),
+        Arg::LongOption("tmp", 't'),
         Arg::LongOption("version", 'v'),
     };
 
@@ -27,7 +28,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    Arg::initialize("dhL:l:m:n:r:v", longOptions, longEnd, 
+    Arg::initialize("dhL:l:m:n:r:t:v", longOptions, longEnd, 
                     argc, argv).versionHelp(usage, version, 0);
 
     Remailer remailer;

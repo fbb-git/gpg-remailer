@@ -2,12 +2,15 @@
 
 void Remailer::setFilenames()
 {
-    string prefix = configField("tmp");
+    string prefix;
+
+    if (not d_arg.option(&prefix, 't'))
+        prefix = configField("tmp");
 
     if (prefix.empty())
         prefix = "tmp/";
 
-    if (*prefix.rbegin() != '/')          // make sure / is appended
+    if (prefix.back() != '/')               // make sure / is appended
         prefix += '/';
 
     testPermissions(prefix);

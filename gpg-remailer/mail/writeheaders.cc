@@ -7,4 +7,6 @@ void Mail::writeHeaders(std::string const &hdrsName)
 
     for (auto &hdr: d_headers)
         out << hdr << '\n';
+
+    d_log << level(LOGDEBUG) << "Headers written to " << hdrsName << '\n';
 }

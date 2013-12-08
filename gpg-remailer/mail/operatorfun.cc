@@ -18,9 +18,18 @@ void Mail::operator()(MailType type,
 
     vector<string> oneRecipient;
 
+    d_log << level(LOGDEBUG) << "Mail to send written to " << 
+                                mailName << '\n';
+
     (this->*(type == CLEAR ? &Mail::clearTextMail : &Mail::pgpMail))(
         contents,
         setRecipients(step, oneRecipient, configuredRecipients)
     );
+
+//    MailProcessor &mailProcessor = 
+//        type == CLEAR ? ClearTextMail(d_log, d_headers, mailName,
+//        &Mail::clearTextMail : &Mail::pgpMail))( 
 }
+
+
 

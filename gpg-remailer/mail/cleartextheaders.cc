@@ -4,12 +4,12 @@ string Mail::clearTextHeaders()
 {
     string mime = getHeader("MIME-Version");
 
-    d_headers.setHeaderIterator("Content-", MailHeaders::INITIAL);
-
     string contentHdr;
 
     if (not mime.empty())
         contentHdr = R"(-a ")" + String::escape(mime) + '"';
+
+    d_headers.setHeaderIterator("Content-", MailHeaders::CASE_INITIAL);
 
     for 
     (
@@ -19,10 +19,12 @@ string Mail::clearTextHeaders()
     )
     {
         string header(*begin);
+        char const *headerCp = header.c_str();
+
         if (
-            header.find("Content-Type") == 0 
+            strcasestr(headerCp, "Content-Type") == headerCp
             ||
-            header.find("Content-Disposition") == 0
+            strcasestr(headerCp, "Content-Disposition") == headerCp
         )
         {
             while (true)
