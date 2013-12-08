@@ -4,7 +4,7 @@
 
 void Remailer::fileToReencrypt()
 {
-    if (not (step("doc") || d_mailType == ENCRYPTED))
+    if (not (d_mailType == ENCRYPTED || step("doc")))
         return;
 
     IOContext io;

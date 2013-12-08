@@ -39,8 +39,8 @@ try
         remailer.mailContents();    // writes .org + sets mailtype
     
         remailer.decrypt();         // decrypts at step dec or mailtype ENCR.
-        remailer.reencrypt();       // reencrypts at step enc or ^^idem^^
 
+        remailer.reencrypt();       // reencrypts at step enc or ^^idem^^
         remailer.mail();
     }
     catch (LogException const &err)

@@ -3,7 +3,7 @@
 bool Remailer::step(char const *stepName)
 {
     if (d_step.length() == 0)
-        return true;
+        return false;
 
     if (d_step.substr(0, d_step.find(':')) == stepName)
     {
