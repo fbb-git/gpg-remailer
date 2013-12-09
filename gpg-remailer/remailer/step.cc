@@ -1,11 +1,18 @@
 #include "remailer.ih"
 
-bool Remailer::step(char const *stepName)
+bool Remailer::step(string const &stepName)
 {
-    if (d_step.length() == 0)
-        return false;
+    MailType requiredType = find_if(s_step, s_stepEnd,  // find the info 
+        [&](StepStruct const &stepStruct)               // matching the step
+        {
+            return stepName.find(stepStruct.stepName) == 0;
+        }
+    )->requiredType;
 
-    if (d_step.substr(0, d_step.find(':')) == stepName)
+    if (d_step.empty())                         // exec. all steps by default
+        return d_mailType == requiredType;      // but only if types match
+
+    if (d_step.find(stepName) == 0)             // explicit step requested
     {
         d_log << level(LOGDEFAULT) << "Step " << d_step << " request\n";
         return true;

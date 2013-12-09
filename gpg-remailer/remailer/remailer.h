@@ -41,6 +41,12 @@ class Remailer: private Enums
         std::string   line;
     };
 
+    struct StepStruct
+    {
+        std::string stepName;
+        MailType    requiredType;
+    };
+
     FBB::Arg &d_arg;
 
     bool d_keepFiles;
@@ -77,6 +83,8 @@ class Remailer: private Enums
     std::vector<std::string> d_recipients;
 
     static void (Remailer::*s_reEncrypt[])(IOContext &);
+    static StepStruct s_step[];
+    static StepStruct *s_stepEnd;
     
     public:
         Remailer();
@@ -131,7 +139,7 @@ class Remailer: private Enums
         void fileToReencrypt();
         void writeReencrypted();
         void setSuffixNr();
-        bool step(char const *stepName);
+        bool step(std::string const &stepName);
 
         void testPermissions(std::string const &path, size_t permissions = 
                 FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);

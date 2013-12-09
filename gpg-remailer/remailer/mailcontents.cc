@@ -2,7 +2,7 @@
 
 void Remailer::mailContents()
 {
-    if (not (step("org") || d_step.empty()))
+    if (not step("org"))
         return;
                                         // explicit steps may be used to 
                                         // process a particular type of mail,

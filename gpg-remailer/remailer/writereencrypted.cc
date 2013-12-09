@@ -3,7 +3,7 @@
         // writes reencrypted.x and err.x (should be empty)
 void Remailer::writeReencrypted()
 {
-    if (not (d_mailType == ENCRYPTED || step("enc")))
+    if (not step("enc"))
         return;
 
     string members;

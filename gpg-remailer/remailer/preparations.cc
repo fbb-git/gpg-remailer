@@ -48,7 +48,7 @@ void Remailer::preparations()
         signatureRequired == "good"     ? GOOD_SIGNATURE :
         signatureRequired == "required" ? SIGNATURE_FOUND :
                                           NO_SIGNATURE;
-    if (step("hdrs") || d_step.empty())
+    if (step("hdrs"))
         d_mail.writeHeaders(d_hdrsName);
 
     d_mail.setClearTextMode(
