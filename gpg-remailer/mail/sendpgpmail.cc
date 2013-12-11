@@ -2,9 +2,9 @@
 
 void Mail::sendPGPmail(string const &recipient, string const &boundary)
 {
-    sendMail(
-        pgpMailCommand(recipient, boundary), "Reencrypted mail", recipient
-    );
+//    sendMail(
+//        pgpMailCommand(recipient, boundary), "Reencrypted mail", recipient
+//    );
 }
 
 

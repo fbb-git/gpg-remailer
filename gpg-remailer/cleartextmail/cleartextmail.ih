@@ -1,6 +1,10 @@
 #include "cleartextmail.h"
 
+#include <fstream>
+
 #include <bobcat/exception>
+
+#include "../headers/headers.h"
 
 using namespace std;
 using namespace FBB;

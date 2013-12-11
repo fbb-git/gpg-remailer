@@ -3,6 +3,7 @@ mail
 io
 gpg
 cleartextmail
+mailer
 headers
 spawn
 logexception

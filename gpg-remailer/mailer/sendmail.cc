@@ -1,11 +1,11 @@
 #include "mailer.ih"
 
 void Mailer::sendMail(string const &command, string const &label, 
-                    string const &recipient, string const &subject) 
+                      string const &recipient, bool dontSend) 
 {
     d_log << level(LOGCOMMANDS) << command << '\n';
 
-    if (d_dontSend)
+    if (dontSend)
     {
         d_log << level(LOGDEBUG) << 
                  "Sending mail suppressed by config/option\n";

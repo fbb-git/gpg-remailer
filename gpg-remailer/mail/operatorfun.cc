@@ -1,31 +1,20 @@
 #include "mail.ih"
 
 void Mail::operator()(MailType type, 
-                      string const &contents,
-//                      string const &mailName,
-//                      string const &replyTo,
-//                      string const &step,
-//                      vector<string> const &configuredRecipients,
+                      string const &mailData,
                       bool dontSend)
 {
-    if (type == CLEAR)
-    {
-        PGPMail pgpMail(....);
-        send(pgpMail);
-    }
+//    if (type == ENCRYPTED)
+//    {
+//        PGPMail pgpMail(....);
+//        send(pgpMail);
+//    }
 //    else
 //    {
-//        ClearTextMail clearTextMail(d_headers, d_mailName);
-//        send(clearTextMail)
+        ClearTextMail clearTextMail(d_log, d_headers, d_mailName, d_replyTo,
+                                    d_step);
+        clearTextMail.send(mailData, d_recipients, dontSend);
 //    }
-
-//
-//    
-//
-//    (this->*(type == CLEAR ? &Mail::clearTextMail : &Mail::pgpMail))(
-//        contents,
-//        setRecipients(step, oneRecipient, configuredRecipients)
-//    );
 }
 
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include <bobcat/mailheaders>
+#include "../headers/headers.h"
 #include "../enums/enums.h"
 
 namespace FBB
@@ -15,25 +15,25 @@ namespace FBB
 class Mail: private Enums
 {
     FBB::Log  &d_log;
-    MailHeaders d_headers;
-    bool d_relax;
+    Headers d_headers;
+    std::string const &d_mailName;
+    std::string const &d_replyTo;
+    std::string const &d_step;
+
     bool d_clearTextAccepted = false;
 
     std::string d_subject;
-    std::string const *d_mailNamePtr;
-    std::string const *d_replyToPtr;
     bool d_dontSend = true;
+    std::vector<std::string> const &d_recipients;
 
     public:
-        Mail(FBB::Log &log, bool relax);
+        Mail(FBB::Log &log, std::string const &mailName,
+                std::string const &replyTo, std::string const &step,
+                std::vector<std::string> const &recipients);
         void writeHeaders(std::string const &hdrsName);
         MailType writeContents(std::string const &hdrsName);
         void operator()(MailType type, 
-                        std::string const &contents,
-                        std::string const &mailName,
-                        std::string const &replyTo,
-                        std::string const &step,
-                        std::vector<std::string> const &recipients,
+                        std::string const &mailData,
                         bool dontSend);
 
         void setClearTextMode(ClearText mode);
@@ -44,27 +44,6 @@ class Mail: private Enums
         void inspect(std::ostream &out, std::string const &line);
         void hexChar(std::ostream &out, std::istream &in);
 
-        std::vector<std::string> const &setRecipients(
-                        std::string step, 
-                        std::vector<std::string> &oneRecipient,
-                        std::vector<std::string> const &configuredRecipients
-        );
-
-//        void sendMail(
-//                        std::string const &command, 
-//                        std::string const &label, 
-//                        std::string const &recipient
-//        );
-//
-//        std::string clearTextHeaders();
-//        std::string clearTextMailCommand(std::string const &recipient);
-//        void sendClearTextMail( 
-//                        std::string const &recipient
-//        );
-//        void clearTextMail(
-//                        std::string const &org,
-//                        std::vector<std::string> const &recipients
-//        );
 
         std::string makePGPBoundary();
         void writePGPmail(

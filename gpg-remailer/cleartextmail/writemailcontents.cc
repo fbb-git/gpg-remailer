@@ -1,13 +1,12 @@
 #include "cleartextmail.ih"
 
-void ClearTextMail::writeMailContents(std::string const &destination)
+void ClearTextMail::writeMailContents(std::string const &mailData) const
 {
     ifstream in;
-    Exception::open(in, d_mailSource);
+    Exception::open(in, mailData);
 
     ofstream out;
-    Exception::open(out, destination);
+    Exception::open(out, d_mailName);
 
     out << in.rdbuf();
-    out.close();
 }

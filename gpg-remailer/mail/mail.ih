@@ -13,6 +13,7 @@
 
 #include "../io/io.h"
 #include "../spawn/spawn.h"
+#include "../cleartextmail/cleartextmail.h"
 
 using namespace std;
 using namespace FBB;

@@ -1,30 +1,69 @@
 #ifndef INCLUDED_MAILER_
 #define INCLUDED_MAILER_
 
+#include <string>
+#include <vector>
 
-class Mailer
+#include "../enums/enums.h"
+#include "../headers/headers.h"
+
+namespace FBB
+{
+    class Log;
+}
+
+class Mailer: private Enums
 {
     FBB::Log &d_log;
-    bool d_dontSend;
+    Headers &d_headers;
     std::string const &d_mailName;
+    std::string const &d_replyTo;
+    std::string const &d_step;
+    std::string d_subject;
 
     public:
-        Mailer(FBB::Log &log, std::string const &mailName, bool dontSend);
+        Mailer(FBB::Log &log, Headers &headers, 
+               std::string const &mailName, std::string const &replyTo,
+               std::string const &step);
 
-        void send(std::string contents, 
-                  std::vector<std::string> const &recipients);
+        void send(std::string const &mailData, 
+                    std::vector<std::string> const &recipients,
+                    bool dontSend);
 
+    protected:
+        std::string const &subject() const;
+        std::string const &replyTo() const;
+        
     private:
         void sendMail(std::string const &command, std::string const &label, 
-                      std::string const &recipient);
+                      std::string const &recipient, bool dontSend);
 
-        virtual void writeMailContents(std::string const &destination) 
-                                                            const = 0;
+        std::vector<std::string> const &setRecipients(
+                        std::vector<std::string> &oneRecipient,
+                        std::vector<std::string> const &configuredRecipients
+        );
 
-        virtual std::string const &mailCommand(std::string const &recipients) 
+        virtual void writeMailContents(std::string const &mailData) const = 0;
+
+        virtual std::string mailCommand(std::string const &recipients) 
                                                             const = 0; 
-
-        virtual std::string const &label() const = 0;
+        virtual std::string label() const = 0;
 };
         
+inline std::string const &Mailer::subject() const
+{
+    return d_subject;
+}
+
+inline std::string const &Mailer::replyTo() const
+{
+    return d_replyTo;
+}
+
 #endif
+
+
+
+
+
+

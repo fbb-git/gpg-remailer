@@ -1,20 +1,32 @@
 #ifndef INCLUDED_CLEARTEXTMAIL_
 #define INCLUDED_CLEARTEXTMAIL_
 
-#include <iosfwd>
-
-class ClearTextMail
+namespace FBB
 {
-    std::string const &d_mailSource;
-    MailHeaders &d_headers;
+    class Log;
+}
+
+#include "../mailer/mailer.h"
+
+class ClearTextMail: public Mailer
+{
+    Headers &d_headers;
+    std::string const &d_mailName;
 
     public:
-        ClearTextMail(Headers &headers, std::string const &mailSource);
+        ClearTextMail(FBB::Log &log, Headers &headers, 
+                        std::string const &mailName,
+                        std::string const &replyTo,
+                        std::string const &step
+        );
 
     private:
-        std::string headers();
+        std::string headers() const;
 
-        void writeMailContents(std::string const &destination) override;
+        std::string label() const override;
+        std::string mailCommand(std::string const &recipient) const override;
+        void writeMailContents(std::string const &mailData) const override;
 };
         
 #endif
+

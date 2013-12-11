@@ -1,9 +1,9 @@
 #include "cleartextmail.ih"
 
-string ClearTextMail::mailCommand(string const &recipient)
+string ClearTextMail::mailCommand(string const &recipient) const
 {
     return
         "/usr/bin/mail -s '" + subject() + "' "
-                "-a \"Reply-To: " + d_replyTo + "\" " +
+                "-a \"Reply-To: " + replyTo() + "\" " +
                 headers() + " " + recipient;
 }

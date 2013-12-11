@@ -1,6 +1,6 @@
 #include "cleartextmail.ih"
 
-string ClearTextMail::headers()
+string ClearTextMail::headers() const
 {
     string mime = d_headers.getHeader("MIME-Version");
 

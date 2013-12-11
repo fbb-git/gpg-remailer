@@ -1,13 +1,18 @@
 #include "mailer.ih"
 
-void Mailer::send(std::string contents, 
-                  std::vector<std::string> const &recipients,
-                  string subject)
+void Mailer::send(std::string const &mailData, 
+                    vector<string> const &configuredRecipients, 
+                    bool dontSend)
 {
-    writeMailContents(d_mailName);
+    writeMailContents(mailData);
 
-    string const &logLabel = label();
+    vector<string> oneRecipient;
+
+    vector<string> const &recipients = 
+                setRecipients(oneRecipient, configuredRecipients);
+
+    string logLabel = label();
 
     for (auto &recipient: recipients)
-        sendMail(mailCommand(recipient), logLabel, recipient, subject);
+        sendMail(mailCommand(recipient), logLabel, recipient, dontSend);
 }
