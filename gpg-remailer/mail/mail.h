@@ -15,7 +15,7 @@ namespace FBB
 class Mail: private Enums
 {
     FBB::Log  &d_log;
-    FBB::MailHeaders d_headers;
+    MailHeaders d_headers;
     bool d_relax;
     bool d_clearTextAccepted = false;
 
@@ -44,30 +44,27 @@ class Mail: private Enums
         void inspect(std::ostream &out, std::string const &line);
         void hexChar(std::ostream &out, std::istream &in);
 
-        FBB::MailHeaders::const_hdr_iterator mailHeader(char const *hdr);
-        std::string getHeader(char const *hdr);
-
         std::vector<std::string> const &setRecipients(
                         std::string step, 
                         std::vector<std::string> &oneRecipient,
                         std::vector<std::string> const &configuredRecipients
         );
 
-        void sendMail(
-                        std::string const &command, 
-                        std::string const &label, 
-                        std::string const &recipient
-        );
-
-        std::string clearTextHeaders();
-        std::string clearTextMailCommand(std::string const &recipient);
-        void sendClearTextMail( 
-                        std::string const &recipient
-        );
-        void clearTextMail(
-                        std::string const &org,
-                        std::vector<std::string> const &recipients
-        );
+//        void sendMail(
+//                        std::string const &command, 
+//                        std::string const &label, 
+//                        std::string const &recipient
+//        );
+//
+//        std::string clearTextHeaders();
+//        std::string clearTextMailCommand(std::string const &recipient);
+//        void sendClearTextMail( 
+//                        std::string const &recipient
+//        );
+//        void clearTextMail(
+//                        std::string const &org,
+//                        std::vector<std::string> const &recipients
+//        );
 
         std::string makePGPBoundary();
         void writePGPmail(

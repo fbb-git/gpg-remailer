@@ -1,0 +1,4 @@
+#include "gpgmail.h"
+
+using namespace std;
+

@@ -2,5 +2,7 @@ remailer
 mail
 io
 gpg
+cleartextmail
+headers
 spawn
 logexception

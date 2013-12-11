@@ -57,9 +57,6 @@ class Remailer: private Enums
     FBB::User d_user;
     FBB::Log  d_log;
 
-    Mail d_mail;
-    GPG  d_gpg;
-
     SigType d_sigRequired;
     MailType d_mailType = UNKNOWN;
 
@@ -85,6 +82,9 @@ class Remailer: private Enums
     static void (Remailer::*s_reEncrypt[])(IOContext &);
     static StepStruct s_step[];
     static StepStruct *s_stepEnd;
+
+    Mail d_mail;
+    GPG  d_gpg;
     
     public:
         Remailer();
