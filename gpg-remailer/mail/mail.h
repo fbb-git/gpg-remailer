@@ -25,16 +25,17 @@ class Mail: private Enums
     std::string d_subject;
     bool d_dontSend = true;
     std::vector<std::string> const &d_recipients;
+    bool d_relax;
 
     public:
         Mail(FBB::Log &log, std::string const &mailName,
                 std::string const &replyTo, std::string const &step,
-                std::vector<std::string> const &recipients);
+                std::vector<std::string> const &recipients, bool relax);
         void writeHeaders(std::string const &hdrsName);
         MailType writeContents(std::string const &hdrsName);
         void operator()(MailType type, 
                         std::string const &mailData,
-                        bool dontSend, bool relax);
+                        bool dontSend);
 
         void setClearTextMode(ClearText mode);
 

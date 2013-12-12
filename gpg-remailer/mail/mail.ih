@@ -2,13 +2,10 @@
 
 #include <iostream>
 #include <iomanip>
-//#include <fstream>
-//#include <cstring>
 
 #include <bobcat/exception>
 #include <bobcat/log>
 #include <bobcat/level>
-//#include <bobcat/string>
 
 #include "../io/io.h"
 #include "../spawn/spawn.h"
