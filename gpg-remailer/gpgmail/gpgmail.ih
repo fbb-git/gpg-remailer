@@ -1,4 +1,13 @@
 #include "gpgmail.h"
 
+#include <fstream>
+#include <ctime>
+#include <cctype>
+
+#include <bobcat/irandstream>
+#include <bobcat/exception>
+#include <bobcat/log>
+#include <bobcat/level>
+
 using namespace std;
 

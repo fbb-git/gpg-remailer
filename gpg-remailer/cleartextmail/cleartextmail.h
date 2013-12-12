@@ -8,6 +8,8 @@ namespace FBB
 
 #include "../mailer/mailer.h"
 
+class Headers;
+
 class ClearTextMail: public Mailer
 {
     Headers &d_headers;
@@ -29,4 +31,5 @@ class ClearTextMail: public Mailer
 };
         
 #endif
+
 

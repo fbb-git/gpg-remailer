@@ -4,17 +4,20 @@ void Mail::operator()(MailType type,
                       string const &mailData,
                       bool dontSend)
 {
-//    if (type == ENCRYPTED)
-//    {
-//        PGPMail pgpMail(....);
-//        send(pgpMail);
-//    }
-//    else
-//    {
+    d_log << level(LOGDEBUG) << "Mail to send is written to " << 
+                                d_mailName << '\n';
+
+    if (type == ENCRYPTED)
+    {
+        PGPMail pgpMail(d_log, d_mailName, d_relax);
+        pgpMail.send(mailData, d_recipients, dontSend);
+    }
+    else
+    {
         ClearTextMail clearTextMail(d_log, d_headers, d_mailName, d_replyTo,
                                     d_step);
         clearTextMail.send(mailData, d_recipients, dontSend);
-//    }
+    }
 }
 
 

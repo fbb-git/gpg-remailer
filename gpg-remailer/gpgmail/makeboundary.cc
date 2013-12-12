@@ -1,6 +1,6 @@
 #include "mail.ih"
 
-string Mail::makePGPBoundary()
+string Mail::makeBoundary()
 {
     string boundary;
 

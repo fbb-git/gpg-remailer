@@ -43,25 +43,6 @@ class Mail: private Enums
         void filter(std::ostream &out);
         void inspect(std::ostream &out, std::string const &line);
         void hexChar(std::ostream &out, std::istream &in);
-
-
-        std::string makePGPBoundary();
-        void writePGPmail(
-                        std::string const &reencrypted,
-                        std::string const &boundary
-        );
-        std::string pgpMailCommand(
-                        std::string const &recipient, 
-                        std::string const &boundary
-        );
-        void sendPGPmail(
-                        std::string const &recipient,
-                        std::string const &boundary
-        );
-        void pgpMail(
-                        std::string const &reencrypted,
-                        std::vector<std::string> const &recipients
-        );
 };
 
 inline void Mail::setClearTextMode(ClearText mode)
