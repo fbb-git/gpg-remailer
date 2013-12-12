@@ -34,7 +34,7 @@ class Mail: private Enums
         MailType writeContents(std::string const &hdrsName);
         void operator()(MailType type, 
                         std::string const &mailData,
-                        bool dontSend);
+                        bool dontSend, bool relax);
 
         void setClearTextMode(ClearText mode);
 

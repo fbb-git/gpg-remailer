@@ -2,15 +2,15 @@
 
 void Mail::operator()(MailType type, 
                       string const &mailData,
-                      bool dontSend)
+                      bool dontSend, bool relax)
 {
     d_log << level(LOGDEBUG) << "Mail to send is written to " << 
                                 d_mailName << '\n';
 
     if (type == ENCRYPTED)
     {
-        PGPMail pgpMail(d_log, d_mailName, d_relax);
-        pgpMail.send(mailData, d_recipients, dontSend);
+        GPGMail gpgMail(d_log, d_headers, d_mailName, d_replyTo, d_step, relax);
+        gpgMail.send(mailData, d_recipients, dontSend);
     }
     else
     {

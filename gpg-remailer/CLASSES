@@ -2,6 +2,7 @@ remailer
 mail
 io
 gpg
+gpgmail
 cleartextmail
 mailer
 headers

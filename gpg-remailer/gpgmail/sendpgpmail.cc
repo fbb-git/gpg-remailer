@@ -1,11 +1,11 @@
-#include "mail.ih"
+//#include "mail.ih"
 
-void Mail::sendPGPmail(string const &recipient, string const &boundary)
-{
+//void Mail::sendPGPmail(string const &recipient, string const &boundary)
+//{
 //    sendMail(
 //        pgpMailCommand(recipient, boundary), "Reencrypted mail", recipient
 //    );
-}
+//}
 
 
 

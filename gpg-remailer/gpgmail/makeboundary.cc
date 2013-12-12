@@ -1,6 +1,6 @@
-#include "mail.ih"
+#include "gpgmail.ih"
 
-string Mail::makeBoundary()
+string GPGMail::makeBoundary()
 {
     string boundary;
 

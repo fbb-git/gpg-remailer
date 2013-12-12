@@ -14,6 +14,7 @@ class ClearTextMail: public Mailer
 {
     Headers &d_headers;
     std::string const &d_mailName;
+    std::string const &d_replyTo;
 
     public:
         ClearTextMail(FBB::Log &log, Headers &headers, 

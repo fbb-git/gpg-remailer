@@ -5,8 +5,9 @@ ClearTextMail::ClearTextMail(Log &log, Headers &headers,
                         string const &replyTo,
                         string const &step)
 :
-    Mailer(log, headers, mailName, replyTo, step),
+    Mailer(log, headers, mailName, step),
     d_headers(headers),
-    d_mailName(mailName)
+    d_mailName(mailName),
+    d_replyTo(replyTo)
 {
 }

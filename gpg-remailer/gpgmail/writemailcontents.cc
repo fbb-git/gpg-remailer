@@ -1,6 +1,6 @@
-#include "mail.ih"
+#include "gpgmail.ih"
 
-void Mail::writeMailContents(string const &mailData)
+void GPGMail::writeMailContents(string const &mailData) const
 {
     ifstream in;
     Exception::open(in, mailData);

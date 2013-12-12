@@ -1,7 +1,7 @@
 #include "mail.h"
 
-//#include <iostream>
-//#include <iomanip>
+#include <iostream>
+#include <iomanip>
 //#include <fstream>
 //#include <cstring>
 

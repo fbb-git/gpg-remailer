@@ -4,10 +4,14 @@
 #include <ctime>
 #include <cctype>
 
+#include <bobcat/exception>
 #include <bobcat/irandstream>
 #include <bobcat/exception>
 #include <bobcat/log>
 #include <bobcat/level>
 
+#include "../io/io.h"
+
 using namespace std;
+using namespace FBB;
 

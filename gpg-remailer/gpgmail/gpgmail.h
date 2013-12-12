@@ -15,6 +15,7 @@ class Headers;
 class GPGMail: public Mailer
 {
     std::string const &d_mailName;
+    std::string const &d_replyTo;
     bool d_relax;
     std::string d_boundary;
 
@@ -26,18 +27,14 @@ class GPGMail: public Mailer
     private:
         static std::string makeBoundary();
 
-        std::string pgpMailCommand(
-                        std::string const &recipient, 
-                        std::string const &boundary
-        );
-        void sendPGPmail(
-                        std::string const &recipient,
-                        std::string const &boundary
-        );
-        void pgpMail(
-                        std::string const &reencrypted,
-                        std::vector<std::string> const &recipients
-        );
+//        void sendPGPmail(
+//                        std::string const &recipient,
+//                        std::string const &boundary
+//        );
+//        void pgpMail(
+//                        std::string const &reencrypted,
+//                        std::vector<std::string> const &recipients
+//        );
 
         virtual void writeMailContents(std::string const &mailData) const;
         virtual std::string mailCommand(std::string const &recipients) const;

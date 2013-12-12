@@ -1,13 +1,11 @@
 #include "mailer.ih"
 
 Mailer::Mailer(Log &log, Headers &headers, 
-                string const &mailName, string const &replyTo,
-                string const &step)
+               string const &mailName, string const &step)
 :
     d_log(log),
     d_headers(headers),
     d_mailName(mailName),
-    d_replyTo(replyTo),
     d_step(step),
     d_subject(d_headers.getHeader("Subject"))
 {

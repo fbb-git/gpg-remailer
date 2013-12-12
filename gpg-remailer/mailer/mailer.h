@@ -17,13 +17,12 @@ class Mailer: private Enums
     FBB::Log &d_log;
     Headers &d_headers;
     std::string const &d_mailName;
-    std::string const &d_replyTo;
     std::string const &d_step;
     std::string d_subject;
 
     public:
         Mailer(FBB::Log &log, Headers &headers, 
-               std::string const &mailName, std::string const &replyTo,
+               std::string const &mailName,
                std::string const &step);
 
         void send(std::string const &mailData, 
@@ -32,7 +31,6 @@ class Mailer: private Enums
 
     protected:
         std::string const &subject() const;
-        std::string const &replyTo() const;
         
     private:
         void sendMail(std::string const &command, std::string const &label, 
@@ -53,11 +51,6 @@ class Mailer: private Enums
 inline std::string const &Mailer::subject() const
 {
     return d_subject;
-}
-
-inline std::string const &Mailer::replyTo() const
-{
-    return d_replyTo;
 }
 
 #endif
