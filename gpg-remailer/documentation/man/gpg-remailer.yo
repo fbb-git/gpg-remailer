@@ -336,6 +336,16 @@ to the log-file (see below). Command line options: tt(--debug, -d). When this
 option is specified the files written by gpg-remailer will not be removed when
 gpg-remailer terminates.
 
+    it() bf(clear-text:) tt(e-mail address) nl()
+        Multiple recipients may be specified. Recipients should be specified
+as a plain e-mail address (e.g., tt(destination@some.host.org)). The
+re-encrypted mail is sent to each recipient in turn.
+
+    it() bf(envelope:) tt(e-mail address) nl()
+        Multiple recipients may be specified. Recipients should be specified
+as a plain e-mail address (e.g., tt(destination@some.host.org)). The
+re-encrypted mail is sent to each recipient in turn.
+
     it() bf(keepFiles:) tt(nr) nl()
         When a number is specified all files written by gpg-remailer use the
 specified number and are not removed when gpg-remailer terminates. When this

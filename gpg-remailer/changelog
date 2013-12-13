@@ -3,6 +3,10 @@ gpg-remailer (3.00.00)
   * The remailer can be configured to accept clear-text messages, in addition
     to GPG/PGP encrypted messages.
 
+  * Added configuration file options `clear-text' ((dis)allowing clear-text
+    mail) and `envelope' (specifying from which envelope addresses clear-text
+    mail is accepted)
+
   * Long encrypted messages broke the remailer. Repaired by simplifying child
     process handling in a separate class `Spawn'.
 
