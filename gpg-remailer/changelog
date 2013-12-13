@@ -1,4 +1,7 @@
-gpg-remailer (2.57.00)
+gpg-remailer (3.00.00)
+
+  * The remailer can be configured to accept clear-text messages, in addition
+    to GPG/PGP encrypted messages.
 
   * Long encrypted messages broke the remailer. Repaired by simplifying child
     process handling in a separate class `Spawn'.
@@ -6,7 +9,7 @@ gpg-remailer (2.57.00)
   * Added additional comment to various remailer/ source files, and to
     remailer/remailer.h 
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 03 Dec 2013 11:32:14 +0100
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 13 Dec 2013 10:10:59 +0100
 
 gpg-remailer (2.56.00)
 

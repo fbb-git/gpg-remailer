@@ -106,6 +106,8 @@ class Remailer: private Enums
 
         void reencrypt();           // writes reencrypted.x and maybe 
                                     //        multipartsigned.x
+                                    // checks signatures at fileToReencrypt ->
+                                    // copySignature
 
         void mail();                // mails the re-encrypted file to the
                                     // recipient(s). Correctly specifying the
