@@ -18,6 +18,8 @@ namespace FBB
     class Arg;
 };
 
+#include "../headers/headers.h"
+
 class Remailer: private Enums
 {
     enum SigType
@@ -54,6 +56,8 @@ class Remailer: private Enums
 
     FBB::ConfigFile d_config;
 
+    Headers d_headers;
+
     FBB::User d_user;
     FBB::Log  d_log;
 
@@ -76,6 +80,9 @@ class Remailer: private Enums
     std::string d_reencryptedName;
     std::string d_signatureName;
 
+    std::vector<std::string> d_envelope;    // accepted envelope addresses
+                                            // for clear-text mail. 
+                                            // empty means: all
     std::vector<std::string> d_members;
     std::vector<std::string> d_recipients;
 
@@ -126,6 +133,8 @@ class Remailer: private Enums
         void setFilenames();
 
         void copyToBoundary(std::ostream &out, std::istream &in);
+
+        bool envelopeOK();
 
         void copySignature(std::ostream &out, std::string const &boundary);
         struct SigStruct

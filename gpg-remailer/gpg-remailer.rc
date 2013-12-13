@@ -30,8 +30,20 @@ recipient:  mailing.list@somehost.org
 member: user1@mailhost.org
 member: user2@mailhost.org
 
-#clear-text: rejected       if clear-text mail is not handled.
-clear-text: accepted
+    # clear-text mail is not handled.
+# clear-text: rejected       
+    # any clear-text is accepted
+# clear-text: accepted
+    # clear-text is accepted from configured envelope addresses
+clear-text: envelope       
+
+# multiple envelope addresses may be specified: addresses from where
+# clear-text e-mail is accepted if 'clear-text: envelope' was specified
+
+    # accept all member addresses as envelope addresses
+envelope:  members        
+# envelope: address@domain  address@domain is an accepted envelope address
+envelope:   mok-request@icce.rug.nl
 
 # signature setting ignored for clear-text: accepted
 # signature specs may be:   absent: none required, 

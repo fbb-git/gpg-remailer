@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "../headers/headers.h"
 #include "../enums/enums.h"
 
 namespace FBB
@@ -12,10 +11,12 @@ namespace FBB
     class Log;
 };
 
+class Headers;
+
 class Mail: private Enums
 {
     FBB::Log  &d_log;
-    Headers d_headers;
+    Headers &d_headers;
     std::string const &d_mailName;
     std::string const &d_replyTo;
     std::string const &d_step;
@@ -28,7 +29,7 @@ class Mail: private Enums
     bool d_relax;
 
     public:
-        Mail(FBB::Log &log, std::string const &mailName,
+        Mail(FBB::Log &log, Headers &headers, std::string const &mailName,
                 std::string const &replyTo, std::string const &step,
                 std::vector<std::string> const &recipients, bool relax);
         void writeHeaders(std::string const &hdrsName);

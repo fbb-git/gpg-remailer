@@ -11,7 +11,10 @@ void Remailer::mail()
 
     d_mail(d_mailType, 
            d_mailType == CLEAR ? d_contentsName : d_reencryptedName, 
-           d_arg.option(0, "no-mail") || configField("noMail") == "true"
+                not envelopeOK()            // specify 'dontSend'
+                ||
+                d_arg.option(0, "no-mail") || configField("noMail") == "true"
+                
     );
 }
 

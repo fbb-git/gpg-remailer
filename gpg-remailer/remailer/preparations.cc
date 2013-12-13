@@ -29,6 +29,7 @@ void Remailer::preparations()
 
     multiField(d_members, "member", 'm');
     multiField(d_recipients, "recipient", 'r');
+    multiField(d_envelope, "envelope", 'e');
 
     string signatureRequired = configField("signature");
 
@@ -51,12 +52,44 @@ void Remailer::preparations()
     if (step("hdrs"))
         d_mail.writeHeaders(d_hdrsName);
 
+    string clearText = configField("clear-text");
+    if (clearText.empty())
+        clearText = "rejected (by default)";
+
     d_mail.setClearTextMode(
-                configField("clear-text") == "accepted" ?
+                     clearText == "accepted" || clearText == "envelope" ?
                         ACCEPTED
                     :
                         REJECTED
     );
 
+    if (clearText != "envelope")
+    {
+        if (d_envelope.size())
+        {
+            d_log << level(LOGDEFAULT) << 
+                "Envelope ignored (clear-text: " << clearText << ")\n";
+            d_envelope.clear();
+        }            
+    }
+    else
+    {
+        auto member = find(d_envelope.begin(), d_envelope.end(), "members");
 
+        if (member != d_envelope.end())     // accept all members
+        {
+            d_envelope.erase(member);       // this is not an envelope address
+            d_envelope.insert(d_envelope.end(),     // add the members
+                              d_members.begin(), d_members.end());
+        }
+        if (d_log.level() == LOGDEBUG)
+        {
+            d_log << "Accepted envelope addresses for clear-text e-mail:\n";
+            for (auto &address: d_envelope)
+                d_log << ' ' << address;
+            d_log << '\n';
+        }
+    }
 }
+
+

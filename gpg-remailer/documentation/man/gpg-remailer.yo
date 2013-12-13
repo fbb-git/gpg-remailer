@@ -39,18 +39,31 @@ manpagedescription()
 
     Gpg-remailer decrypts received PGP/GPG messages, verifies the received
 signature, and re-encrypts the e-mail for a well defined group of
-recipients. 
+recipients. Gpg-remailer can also be configured so as to process clear-text
+e-mail. 
 
     Using gpg-remailer the list of members of a group of people who want to
-exchange encrypted and authenticated e-mails can be maintained at one
+exchange encrypted and authenticated e-mails (and maybe also clear-text
+messages) can be maintained at one
 location, allowing the members of the group to specify just one e-mail address
-to send PGP/GPG signed and encrypted e-mail to.
+to send PGP/GPG signed and encrypted (or optionally clear-text) e-mail to.
 
-    Gpg-remailer reads incoming e-mail from its standard input stream and
-sends the processed input as a signed and encrypted PGP/GPG e-mail, encrypted
-for every member of the group, to one or more e-mail addresses. The address
-the signed and encrypted mail is sent to could, e.g., be a mailing list
-address. 
+    Gpg-remailer reads incoming e-mail from its standard input stream. 
+
+    If the incoming e-mail is clear-text, it resends the e-mail to one or more
+configurable e-mail addresses. 
+
+    If the incoming e-mail is PGP/GPG encrypted (and optionally signed) it
+re-encrypts the received information for every member of a configurable group,
+and send the re-encrypted information to one or more configurable e-mail
+addresses. 
+
+    By itself, gpg-remailer is not a mailing list. However, the configured
+recipient address could be, e.g., a mailing list address, for further
+distribution of the processed e-mail. Gpg-remailer is a em(remailer): it uses
+the message's data, but not its headers. Having received an e-mail it resends,
+rather than forwards, the received e-mail. The e-mail that is received via
+gpg-remailer therefore contains a completely new set of e-mail headers.
 
     A configuration file as well as command line options can be used to
 fine-tune gpg-remailer's behavior. 
@@ -263,16 +276,26 @@ performed, instead a warning is issued in the log-file.
     it() laoption(step)(name)nl()
         Perform the indicated step of the remailing process. Step names
 are:nl()
-            org (info from mail),nl()
-            dec (decrypt info),nl()
-            doc (create doc to send),nl()
-            enc (encrypt doc),nl()
-            mail (send mail),nl()
-            mail:address (send mail only to the provided address, ignore
-                    recipient(s) specified otherwise).
+        hdrs (write the mail headers),nl()
+        org (write the mail data),nl()
+        dec (only for PGP encrypted e-mail: write the decrypted info),nl()
+        doc (only for PGP encrypted e-mail: create the info to send),nl()
+        enc (only for PGP encrypted e-mail: encrypt the info to send),nl()
+        clearmail (send clear-text mail),nl()
+        clearmail:address (send mail only to the provided address, ignore
+                recipient(s) specified otherwise).
+        pgpmail (send pgp-encrypted mail),nl()
+        pgpmail:address (send pgp-encrypted mail only to the provided
+                address, ignore recipient(s) specified otherwise).
 
-        Later steps depend on earlier steps. E.g., tt(--step doc) can
-only be requested after having specified tt(--step dec) in a previous run. 
+    Step tt(hdrs) is completely optional. Later steps depend on earlier
+steps. E.g., tt(--step doc) can only be requested after having specified
+tt(--step dec) in a previous run. 
+
+    With clear-text e-mail steps tt(dec, doc, enc) and tt(pgpmail) should not
+be provided.
+
+    With PGP encrypted mail step tt(clearmail) should not be provided.
 
     it() loption(version) (soption(v))nl()
        Gpg-remailer's version number is is written to the standard output
