@@ -31,6 +31,8 @@ void Remailer::preparations()
     multiField(d_recipients, "recipient", 'r');
     multiField(d_envelope, "envelope", 'e');
 
+    checkMembers(d_recipients);
+
     string signatureRequired = configField("signature");
 
     ConfigFile::const_iterator iter = d_config.findRE(R"(^\s*replyTo:)");
@@ -74,14 +76,8 @@ void Remailer::preparations()
     }
     else
     {
-        auto member = find(d_envelope.begin(), d_envelope.end(), "members");
+        checkMembers(d_envelope);
 
-        if (member != d_envelope.end())     // accept all members
-        {
-            d_envelope.erase(member);       // this is not an envelope address
-            d_envelope.insert(d_envelope.end(),     // add the members
-                              d_members.begin(), d_members.end());
-        }
         if (d_log.level() == LOGDEBUG)
         {
             d_log << "Accepted envelope addresses for clear-text e-mail:\n";

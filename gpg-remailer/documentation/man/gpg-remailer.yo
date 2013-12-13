@@ -249,25 +249,34 @@ which gpg-remailer terminates.
         Higher levels will suppress logging. 
 
     it() lsoption(member)(m)(PGP e-mail address) nl()
-        The PGP-key e-mail address or PGP-key ID to re-encrypt the message
-for. Overrides the member(s) listed in the configuration file. This option may
-be specified multiple times when multiple members must be specified on the
-command line. With each tt(--member) option only provide one e-mail
-address (e.g., tt(member@domain.iso). This format is not checked by
-bf(gpg-remailer), but a failure to comply may result in bf(gpg-remailer) being
-unable to re-encrypt or e-mail messages.
+        The PGP-key e-mail address to re-encrypt the message for. Overrides
+the member(s) listed in the configuration file. This option may be specified
+multiple times when multiple members must be specified on the command
+line. With each tt(--member) option only provide one e-mail address (e.g.,
+tt(member@domain.iso). This format is not checked by bf(gpg-remailer), but a
+failure to comply may result in bf(gpg-remailer) being unable to re-encrypt or
+e-mail messages. The tt(--member) specifications can also be used to specify a
+set of e-mail envelope addresses from where clear-text e-mail is accepted,
+using the tt(envelope: members) and tt(clear-text: envelope) configuration
+file specifications.
 
     it() loption(noMail)nl()
         When specified no mail is sent.
 
     it() lsoption(recipient)(r)(e-mail address) nl()
-        The recipient of the e-mail. Overrides the recipient(s) listed in the
-configuration file. As with the tt(--members) option, multiple recipients may
-be specified by providing multiple tt(--recipient) options. each
-tt(--recipient) option should only provide one e-mail address (e.g.,
-tt(recipient@domain.iso). This format is not checked by bf(gpg-remailer), but
-a failure to comply may result in bf(gpg-remailer) being unable to re-encrypt
-or e-mail messages.
+        The recipient address(es) of the (re-encrypted or plain) resent
+e-mail. Overrides the recipient(s) listed in the configuration file. As with
+the tt(--members) option, multiple recipients may be specified by providing
+multiple tt(--recipient) options. These addresses may or may not be unique. If
+multiple identical addresses are specified gpg-remailer will send e-mail to
+each of these multiply specified addresses.
+
+    Each tt(--recipient) option should only provide one plain e-mail address
+(e.g., tt(recipient@domain.iso). This format is not checked by
+bf(gpg-remailer), but a failure to comply may result in bf(gpg-remailer) being
+unable to re-encrypt or e-mail messages. The specification tt(--recipient
+members) is used to indicate that the re-encrypted mail must be sent to all
+e-mail addresses specified using tt(member) specifications.
 
     it() loption(relax) nl()
         Tests for proper permissions of home directory and files are not
@@ -355,9 +364,21 @@ may be sent. If this is required, specify
 configuration option. 
 
     it() bf(envelope:) tt(e-mail address) nl()
-        Multiple recipients may be specified. Recipients should be specified
-as a plain e-mail address (e.g., tt(destination@some.host.org)). The
-re-encrypted mail is sent to each recipient in turn.
+        The tt(envelope) specifications are only interpreted when
+tt(clear-text: envelope) has been specified. When specified only clear-text
+e-mail using one of the configured tt(envelope) addresses will be re-mailed to
+the recipients specified using the tt(recipient) options or configuration 
+specifications. The special envelope specification
+    
+    tt(envelope: members) 
+
+    may be used to indicate that envelope addresses equal to the addresses
+specified using tt(member) specifications are all accepted.
+
+    All envelope addresses are case-insensitively interpreted. By default (if
+no tt(envelope) specification has been provided) all envelope addresses are
+accepted, in which case the specification tt(clear-text: envelope) reduces to
+tt(clear-text: accepted).
 
     it() bf(keepFiles:) tt(nr) nl()
         When a number is specified all files written by gpg-remailer use the
@@ -376,13 +397,33 @@ in the creation of new, as yet non-existing tt(*.<nr>) files.
             outgoing e-mail);nl()
         With higher levels  logging is suppressed. 
 
+    it() bf(member:) tt(address) nl()
+        Multiple members may be specified. Each tt(member) specification
+specifies a PGP-key e-mail address to re-encrypt the message for. The
+addresses should be plain e-mail addresses (e.g., tt(member@domain.iso)), and
+should not contain other elements (like the name of the person using the
+address). This format is not checked by bf(gpg-remailer), but a failure to
+comply may result in bf(gpg-remailer) being unable to re-encrypt or e-mail
+messages. The tt(member) specifications can also be used to specify a set of
+e-mail envelope addresses from where clear-text e-mail is accepted, using the
+tt(envelope: members) and tt(clear-text: envelope) specifications.
+
     it() bf(noMail:) tt(logic) (false)nl()
         When specified as tt(true) no mail is sent.
 
     it() bf(recipient:) tt(e-mail address) nl()
-        Multiple recipients may be specified. Recipients should be specified
-as a plain e-mail address (e.g., tt(destination@some.host.org)). The
-re-encrypted mail is sent to each recipient in turn.
+        The recipient address(es) of the (re-encrypted or plain) resent
+e-mail. Multiple recipients may be specified. These addresses may or may not
+be unique. If multiple identical addresses are specified gpg-remailer will
+send e-mail to each of these multiply specified addresses. Recipients should
+be specified using plain e-mail addresses (e.g.,
+tt(destination@some.host.org)). The re-encrypted mail is sent to each
+recipient in turn. The specification
+    
+    tt(recipient: members)
+
+    can be used to indicate that the re-encrypted mail must be sent to all
+e-mail addresses specified using tt(member) specifications.
 
     it() bf(replyTo:) tt(full address) nl()
         The reply to address may be any e-mail reply-to address. The reply-to
