@@ -336,10 +336,23 @@ to the log-file (see below). Command line options: tt(--debug, -d). When this
 option is specified the files written by gpg-remailer will not be removed when
 gpg-remailer terminates.
 
-    it() bf(clear-text:) tt(e-mail address) nl()
-        Multiple recipients may be specified. Recipients should be specified
-as a plain e-mail address (e.g., tt(destination@some.host.org)). The
-re-encrypted mail is sent to each recipient in turn.
+    it() bf(clear-text:) tt(specification) (rejected)nl()
+        By default, the gpg-remailer does not accept clear-text e-mail. This
+can explicitly be indicated in the configuration file using the
+
+    tt(clear-text: rejected)
+
+    specification. If clear-text e-mail should be allowed specify
+
+    tt(clear-text: accepted)
+
+    It is also possible to specify the addresses from where clear-text e-mail
+may be sent. If this is required, specify
+
+    tt(clear-text: envelope)
+
+    and define the accepted envelope e-mail addresses using the tt(envelope:)
+configuration option. 
 
     it() bf(envelope:) tt(e-mail address) nl()
         Multiple recipients may be specified. Recipients should be specified
