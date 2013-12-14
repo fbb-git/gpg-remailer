@@ -7,10 +7,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <bobcat/level>
-#include <bobcat/exception>
 #include <bobcat/string>
-#include <bobcat/log>
+
+#include "../logexception/logexception.h"
 
 using namespace std;
 using namespace FBB;

@@ -24,4 +24,3 @@ inline LogException::LogException(bool stdErr)
 #endif
 
 
-

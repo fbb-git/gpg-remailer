@@ -9,8 +9,7 @@ void Mail::operator()(MailType type,
 
     if (type == ENCRYPTED)
     {
-        GPGMail gpgMail(d_log, d_headers, d_mailName, d_replyTo, d_step, 
-                        d_relax);
+        GPGMail gpgMail(d_log, d_headers, d_mailName, d_replyTo, d_step);
         gpgMail.send(mailData, d_recipients, dontSend);
     }
     else

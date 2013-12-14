@@ -3,11 +3,10 @@
 #include <iostream>
 #include <iomanip>
 
-#include <bobcat/exception>
 #include <bobcat/log>
 #include <bobcat/level>
 
-#include "../io/io.h"
+#include "../logexception/logexception.h"
 #include "../spawn/spawn.h"
 #include "../headers/headers.h"
 #include "../cleartextmail/cleartextmail.h"

@@ -26,7 +26,7 @@
 
 void Remailer::multipartSigned(IOContext &io)
 {
-    d_log << level(LOGDEBUG) << "MultipartSigned\n";
+    d_log << level(LOGDEBUG) << "Multipart-Signed e-mail received\n";
 
     findBoundary(io);
 
@@ -41,7 +41,7 @@ void Remailer::multipartSigned(IOContext &io)
     copySignature(io.toReencrypt, d_boundary);
 
     ifstream data;
-    Exception::open(data, d_multipartSignedDataName);
+    LogException::open(data, d_multipartSignedDataName);
 
     io.toReencrypt << data.rdbuf();
 }

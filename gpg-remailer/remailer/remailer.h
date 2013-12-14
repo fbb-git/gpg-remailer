@@ -6,7 +6,6 @@
 
 #include <bobcat/user>
 #include <bobcat/configfile>
-#include <bobcat/stat>
 #include <bobcat/log>
 
 #include "../enums/enums.h"
@@ -52,7 +51,6 @@ class Remailer: private Enums
     FBB::Arg &d_arg;
 
     bool d_keepFiles;
-    bool d_relax;                       // relax permission tests
 
     FBB::ConfigFile d_config;
 
@@ -135,6 +133,7 @@ class Remailer: private Enums
         void copyToBoundary(std::ostream &out, std::istream &in);
 
         bool envelopeOK();
+        void checkMembers(std::vector<std::string> &target);
 
         void copySignature(std::ostream &out, std::string const &boundary);
         struct SigStruct
@@ -151,9 +150,6 @@ class Remailer: private Enums
         void writeReencrypted();
         void setSuffixNr();
         bool step(std::string const &stepName);
-
-        void testPermissions(std::string const &path, size_t permissions = 
-                FBB::Stat::UR | FBB::Stat::UW | FBB::Stat::UX);
 
         bool foundIn(std::string const &text, std::string const &target) 
                                                                         const;

@@ -12,7 +12,7 @@ void Mailer::sendMail(string const &command, string const &label,
         return;
     }
 
-    Spawn mail(d_log, command, d_mailName, "", "");
+    Spawn mail(command, d_mailName, "", "");
     mail.fork();
 
     d_log << level(LOGDEFAULT) << 

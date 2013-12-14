@@ -9,10 +9,8 @@ void Remailer::fileToReencrypt()
 
     IOContext io;
 
-    IO::unlink(d_reencryptName);
-    IO::open(io.toReencrypt, d_reencryptName, d_relax);
-
-    Exception::open(io.decrypted, d_decryptedName);
+    LogException::open(io.decrypted, d_decryptedName);
+    LogException::open(io.toReencrypt, d_reencryptName);
 
                         // write the file to reencrypt as 
                         //  - a simple one-piece text (simple.cc)

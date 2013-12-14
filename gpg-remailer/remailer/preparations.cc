@@ -2,12 +2,10 @@
 
 void Remailer::preparations()
 {
-    if (d_relax)
-        d_log << level(LOGDEFAULT) << "WARNING: relaxed permission tests\n";
+    if (d_arg.option(0, "relax"))
+        d_log << level(LOGDEFAULT) << 
+                "--relax ignored. Use `umask 077' instead\n";
 
-    testPermissions(d_user.homedir());
-    testPermissions(d_configName, Stat::UR | Stat::UW);
-    
     d_keepFiles = d_arg.option(&d_nr, 'n');     // determine predef'd filenr
     if (!d_keepFiles)                           // try fm config file
     {

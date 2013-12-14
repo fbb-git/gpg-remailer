@@ -16,6 +16,6 @@ void Remailer::copyToBoundary(ostream &out, istream &in)
         swap(last, next);
     }
 
-    d_log << level(LOGDEFAULT) << "No " << d_boundary << 
-                " boundary separator found in multipart MIME file\n" << FATAL;
+    throw LogException() << "no " << d_boundary << 
+                " boundary separator found in multipart MIME file\n";
 }

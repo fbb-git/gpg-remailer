@@ -1,7 +1,6 @@
 #include "spawn.ih"
 
 Spawn::Spawn(
-    Log &log,
     std::string const &command,
     std::string const &in, std::string const &out, std::string const &err)
 :
@@ -21,12 +20,11 @@ Spawn::Spawn(
     {
         string empty("--");
 
-        log << level(LOGDEFAULT) << 
-            "No file desciptors for `" << command << "': " << 
+        throw LogException() << 
+            "no file desciptors for `" << command << "': " << 
                     d_in <<  " (" << (in.empty()  ? empty : in)  << "), " <<
                     d_out << " (" << (out.empty() ? empty : out) << "), " <<
-                    d_err << " (" << (err.empty() ? empty : err) << ")\n" <<
-                    FATAL;
+                    d_err << " (" << (err.empty() ? empty : err) << ")\n";
     }
 }
 

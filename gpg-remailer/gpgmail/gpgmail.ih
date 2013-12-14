@@ -10,8 +10,6 @@
 #include <bobcat/log>
 #include <bobcat/level>
 
-#include "../io/io.h"
-
 using namespace std;
 using namespace FBB;
 

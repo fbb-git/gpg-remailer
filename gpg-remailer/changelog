@@ -5,7 +5,11 @@ gpg-remailer (3.00.00)
 
   * Added configuration file options `clear-text' ((dis)allowing clear-text
     mail) and `envelope' (specifying from which envelope addresses clear-text
-    mail is accepted)
+    mail is accepted).
+
+  * The `relax' option and configuration parameter is no longer interpreted. A
+    warning is logged if it is used. Instead of using `relax' the pseudo
+    account used for remailing should set `umask 077' at shell-startup.
 
   * Long encrypted messages broke the remailer. Repaired by simplifying child
     process handling in a separate class `Spawn'.

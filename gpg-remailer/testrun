@@ -1,5 +1,7 @@
 #!/bin/bash
 
+umask 077
+
 CWD=`pwd`
 
 if [ $# == 0 ] ; then
@@ -21,7 +23,7 @@ DEBG=-d
 REMAILER=tmp/bin/binary
 # REMAILER=/usr/bin/gpg-remailer
 
-${REMAILER} --relax $DEBG -t /tmp -r frank -m a.pothaar -m f.b.brokken \
+${REMAILER} $DEBG -t /tmp -r frank -m a.pothaar@rug.nl -m f.b.brokken@rug.nl \
             -l /tmp/remailer.log \
             -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
 

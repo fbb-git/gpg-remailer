@@ -5,6 +5,7 @@
 void Remailer::copyToBoundary(string const &destName, istream &in)
 {
     ofstream out;
+    LogException::open(out, destName);
     
-    copyToBoundary( IO::open(out, destName, d_relax), in);
+    copyToBoundary(out, in);
 }

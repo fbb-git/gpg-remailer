@@ -4,10 +4,8 @@ Remailer::Remailer()
 :
     d_arg(Arg::instance()),
     d_keepFiles(false),
-    d_relax(d_arg.option(0, "relax")),
     d_config(ConfigFile::RemoveComment, ConfigFile::SearchCaseInsensitive),
-    d_mail(d_log, d_headers, d_mailName, d_replyTo, d_step, d_recipients, 
-           d_relax),
+    d_mail(d_log, d_headers, d_mailName, d_replyTo, d_step, d_recipients),
     d_gpg(d_log, d_user.homedir())
 {
     d_arg.option(&d_step, "step");

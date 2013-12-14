@@ -89,9 +89,9 @@ functional account tt(secmail) can be defined using a command like this:
     )
 
     it() All locations used by the gpg-remailer must be given highly
-restrictive permissions. E.g., use tt(chmod -R og-rwx /var/lib/secmail) for
-the functional accounts. Gpg-remailer will not process e-mail unless these
-permissions were set.
+restrictive permissions. E.g., the functional accounts should set tt(umask
+077). It is the responsibility of the user to make sure that the access rights
+are correctly configured.
 
     it() Consider making all functional gpg-remailer accounts members of a
 special group (e.g., tt(gpg-remailer)) and allow execution of
@@ -116,7 +116,6 @@ mail    mailhost.org=(REMAILERS) NOPASSWD:  /usr/sbin/gpg-remailer
     E.g., if gpg-remailer runs on a computer named tt(remailer.mydomain.nl)
 which may receive incoming e-mails, then specify tt(remailer.mydomain.nl) for
 tt(mailhost.org).
-
 
     it() An e-mail address must be defined to where the mail to reencrypt must
 be sent to. This e-mail address must be known by the members of the group who
@@ -271,16 +270,16 @@ multiple tt(--recipient) options. These addresses may or may not be unique. If
 multiple identical addresses are specified gpg-remailer will send e-mail to
 each of these multiply specified addresses.
 
-    Each tt(--recipient) option should only provide one plain e-mail address
-(e.g., tt(recipient@domain.iso). This format is not checked by
-bf(gpg-remailer), but a failure to comply may result in bf(gpg-remailer) being
-unable to re-encrypt or e-mail messages. The specification tt(--recipient
-members) is used to indicate that the re-encrypted mail must be sent to all
-e-mail addresses specified using tt(member) specifications.
+    Each tt(--recipient) option should normally only define one plain e-mail
+address (e.g., tt(recipient@domain.iso), but multiple tt(--recipient) options
+are also accepted. The format of the e-mail addresses is not checked by
+bf(gpg-remailer), but providing any information in addition to or differing
+from a plain e-mail address may result in bf(gpg-remailer) being unable to
+re-encrypt or resend e-mail messages. 
 
-    it() loption(relax) nl()
-        Tests for proper permissions of home directory and files are not
-performed, instead a warning is issued in the log-file.
+    In addition to plain e-mail addresses, the specification tt(--recipient
+members) can be used to indicate that the re-encrypted mail must be sent to
+all e-mail addresses specified using tt(member) specifications.
 
     it() laoption(step)(name)nl()
         Perform the indicated step of the remailing process. Step names
@@ -355,8 +354,8 @@ can explicitly be indicated in the configuration file using the
 
     tt(clear-text: accepted)
 
-    It is also possible to specify the addresses from where clear-text e-mail
-may be sent. If this is required, specify
+    It is also possible to specify the envelope addresses that are accepted
+for received clear-text e-mail. If this is required, specify
 
     tt(clear-text: envelope)
 
@@ -365,17 +364,17 @@ configuration option.
 
     it() bf(envelope:) tt(e-mail address) nl()
         The tt(envelope) specifications are only interpreted when
-tt(clear-text: envelope) has been specified. When specified only clear-text
-e-mail using one of the configured tt(envelope) addresses will be re-mailed to
-the recipients specified using the tt(recipient) options or configuration 
-specifications. The special envelope specification
+tt(clear-text: envelope) has been specified. When tt(clear-text: envelope) was
+specified only clear-text e-mail using one of the configured tt(envelope)
+addresses will be re-mailed to the configured recipients. The special envelope
+specification
     
     tt(envelope: members) 
 
-    may be used to indicate that envelope addresses equal to the addresses
-specified using tt(member) specifications are all accepted.
+    may be used to indicate that envelope addresses which are equal to the
+addresses specified using tt(member) specifications are all accepted.
 
-    All envelope addresses are case-insensitively interpreted. By default (if
+    All envelope addresses are interpreted case-insensitively. By default (if
 no tt(envelope) specification has been provided) all envelope addresses are
 accepted, in which case the specification tt(clear-text: envelope) reduces to
 tt(clear-text: accepted).
@@ -434,8 +433,9 @@ address. A reply-to specification could be, e.g.,
     SECMAIL signed AND encrypted <secmail@mailhost.org>
         )
         This specification should be according to the requirements defined in
-        RFC 822: em(Standard for ARPA Internet Text Messages), or the mail
-        sending program may not end.
+RFC 822: em(Standard for ARPA Internet Text Messages). Failing to comply with
+RFC 822 may result in the e-mail sending program rejecting the e-mail that is
+submitted by the gpg-remailer.
 
     it() bf(signature:) tt(requirement) (required)nl()
         This option is used to control signature checking. Recognized values
@@ -605,20 +605,22 @@ locations.
     itemization(
     it() tt(/etc/mail/aliases): defines the mail accounts used by
 gpg-remailer.
+    it() tt(etc/gpg-remailer.rc): gpg-remailer's configuration file.
+    it() tt(/etc/sudoers): defines actions executed by the MTA.
+
+    it() tt(tmp/decrypted.<nr>): the decrypted original text.
     it() tt(tmp/err.<nr>): a file containing errors generated when processing 
 the original text. The tt(tmp/signature.<nr>) may contain gog-decryption
 errors. 
+    it() tt(tmp/hdrs.<nr>): the headers of the received e-mail.
     it() tt(tmp/mail.<nr>): the mail sent to the recipient(s).
+    it() tt(tmp/org.<nr>): a copy of the received e-mail. When random file
+numbers are used a tt(org.<nr>) file will not overwrite an existing tt(org.*)
+file. 
     it() tt(tmp/reencrypt.<nr>): the (as yet unencrypted) file to return to
 the the recipient(s).
     it() tt(tmp/reencrypted.<nr>): the reencrypted file to return to
 the the recipient(s).
-    it() tt(etc/gpg-remailer.rc): gpg-remailer's configuration file.
-    it() tt(/etc/sudoers): defines actions executed by the MTA.
-    it() tt(tmp/decrypted.<nr>): the decrypted original text.
-    it() tt(tmp/org.<nr>): a copy of the received e-mail. When random file
-numbers are used a tt(org.<nr>) file will not overwrite an existing tt(org.*)
-file. 
     it() tt(tmp/signature.<nr>): the signature found in the original text.
     )
 
@@ -630,6 +632,7 @@ manpageseealso()
     bf(chown)(1), 
     bf(gpg)(1),
     bf(sudo)(1),
+    bf(umask)(1), 
 
 manpagebugs()
 

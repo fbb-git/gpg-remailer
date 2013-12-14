@@ -22,33 +22,43 @@ keepfiles: 1
 #replyTo:    Fill in your reply-to <somebody@somewhere.org>
 replyTo: Frank <frank@localhost>
 
-# where will the reencrypted mail be sent to (multiple recipients OK)
-# recipient:  frank
-recipient:  mailing.list@somehost.org
-
 # reencrypt to which address(es)? (multiple members OK)
 member: user1@mailhost.org
 member: user2@mailhost.org
 
     # clear-text mail is not handled.
-# clear-text: rejected       
+clear-text: rejected       
     # any clear-text is accepted
-# clear-text: accepted
+#clear-text: accepted
     # clear-text is accepted from configured envelope addresses
-clear-text: envelope       
+#clear-text: envelope       
 
 # multiple envelope addresses may be specified: addresses from where
 # clear-text e-mail is accepted if 'clear-text: envelope' was specified
 
     # accept all member addresses as envelope addresses
 envelope:  members        
-# envelope: address@domain  address@domain is an accepted envelope address
-envelope:   mok-request@icce.rug.nl
+    # to accept clear-text email from address@domain:
+# envelope: address@domain  
 
-# signature setting ignored for clear-text: accepted
+# signature setting ignored for clear-text mail
 # signature specs may be:   absent: none required, 
 #                           required: the encrypted file must have been signed
 #                           good: the signature must have been recognized as
 #                                 good
 # signature:  good
 signature:  required
+
+# Where will the reencrypted mail be sent to (multiple recipients OK)?
+#
+#   all members receive the reencrypted mail
+# recipient:  members
+#
+#   add a specific recipient
+# recipient:  frank@localhost
+#
+#   send the reencrypted mail to some mailing list
+# recipient:  mailing.list@somehost.org
+
+
+

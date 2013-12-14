@@ -13,7 +13,8 @@
 
 void Remailer::simple(IOContext &io)
 {
-    d_log << level(LOGDEBUG) << "Simple: No boundary, no multipart message\n";
+    d_log << level(LOGDEBUG) << 
+                "Simple mail received: No boundary, no multipart message\n";
 
     // if no boundary and the first line is a content-type then 
     // insert those lines first

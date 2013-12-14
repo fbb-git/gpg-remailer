@@ -14,7 +14,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("nr", 'n'),
         Arg::LongOption("no-mail"),
         Arg::LongOption("recipient", 'r'),
-        Arg::LongOption("relax"),
+        Arg::LongOption("relax"),                   // generates warning
         Arg::LongOption("step", Arg::Required),
         Arg::LongOption("tmp", 't'),
         Arg::LongOption("version", 'v'),

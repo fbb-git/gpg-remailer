@@ -2,7 +2,7 @@
 
 #include "main.ih"
 
-void usage(std::string  const  &progname)
+void usage(string const &progname)
 {
     cout << '\n' <<
     progname << " by f.b.brokken@rug.nl\n" <<
@@ -24,17 +24,22 @@ void usage(std::string  const  &progname)
     "      --nr (-n) <nr>   - temporary files will use id number <nr>\n"
     "      --recipient (-r) <name> - Mail is sent to <name>, recipients\n"
     "                         listed in the config file are ignored\n"
-    "      --relax          - relaxed directory/file permission tests\n"
     "      --step <name>    - perform a single step:\n"
-    "                           org (info from mail),\n"                    
-    "                           dec (decrypt info),\n"                      
+    "                           hdrs (write the mail headers),\n"
+    "                           org (mail data),\n"                    
+    "                           dec (decrypt data),\n"                      
     "                           doc (create doc to send),\n"                
     "                           enc (encrypt doc),\n"                       
-    "                           mail (send mail)\n"                         
-    "                           mail:address (send mail only to the "       
-                                                                "provided\n" 
-    "                                address, ignore recipient(s) specified\n"
-    "                                otherwise)\n"
+    "                           pgpmail (send reencrypted mail)\n"
+    "                           pgpmail:address (reencrypted mail is only "
+                                                                    "sent\n"
+    "                                   to the provided address, ignoring\n"
+    "                                   recipient(s) specified otherwise)\n"
+    "                           clearmail (send clear-text mail)\n"
+    "                           clearmail:address (clear-text mail is only "
+                                                                    "sent\n"
+    "                                   to the provided address, ignoring\n"
+    "                                   recipient(s) specified otherwise)\n"
     "      --version (-v)   - show version information and terminate\n"
     "   config   - configuration file (~/etc/remailer.rc).\n"
     << endl;

@@ -8,11 +8,6 @@
 
 #include "../enums/enums.h"
 
-namespace FBB
-{
-    class Log;
-};
-
 class Spawn: private Enums, public FBB::Fork
 {
     int d_in;      // -2 indicates `ignore'
@@ -26,8 +21,7 @@ class Spawn: private Enums, public FBB::Fork
     std::string d_command;
 
     public:
-        Spawn(FBB::Log &log, 
-            std::string const &command,
+        Spawn(std::string const &command,
             std::string const &in, std::string const &out, 
                                                 std::string const &err);
     

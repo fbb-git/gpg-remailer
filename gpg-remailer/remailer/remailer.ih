@@ -10,9 +10,9 @@
 #include <bobcat/level>
 #include <bobcat/stringline>
 #include <bobcat/ranger>
+#include <bobcat/stat>
 
 #include "../logexception/logexception.h"
-#include "../io/io.h"
 
 inline bool Remailer::foundIn(std::string const &text, 
                               std::string const &target) const

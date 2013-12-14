@@ -16,13 +16,12 @@ class GPGMail: public Mailer
 {
     std::string const &d_mailName;
     std::string const &d_replyTo;
-    bool d_relax;
     std::string d_boundary;
 
     public:
         GPGMail(FBB::Log &log, Headers &headers, 
                 std::string const &mailName, std::string const &replyTo,
-                std::string const &step, bool relax);
+                std::string const &step);
 
     private:
         static std::string makeBoundary();

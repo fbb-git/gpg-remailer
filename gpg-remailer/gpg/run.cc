@@ -13,7 +13,7 @@ void GPG::run(string command, string const &in, string const &out,
             " 2> " << err <<
             '\n';
 
-    Spawn gpg(d_log, command, in, out, err);
+    Spawn gpg(command, in, out, err);
     gpg.fork();
 }
 
