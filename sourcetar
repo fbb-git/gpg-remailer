@@ -26,7 +26,7 @@ case "$1" in
         tgz ../tarballs/${PROJECT}_${VERSION}.orig.tar.gz
     ;;
 
-    (t|u)
+    (l|u)
         tgz ${PROJECT}_${VERSION}.tar.gz
 
         if [ "$1" == "u" ]
@@ -43,7 +43,7 @@ case "$1" in
 Provide arg:
     d (debian) to create a local .orig.tar.gz archive in 
                ../tarballs
-    t (tar.gz) to create ${PROJECT}_${VERSION}.tar.gz in this directory
+    l (local) to create ${PROJECT}_${VERSION}.tar.gz in this directory
     u (upload) same as 't', but upload to oosix and show MD5 hash
 "
     exit 1
