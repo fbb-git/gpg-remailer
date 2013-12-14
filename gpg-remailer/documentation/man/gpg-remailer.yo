@@ -284,17 +284,18 @@ all e-mail addresses specified using tt(member) specifications.
     it() laoption(step)(name)nl()
         Perform the indicated step of the remailing process. Step names
 are:nl()
-        hdrs (write the mail headers),nl()
-        org (write the mail data),nl()
-        dec (only for PGP encrypted e-mail: write the decrypted info),nl()
-        doc (only for PGP encrypted e-mail: create the info to send),nl()
-        enc (only for PGP encrypted e-mail: encrypt the info to send),nl()
-        clearmail (send clear-text mail),nl()
-        clearmail:address (send mail only to the provided address, ignore
-                recipient(s) specified otherwise).
-        pgpmail (send pgp-encrypted mail),nl()
-        pgpmail:address (send pgp-encrypted mail only to the provided
-                address, ignore recipient(s) specified otherwise).
+
+        tt(hdrs) (write the mail headers),nl()
+        tt(org) (write the mail data),nl()
+        tt(dec) (only for PGP encrypted e-mail: write the decrypted info),nl()
+        tt(doc) (only for PGP encrypted e-mail: create the info to send),nl()
+        tt(enc) (only for PGP encrypted e-mail: encrypt the info to send),nl()
+        tt(clearmail) (send clear-text mail),nl()
+        tt(clearmail:address) (send mail only to the provided address, ignore
+                   recipient(s) specified otherwise).
+        tt(pgpmail) (send pgp-encrypted mail),nl()
+        tt(pgpmail:address) (send pgp-encrypted mail only to the provided
+                address, ignore recipient(s) specified otherwise).nl()
 
     Step tt(hdrs) is completely optional. Later steps depend on earlier
 steps. E.g., tt(--step doc) can only be requested after having specified
