@@ -1,8 +1,11 @@
 gpg-remailer (3.00.01)
 
-  * Repaired error in exception handling
+  * Repaired error in exception handling. Because of this, version 3.00.00 is
+    not released by itself. Instead, use this 3.00.01 release.
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 15 Dec 2013 13:57:58 +0100
+  * Added option --umask
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 15 Dec 2013 14:59:14 +0100
 
 gpg-remailer (3.00.00)
 
