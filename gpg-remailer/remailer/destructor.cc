@@ -16,4 +16,5 @@ Remailer::~Remailer()
     unlink(d_reencryptName.c_str());
     unlink(d_reencryptedName.c_str());
     unlink(d_signatureName.c_str());
+    unlink(d_hdrsName.c_str());
 }
