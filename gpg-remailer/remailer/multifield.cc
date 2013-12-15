@@ -1,6 +1,7 @@
 #include "remailer.ih"
 
-void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
+void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt,
+                          bool needElements)
 {
     if (size_t index = d_arg.option(opt))
     {
@@ -26,9 +27,12 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt)
     }
             
     if (dest.size() == 0)
-        throw LogException() << "no `" << keyWord << 
-             "' specifications found in " << d_configName << '\n';
-
+    {
+        if (needElements)
+            throw LogException() << "no `" << keyWord << 
+                 "' specifications found in " << d_configName << '\n';
+        return;
+    }
     ostringstream out;
     copy(dest.begin(), dest.end(), ostream_iterator<string>(out, " "));
     d_log << level(LOGDEBUG) << keyWord << ": " << out.str() << '\n';

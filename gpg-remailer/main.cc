@@ -11,12 +11,13 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("logfile", 'l'),
         Arg::LongOption("loglevel", 'L'),
         Arg::LongOption("member", 'm'),
-        Arg::LongOption("nr", 'n'),
         Arg::LongOption("no-mail"),
+        Arg::LongOption("nr", 'n'),
         Arg::LongOption("recipient", 'r'),
         Arg::LongOption("relax"),                   // generates warning
         Arg::LongOption("step", Arg::Required),
         Arg::LongOption("tmp", 't'),
+        Arg::LongOption("umask", Arg::Required),
         Arg::LongOption("version", 'v'),
     };
 
@@ -46,7 +47,7 @@ try
     catch (LogException const &err)
     {
         char const *msg = err.msg();
-        remailer.log() << "[Fatal] " << msg << '\n';
+        remailer.log() << "[Fatal] " << msg;
 
         // ALL exceptions return 0 to prevent unexpected mailer errors in 
         // sendmail's logs.

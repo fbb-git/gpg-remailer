@@ -8,6 +8,9 @@
     // catch handler, catching a LogException.
 class LogException: public FBB::Exception
 {
+    template <typename Type>
+    friend LogException &&operator<<(LogException &&tmp, Type const &value);
+
     bool d_stdErr;
 
     public:
@@ -20,6 +23,14 @@ inline LogException::LogException(bool stdErr)
 :
     d_stdErr(stdErr)
 {}
+
+template <typename Type>
+inline LogException &&operator<<(LogException &&tmp, Type const &value)
+{
+    static_cast<FBB::Exception &&>(std::move(tmp)) << value;
+
+    return std::move(tmp);
+}
 
 #endif
 

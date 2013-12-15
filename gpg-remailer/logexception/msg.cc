@@ -2,8 +2,8 @@
 
 char const *LogException::msg() const
 {
-    char const *cp = exception::what();
+    char const *cp = static_cast<exception const &>(*this).what();
     if (d_stdErr)
-        cerr << cp << '\n';
+        cerr << cp;
     return cp;
 }

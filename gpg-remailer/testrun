@@ -24,7 +24,7 @@ REMAILER=tmp/bin/binary
 # REMAILER=/usr/bin/gpg-remailer
 
 ${REMAILER} $DEBG -t /tmp -r frank -m a.pothaar@rug.nl -m f.b.brokken@rug.nl \
-            -l /tmp/remailer.log \
+            -l /tmp/remailer.log --umask 077\
             -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
 
 

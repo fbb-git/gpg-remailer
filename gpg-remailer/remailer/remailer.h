@@ -123,12 +123,20 @@ class Remailer: private Enums
 
     private:
         void multiField(std::vector<std::string> &dest, char const *keyWord,
-                                                                    int opt);
+                                                int opt, bool needElements);
 
         void setLog();
         std::string configField(std::string const &field);
 
+            // called from 'preparations'
+        void setKeepFiles();
+        void setDebug();
         void setFilenames();
+        void checkRelax();
+        void setUmask();
+        void setReplyTo();
+        void setSigRequired();
+        void setClearText();
 
         void copyToBoundary(std::ostream &out, std::istream &in);
 

@@ -262,6 +262,10 @@ file specifications.
     it() loption(noMail)nl()
         When specified no mail is sent.
 
+    it() lsoption(nr)(n)(file-number) nl()
+        Files created by the gpg-remailer while processing incoming e-mails
+are kept, and receive suffix tt(file-number), which should be a number.
+
     it() lsoption(recipient)(r)(e-mail address) nl()
         The recipient address(es) of the (re-encrypted or plain) resent
 e-mail. Overrides the recipient(s) listed in the configuration file. As with
@@ -305,6 +309,17 @@ tt(--step dec) in a previous run.
 be provided.
 
     With PGP encrypted mail step tt(clearmail) should not be provided.
+
+    it() lsoption(tmp)(t)(path) nl()
+        The path of the directory where the temporary files are written (by
+default: tt($HOME/tmp)). This should be an absolute path.
+
+    it() laoption(umask)(octalValue)nl()
+       By default, gpg-remailer uses umask 077 for all files it creates: only
+the pseudo-user has read and write permissions. In normal circumstances there
+should be no reason for changing this umask value, but if necessary the
+tt(--umask) option can be used, providing an octal value, to specify an
+alternative umask value.
 
     it() loption(version) (soption(v))nl()
        Gpg-remailer's version number is is written to the standard output
