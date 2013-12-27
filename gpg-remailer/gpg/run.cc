@@ -1,5 +1,15 @@
 #include "gpg.ih"
 
+namespace
+{
+    void collector(char const *out, streambuf *buffer)
+    {
+        ofstream outStream;
+        Exception::open(outStream, out);
+        outStream << buffer << flush;
+    }
+}
+
 void GPG::run(string command, string const &in, string const &out,
               string const &err)
 {
@@ -13,8 +23,19 @@ void GPG::run(string command, string const &in, string const &out,
             " 2> " << err <<
             '\n';
 
-    Spawn gpg(command, in, out, err);
-    gpg.fork();
+    Process gpg(Process::CIN | Process::COUT | Process::CERR,
+                command);
+
+    ifstream inStream;
+    Exception::open(inStream, in);
+
+    gpg.start();
+    thread outThread(collector, out.c_str(), gpg.childOutStream().rdbuf());
+    thread errThread(collector, err.c_str(), gpg.childErrStream().rdbuf());
+    gpg << inStream.rdbuf() << eoi;    
+
+    outThread.join();
+    errThread.join();
 }
 
 

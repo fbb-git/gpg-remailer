@@ -12,9 +12,15 @@ void Mailer::sendMail(string const &command, string const &label,
         return;
     }
 
-    Spawn mail(command, d_mailName, "", "");
-    mail.fork();
+    ifstream in(d_mailName);
+    Process mail(Process::CIN | Process::IGNORE_COUT | Process::IGNORE_CERR, 
+                 command);
+    mail.start();
+    mail << in.rdbuf() << eoi;
 
     d_log << level(LOGDEFAULT) << 
              label << " (" << d_subject << ") sent to " << recipient << '\n';
 }
+
+
+

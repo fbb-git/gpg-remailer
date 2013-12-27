@@ -1,3 +1,8 @@
+gpg-remailer (3.01.00)
+
+  * After Bobcat 3.19.00 Bobcat's class Process can again be used. This
+    version drops Spawn in favor of Bobcat's class Process 
+
 gpg-remailer (3.00.01)
 
   * Repaired error in exception handling. Because of this, version 3.00.00 is

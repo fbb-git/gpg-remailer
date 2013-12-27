@@ -1,25 +1,40 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
 oxref V0.91.00 2012-2013
 
-CREATED Sat, 14 Sep 2013 11:35:10 +0000
+CREATED Fri, 27 Dec 2013 19:08:19 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
-collect(std::ostream*, std::istream*)
-  Full name: Remailer::collect(std::ostream*, std::istream*)
-  Source:    collect.cc 
+checkMembers(std::vector<std::string, std::allocator<std::string> >&)
+  Full name: Remailer::checkMembers(std::vector<std::string, std::allocator<std::string> >&)
+  Source:    checkmembers.cc 
   Used By:
-    gpg.cc: Remailer::gpg(std::string const&, std::string const&, std::string const&, std::string const&)
-    gpg2.cc: Remailer::gpg(std::string const&, std::string const&)
+    preparations.cc: Remailer::preparations()
+    setcleartext.cc: Remailer::setClearText()
+
+checkRelax()
+  Full name: Remailer::checkRelax()
+  Source:    checkrelax.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+ClearTextMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
+  Full name: ClearTextMail::ClearTextMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
+  Source:    cleartextmail1.cc 
+  Used By:
+    operatorfun.cc: Mail::operator()(Enums::MailType, std::string const&, bool)
 
 configField(std::string const&)
   Full name: Remailer::configField(std::string const&)
   Source:    configfield.cc 
   Used By:
     mail.cc: Remailer::mail()
-    preparations.cc: Remailer::preparations()
+    setcleartext.cc: Remailer::setClearText()
+    setdebug.cc: Remailer::setDebug()
     setfilenames.cc: Remailer::setFilenames()
+    setkeepfiles.cc: Remailer::setKeepFiles()
     setlog.cc: Remailer::setLog()
+    setsigrequired.cc: Remailer::setSigRequired()
 
 copySignature(std::ostream&, std::string const&)
   Full name: Remailer::copySignature(std::ostream&, std::string const&)
@@ -43,11 +58,29 @@ copyToBoundary(std::string const&, std::istream&)
   Used By:
     multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
 
+decrypt(std::string const&, std::string const&, std::string const&)
+  Full name: GPG::decrypt(std::string const&, std::string const&, std::string const&)
+  Source:    decrypt.cc 
+  Used By:
+    decrypt.cc: Remailer::decrypt()
+
+encrypt(std::string const&, std::string const&, std::string const&, std::string const&)
+  Full name: GPG::encrypt(std::string const&, std::string const&, std::string const&, std::string const&)
+  Source:    encrypt.cc 
+  Used By:
+    writereencrypted.cc: Remailer::writeReencrypted()
+
 encryptionType(Remailer::IOContext&)
   Full name: Remailer::encryptionType(Remailer::IOContext&)
   Source:    encryptiontype.cc 
   Used By:
     filetoreencrypt.cc: Remailer::fileToReencrypt()
+
+envelopeOK()
+  Full name: Remailer::envelopeOK()
+  Source:    envelopeok.cc 
+  Used By:
+    mail.cc: Remailer::mail()
 
 fileToReencrypt()
   Full name: Remailer::fileToReencrypt()
@@ -56,10 +89,10 @@ fileToReencrypt()
     reencrypt.cc: Remailer::reencrypt()
 
 filter(std::ostream&)
-  Full name: Remailer::filter(std::ostream&)
+  Full name: Mail::filter(std::ostream&)
   Source:    filter.cc 
   Used By:
-    unhex.cc: Remailer::unhex()
+    writecontents.cc: Mail::writeContents(std::string const&)
 
 findBoundary(Remailer::IOContext&)
   Full name: Remailer::findBoundary(Remailer::IOContext&)
@@ -67,18 +100,24 @@ findBoundary(Remailer::IOContext&)
   Used By:
     multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
 
-gpg(std::string const&, std::string const&)
-  Full name: Remailer::gpg(std::string const&, std::string const&)
-  Source:    gpg2.cc 
+getHeader(char const*)
+  Full name: Headers::getHeader(char const*)
+  Source:    getheader.cc 
   Used By:
-    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
+    headers.cc: ClearTextMail::headers() const
+    mailer1.cc: Mailer::Mailer(FBB::Log&, Headers&, std::string const&, std::string const&)
 
-gpg(std::string const&, std::string const&, std::string const&, std::string const&)
-  Full name: Remailer::gpg(std::string const&, std::string const&, std::string const&, std::string const&)
-  Source:    gpg.cc 
+GPG(FBB::Log&, std::string const&)
+  Full name: GPG::GPG(FBB::Log&, std::string const&)
+  Source:    gpg1.cc 
   Used By:
-    decrypt.cc: Remailer::decrypt()
-    writereencrypted.cc: Remailer::writeReencrypted()
+    remailer1.cc: Remailer::Remailer()
+
+GPGMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
+  Full name: GPGMail::GPGMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
+  Source:    gpgmail1.cc 
+  Used By:
+    operatorfun.cc: Mail::operator()(Enums::MailType, std::string const&, bool)
 
 hasBoundary(std::string const&, std::string const&)
   Full name: Remailer::hasBoundary(std::string const&, std::string const&)
@@ -87,26 +126,75 @@ hasBoundary(std::string const&, std::string const&)
     encryptiontype.cc: Remailer::encryptionType(Remailer::IOContext&)
     findboundary.cc: Remailer::findBoundary(Remailer::IOContext&)
 
+Headers()
+  Full name: Headers::Headers()
+  Source:    headers1.cc 
+  Used By:
+    remailer1.cc: Remailer::Remailer()
+
+headers() const
+  Full name: ClearTextMail::headers() const
+  Source:    headers.cc 
+  Used By:
+    mailcommand.cc: ClearTextMail::mailCommand(std::string const&) const
+
 hexChar(std::ostream&, std::istream&)
-  Full name: Remailer::hexChar(std::ostream&, std::istream&)
+  Full name: Mail::hexChar(std::ostream&, std::istream&)
   Source:    hexchar.cc 
   Used By:
-    inspect.cc: Remailer::inspect(std::ostream&, std::string const&)
+    inspect.cc: Mail::inspect(std::ostream&, std::string const&)
 
 inspect(std::ostream&, std::string const&)
-  Full name: Remailer::inspect(std::ostream&, std::string const&)
+  Full name: Mail::inspect(std::ostream&, std::string const&)
   Source:    inspect.cc 
   Used By:
-    filter.cc: Remailer::filter(std::ostream&)
+    filter.cc: Mail::filter(std::ostream&)
+
+label() const
+  Full name: GPGMail::label() const
+  Source:    label.cc 
+  Used By:
+    writemailcontents.cc: GPGMail::writeMailContents(std::string const&) const
+
+Mail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&, std::vector<std::string, std::allocator<std::string> > const&)
+  Full name: Mail::Mail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&, std::vector<std::string, std::allocator<std::string> > const&)
+  Source:    mail1.cc 
+  Used By:
+    remailer1.cc: Remailer::Remailer()
+
+mailCommand(std::string const&) const
+  Full name: GPGMail::mailCommand(std::string const&) const
+  Source:    mailcommand.cc 
+  Used By:
+    writemailcontents.cc: GPGMail::writeMailContents(std::string const&) const
+
+mailCommand(std::string const&) const
+  Full name: ClearTextMail::mailCommand(std::string const&) const
+  Source:    mailcommand.cc 
+  Used By:
+    label.cc: ClearTextMail::label() const
+
+Mailer(FBB::Log&, Headers&, std::string const&, std::string const&)
+  Full name: Mailer::Mailer(FBB::Log&, Headers&, std::string const&, std::string const&)
+  Source:    mailer1.cc 
+  Used By:
+    gpgmail1.cc: GPGMail::GPGMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
+    cleartextmail1.cc: ClearTextMail::ClearTextMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
+
+mailHeader(char const*)
+  Full name: Headers::mailHeader(char const*)
+  Source:    mailheader.cc 
+  Used By:
+    getheader.cc: Headers::getHeader(char const*)
 
 makeBoundary()
-  Full name: Remailer::makeBoundary()
+  Full name: GPGMail::makeBoundary()
   Source:    makeboundary.cc 
   Used By:
-    mail.cc: Remailer::mail()
+    gpgmail1.cc: GPGMail::GPGMail(FBB::Log&, Headers&, std::string const&, std::string const&, std::string const&)
 
-multiField(std::vector<std::string, std::allocator<std::string> >&, char const*, int)
-  Full name: Remailer::multiField(std::vector<std::string, std::allocator<std::string> >&, char const*, int)
+multiField(std::vector<std::string, std::allocator<std::string> >&, char const*, int, bool)
+  Full name: Remailer::multiField(std::vector<std::string, std::allocator<std::string> >&, char const*, int, bool)
   Source:    multifield.cc 
   Used By:
     preparations.cc: Remailer::preparations()
@@ -123,29 +211,25 @@ multipartSigned(Remailer::IOContext&)
   Used By:
     data.cc: GLOBALS data.cc 1data.o
 
-open(std::basic_ofstream<char, std::char_traits<char> >&, std::string const&, Remailer::ExistingFile)
-  Full name: Remailer::open(std::basic_ofstream<char, std::char_traits<char> >&, std::string const&, Remailer::ExistingFile)
-  Source:    open.cc 
+operator()(Enums::MailType, std::string const&, bool)
+  Full name: Mail::operator()(Enums::MailType, std::string const&, bool)
+  Source:    operatorfun.cc 
   Used By:
-    copytoboundary2.cc: Remailer::copyToBoundary(std::string const&, std::istream&)
-    filetoreencrypt.cc: Remailer::fileToReencrypt()
-    gpg.cc: Remailer::gpg(std::string const&, std::string const&, std::string const&, std::string const&)
-    gpg2.cc: Remailer::gpg(std::string const&, std::string const&)
-    unhex.cc: Remailer::unhex()
-    writemail.cc: Remailer::writeMail(std::string const&)
+    mail.cc: Remailer::mail()
 
 PGPmessage(std::ostream&)
-  Full name: Remailer::PGPmessage(std::ostream&)
+  Full name: Mail::PGPmessage(std::ostream&)
   Source:    pgpmessage.cc 
   Used By:
-    unhex.cc: Remailer::unhex()
+    writecontents.cc: Mail::writeContents(std::string const&)
 
-rmQuotes(std::string&) const
-  Full name: Remailer::rmQuotes(std::string&) const
-  Source:    rmquotes.cc 
+run(std::string, std::string const&, std::string const&, std::string const&)
+  Full name: GPG::run(std::string, std::string const&, std::string const&, std::string const&)
+  Source:    run.cc 
   Used By:
-    pgpmessage.cc: Remailer::PGPmessage(std::ostream&)
-    preparations.cc: Remailer::preparations()
+    decrypt.cc: GPG::decrypt(std::string const&, std::string const&, std::string const&)
+    encrypt.cc: GPG::encrypt(std::string const&, std::string const&, std::string const&, std::string const&)
+    verify.cc: GPG::verify(std::string const&, std::string const&, std::string const&)
 
 s_reEncrypt
   Full name: Remailer::s_reEncrypt
@@ -153,11 +237,41 @@ s_reEncrypt
   Used By:
     filetoreencrypt.cc: Remailer::fileToReencrypt()
 
-sendMail(std::string const&, Remailer::MailStruct const&)
-  Full name: Remailer::sendMail(std::string const&, Remailer::MailStruct const&)
+s_step
+  Full name: Remailer::s_step
+  Source:    data.cc 
+  Used By:
+    step.cc: Remailer::step(std::string const&)
+
+s_stepEnd
+  Full name: Remailer::s_stepEnd
+  Source:    data.cc 
+  Used By:
+    step.cc: Remailer::step(std::string const&)
+
+send(std::string const&, std::vector<std::string, std::allocator<std::string> > const&, bool)
+  Full name: Mailer::send(std::string const&, std::vector<std::string, std::allocator<std::string> > const&, bool)
+  Source:    send.cc 
+  Used By:
+    operatorfun.cc: Mail::operator()(Enums::MailType, std::string const&, bool)
+
+sendMail(std::string const&, std::string const&, std::string const&, bool)
+  Full name: Mailer::sendMail(std::string const&, std::string const&, std::string const&, bool)
   Source:    sendmail.cc 
   Used By:
-    mail.cc: Remailer::mail()
+    send.cc: Mailer::send(std::string const&, std::vector<std::string, std::allocator<std::string> > const&, bool)
+
+setClearText()
+  Full name: Remailer::setClearText()
+  Source:    setcleartext.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+setDebug()
+  Full name: Remailer::setDebug()
+  Source:    setdebug.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
 
 setFilenames()
   Full name: Remailer::setFilenames()
@@ -165,9 +279,33 @@ setFilenames()
   Used By:
     preparations.cc: Remailer::preparations()
 
+setKeepFiles()
+  Full name: Remailer::setKeepFiles()
+  Source:    setkeepfiles.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
 setLog()
   Full name: Remailer::setLog()
   Source:    setlog.cc 
+  Used By:
+    remailer1.cc: Remailer::Remailer()
+
+setRecipients(std::vector<std::string, std::allocator<std::string> >&, std::vector<std::string, std::allocator<std::string> > const&)
+  Full name: Mailer::setRecipients(std::vector<std::string, std::allocator<std::string> >&, std::vector<std::string, std::allocator<std::string> > const&)
+  Source:    setrecipients.cc 
+  Used By:
+    send.cc: Mailer::send(std::string const&, std::vector<std::string, std::allocator<std::string> > const&, bool)
+
+setReplyTo()
+  Full name: Remailer::setReplyTo()
+  Source:    setreplyto.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+setSigRequired()
+  Full name: Remailer::setSigRequired()
+  Source:    setsigrequired.cc 
   Used By:
     preparations.cc: Remailer::preparations()
 
@@ -176,6 +314,12 @@ setSuffixNr()
   Source:    setsuffixnr.cc 
   Used By:
     setfilenames.cc: Remailer::setFilenames()
+
+setUmask()
+  Full name: Remailer::setUmask()
+  Source:    setumask.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
 
 signatureFilter(std::string const&, Remailer::SigStruct&)
   Full name: Remailer::signatureFilter(std::string const&, Remailer::SigStruct&)
@@ -189,23 +333,22 @@ simple(Remailer::IOContext&)
   Used By:
     data.cc: GLOBALS data.cc 1data.o
 
-step(char const*)
-  Full name: Remailer::step(char const*)
+step(std::string const&)
+  Full name: Remailer::step(std::string const&)
   Source:    step.cc 
   Used By:
     decrypt.cc: Remailer::decrypt()
     filetoreencrypt.cc: Remailer::fileToReencrypt()
     mail.cc: Remailer::mail()
-    unhex.cc: Remailer::unhex()
+    mailcontents.cc: Remailer::mailContents()
+    preparations.cc: Remailer::preparations()
     writereencrypted.cc: Remailer::writeReencrypted()
 
-testPermissions(std::string const&, unsigned int)
-  Full name: Remailer::testPermissions(std::string const&, unsigned int)
-  Source:    testpermissions.cc 
+verify(std::string const&, std::string const&, std::string const&)
+  Full name: GPG::verify(std::string const&, std::string const&, std::string const&)
+  Source:    verify.cc 
   Used By:
-    preparations.cc: Remailer::preparations()
-    setfilenames.cc: Remailer::setFilenames()
-    setlog.cc: Remailer::setLog()
+    multipartsigned.cc: Remailer::multipartSigned(Remailer::IOContext&)
 
 version
   Full name: version
@@ -213,11 +356,23 @@ version
   Used By:
     usage.cc: usage(std::string const&)
 
-writeMail(std::string const&)
-  Full name: Remailer::writeMail(std::string const&)
-  Source:    writemail.cc 
+writeContents(std::string const&)
+  Full name: Mail::writeContents(std::string const&)
+  Source:    writecontents.cc 
   Used By:
-    mail.cc: Remailer::mail()
+    mailcontents.cc: Remailer::mailContents()
+
+writeHeaders(std::string const&)
+  Full name: Mail::writeHeaders(std::string const&)
+  Source:    writeheaders.cc 
+  Used By:
+    preparations.cc: Remailer::preparations()
+
+writeMailContents(std::string const&) const
+  Full name: ClearTextMail::writeMailContents(std::string const&) const
+  Source:    writemailcontents.cc 
+  Used By:
+    label.cc: ClearTextMail::label() const
 
 writeReencrypted()
   Full name: Remailer::writeReencrypted()

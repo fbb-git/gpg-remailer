@@ -5,9 +5,9 @@
 
 #include <bobcat/log>
 #include <bobcat/level>
+#include <bobcat/process>
 
 #include "../logexception/logexception.h"
-#include "../spawn/spawn.h"
 #include "../headers/headers.h"
 #include "../cleartextmail/cleartextmail.h"
 #include "../gpgmail/gpgmail.h"

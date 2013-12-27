@@ -2,8 +2,7 @@
 
 #include <bobcat/log>
 #include <bobcat/level>
-
-#include "../spawn/spawn.h"
+#include <bobcat/process>
 
 using namespace std;
 using namespace FBB;
