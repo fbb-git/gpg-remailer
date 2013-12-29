@@ -6,18 +6,12 @@ void Mail::operator()(MailType type,
 {
     d_log << level(LOGDEBUG) << "Mail to send is written to " << 
                                 d_mailName << '\n';
-
     if (type == ENCRYPTED)
-    {
-        GPGMail gpgMail(d_log, d_headers, d_mailName, d_replyTo, d_step);
-        gpgMail.send(mailData, d_recipients, dontSend);
-    }
+        mail(mailData, dontSend, 
+            GPGMail(d_log, d_headers, d_mailName, d_replyTo, d_step));
     else
-    {
-        ClearTextMail clearTextMail(d_log, d_headers, d_mailName, d_replyTo,
-                                    d_step);
-        clearTextMail.send(mailData, d_recipients, dontSend);
-    }
+        mail(mailData, dontSend, 
+            ClearTextMail(d_log, d_headers, d_mailName, d_replyTo, d_step));
 }
 
 

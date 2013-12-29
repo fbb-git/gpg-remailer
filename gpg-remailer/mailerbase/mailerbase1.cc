@@ -1,7 +1,7 @@
-#include "mailer.ih"
+#include "mailerbase.ih"
 
-Mailer::Mailer(Log &log, Headers &headers, 
-               string const &mailName, string const &step)
+MailerBase::MailerBase(FBB::Log &log, Headers &headers, 
+               std::string const &mailName, std::string const &step)
 :
     d_log(log),
     d_headers(headers),
@@ -12,6 +12,7 @@ Mailer::Mailer(Log &log, Headers &headers,
     if (d_subject.empty())
         d_subject =  "Mail from the reencrypting remailer";
 
-    d_log << level(LOGDEBUG) << "Mail to send written to " << 
+    d_log << FBB::level(LOGDEBUG) << "Mail to send written to " << 
                                                         mailName << '\n';
 }
+

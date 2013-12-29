@@ -10,8 +10,12 @@ namespace FBB
 
 class Headers;
 
-class ClearTextMail: public Mailer
+class ClearTextMail: public Mailer<ClearTextMail>
 {
+    friend void MailerFriend::send(std::string const &mailData, 
+                    std::vector<std::string> const &recipients,
+                    bool dontSend);
+
     Headers &d_headers;
     std::string const &d_mailName;
     std::string const &d_replyTo;
@@ -26,9 +30,11 @@ class ClearTextMail: public Mailer
     private:
         std::string headers() const;
 
-        std::string label() const override;
-        std::string mailCommand(std::string const &recipient) const override;
-        void writeMailContents(std::string const &mailData) const override;
+
+            // Called through MailerBase:
+        std::string label() const;
+        std::string mailCommand(std::string const &recipient) const;
+        void writeMailContents(std::string const &mailData) const;
 };
         
 #endif

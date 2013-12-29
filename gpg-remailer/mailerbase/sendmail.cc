@@ -1,7 +1,8 @@
-#include "mailer.ih"
+#include "mailerbase.ih"
 
-void Mailer::sendMail(string const &command, string const &label, 
-                      string const &recipient, bool dontSend) 
+void MailerBase::sendMail(string const &command, 
+                          string const &label, 
+                          string const &recipient, bool dontSend) 
 {
     d_log << level(LOGCOMMANDS) << command << '\n';
 
@@ -13,8 +14,8 @@ void Mailer::sendMail(string const &command, string const &label,
     }
 
     ifstream in(d_mailName);
-    Process mail(Process::CIN | Process::IGNORE_COUT | Process::IGNORE_CERR, 
-                 command);
+    Process mail(FBB::Process::CIN | FBB::Process::IGNORE_COUT_CERR, command);
+
     mail.start();
     mail << in.rdbuf() << eoi;
 

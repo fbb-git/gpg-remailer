@@ -3,6 +3,7 @@ mail
 gpg
 gpgmail
 cleartextmail
-mailer
+mailerbase
+# mailer: class template, so no compilation required
 headers
 logexception

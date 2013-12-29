@@ -40,11 +40,22 @@ class Mail: private Enums
         void setClearTextMode(ClearText mode);
 
     private:
+        template <class Mailer>
+        void mail(std::string const &mailData, bool dontSend, 
+                  Mailer &&mailer);
+
         bool PGPmessage(std::ostream &out);
         void filter(std::ostream &out);
         void inspect(std::ostream &out, std::string const &line);
         void hexChar(std::ostream &out, std::istream &in);
 };
+
+template <class Mailer>
+inline void Mail::mail(std::string const &mailData, bool dontSend, 
+                       Mailer &&mailer)
+{
+    mailer.send(mailData, d_recipients, dontSend);
+}
 
 inline void Mail::setClearTextMode(ClearText mode)
 {

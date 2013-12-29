@@ -1,25 +1,11 @@
 #ifndef INCLUDED_MAILER_
 #define INCLUDED_MAILER_
 
-#include <string>
-#include <vector>
+#include "../mailerbase/mailerbase.h"
 
-#include "../enums/enums.h"
-#include "../headers/headers.h"
-
-namespace FBB
+template <class Derived>
+class Mailer: private MailerBase
 {
-    class Log;
-}
-
-class Mailer: private Enums
-{
-    FBB::Log &d_log;
-    Headers &d_headers;
-    std::string const &d_mailName;
-    std::string const &d_step;
-    std::string d_subject;
-
     public:
         Mailer(FBB::Log &log, Headers &headers, 
                std::string const &mailName,
@@ -30,28 +16,21 @@ class Mailer: private Enums
                     bool dontSend);
 
     protected:
-        std::string const &subject() const;
-        
+        typedef Mailer<Derived> MailerFriend;
+
+        using MailerBase::subject;
+
     private:
-        void sendMail(std::string const &command, std::string const &label, 
-                      std::string const &recipient, bool dontSend);
-
-        std::vector<std::string> const &setRecipients(
-                        std::vector<std::string> &oneRecipient,
-                        std::vector<std::string> const &configuredRecipients
-        );
-
-        virtual void writeMailContents(std::string const &mailData) const = 0;
-
-        virtual std::string mailCommand(std::string const &recipients) 
-                                                            const = 0; 
-        virtual std::string label() const = 0;
+    // Derived classes must implement and allow the following members
+    // to be callled from MailerFriend::send:
+    //
+    //      void writeMailContents(std::string const &mailData) const;
+    //      std::string mailCommand(std::string const &recipients) 
+    //      std::string label() const;
 };
         
-inline std::string const &Mailer::subject() const
-{
-    return d_subject;
-}
+#include "mailer1.f"
+#include "send.f"
 
 #endif
 

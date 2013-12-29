@@ -1,6 +1,6 @@
-#include "mailer.ih"
+#include "mailerbase.ih"
 
-vector<string> const &Mailer::setRecipients(
+vector<string> const &MailerBase::setRecipients(
                         vector<string> &oneRecipient,
                         vector<string> const &configuredRecipients)
                                         
@@ -13,7 +13,7 @@ vector<string> const &Mailer::setRecipients(
                                     // yes: send the mail to that recipient
     oneRecipient.push_back(d_step.substr(pos + 1)); 
 
-    d_log << level(LOGDEFAULT) << "Ignoring recipients, mail sent to " <<
+    d_log << FBB::level(LOGDEFAULT) << "Ignoring recipients, mail sent to " <<
                                   oneRecipient.front() << '\n';
 
     return oneRecipient;

@@ -12,8 +12,12 @@ namespace FBB
 
 class Headers;
 
-class GPGMail: public Mailer
+class GPGMail: public Mailer<GPGMail>
 {
+    friend void MailerFriend::send(std::string const &mailData, 
+                    std::vector<std::string> const &recipients,
+                    bool dontSend);
+
     std::string const &d_mailName;
     std::string const &d_replyTo;
     std::string d_boundary;
@@ -26,12 +30,14 @@ class GPGMail: public Mailer
     private:
         static std::string makeBoundary();
 
-        void writeMailContents(std::string const &mailData) const override;
-        std::string mailCommand(std::string const &recipients) const override;
-        std::string label() const override;
+            // Called through MailerBase:
+        void writeMailContents(std::string const &mailData) const;
+        std::string mailCommand(std::string const &recipients) const;
+        std::string label() const;
 };
         
 #endif
+
 
 
 
