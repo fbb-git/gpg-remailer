@@ -1,8 +1,0 @@
-#include "mailer.h"
-
-#include <bobcat/log>
-#include <bobcat/level>
-#include <bobcat/process>
-
-using namespace std;
-using namespace FBB;
