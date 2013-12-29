@@ -26,9 +26,9 @@ class GPGMail: public Mailer
     private:
         static std::string makeBoundary();
 
-        virtual void writeMailContents(std::string const &mailData) const;
-        virtual std::string mailCommand(std::string const &recipients) const;
-        virtual std::string label() const;
+        void writeMailContents(std::string const &mailData) const override;
+        std::string mailCommand(std::string const &recipients) const override;
+        std::string label() const override;
 };
         
 #endif
