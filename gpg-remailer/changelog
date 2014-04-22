@@ -1,3 +1,9 @@
+gpg-remailer (3.00.02)
+
+  * Fixed missing substitution of _CurVers_ and _CurYrs_ in the man-page
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 22 Apr 2014 11:29:27 +0200
+
 gpg-remailer (3.00.01)
 
   * Repaired error in exception handling. Because of this, version 3.00.00 is
