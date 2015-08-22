@@ -1,24 +1,27 @@
-    This is the top-level directory of the remailer program source tree.
+Gpg-remailer is somewhat similar to ordinary mailing list software, but all
+e-mail processed by gpg-remailer is PGP/GPG signed and encrypted.
 
-    The directory `sourceforge' is probably not useful for anybody but me, but
-since it serves an important role for me in uploading the `remailer' docs to
-sourceforge, they belong to this remailer. The same holds true for the
+Gpg-remailer decrypts received PGP/GPG messages, verifies the received
+signature and re-encrypts the e-mail for the members of a well defined group
+of recipients. Using gpg-remailer the list of members of a group of people
+who want to exchange encrypted and authenticated e-mail can be maintained at
+one location, allowing the members of the group to specify just one e-mail
+address to send PGP/GPG signed and encrypted e-mail to.
 
-    To create a source archive, run
+Gpg-remailer recognizes the following e-mail formats:
+    *  Standard simple encrypted messages.
+    *  Multi-part encrypted messages.
+    *  Encrypted messages containing detached signatures.
 
-        ./sourcetar
 
-    This will create an archive named like remailer_1.45.tar.gz. 
+To create the program from its sources, either descend into the gpg-remailer
+directory, or unpack a created archive, cd into its top-level directory 
+and follow the instructions provided in the INSTALL file found there.
 
-    To create an `upstream debian archive' provide sourcetar with an (any)
-    argument. E.g.,
+Alternatively, binary ready-to-install versions of the Gpg-remailer program
+are available in verious Linux distributions, in particular Debian. See, e.g.,
 
-        ./sourcetar d
+https://packages.debian.org/search?keywords=gpg-remailer&searchon=names&suite=all&section=all
 
-    This will create an archive named like remailer_1.45.orig.tar.gz
-
-    The numbers will of course follow remailer's version.
-
-    To create the program from its sources, either descend into the remailer
-    directory, or unpack a created archive, cd into its top-level directory 
-    and follow the instructions provided in the INSTALL file found there.
+Github's web-pages for the Gpg-remailer are here:
+https://fbb-git.github.io/gpg-remailer/
