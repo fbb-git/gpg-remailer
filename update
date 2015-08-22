@@ -27,7 +27,9 @@ git st
 
 echo
 
-echo -n "ci change to index.html etc., push the result and co master [y/n] ? "
+echo -n "git ci changes to index.html etc., push the result and \
+git co master [y/n] ? "
+
 read yesno
 
 if [ "$yesno" == "y" ] ; then
