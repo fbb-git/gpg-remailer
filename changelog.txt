@@ -1,0 +1,134 @@
+gpg-remailer (3.01.00)
+
+  * After Bobcat 3.19.00 Bobcat's class Process can again be used. This
+    version drops Spawn in favor of Bobcat's class Process 
+
+gpg-remailer (3.00.01)
+
+  * Repaired error in exception handling. Because of this, version 3.00.00 is
+    not released by itself. Instead, use this 3.00.01 release.
+
+  * Added option --umask
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 15 Dec 2013 14:59:14 +0100
+
+gpg-remailer (3.00.00)
+
+  * The remailer can be configured to accept clear-text messages, in addition
+    to GPG/PGP encrypted messages.
+
+  * Added configuration file options `clear-text' ((dis)allowing clear-text
+    mail) and `envelope' (specifying from which envelope addresses clear-text
+    mail is accepted).
+
+  * The `relax' option and configuration parameter is no longer interpreted. A
+    warning is logged if it is used. Instead of using `relax' the pseudo
+    account used for remailing should set `umask 077' at shell-startup.
+
+  * Long encrypted messages broke the remailer. Repaired by simplifying child
+    process handling in a separate class `Spawn'.
+
+  * Added additional comment to various remailer/ source files, and to
+    remailer/remailer.h 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 14 Dec 2013 13:37:43 +0100
+
+gpg-remailer (2.56.00)
+
+  * Repaired handling of multiple -m or -r options: now all -m and -r options
+    are recognized. Each -m or -r option should contain just one e-mail
+    address. 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 09 Oct 2013 21:27:25 +0200
+
+gpg-remailer (2.55.01)
+
+  * Added missing -pthread flag to icmconf: without it, compiling succeeds,
+    but execution ends in a Fatal exception.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 30 Sep 2013 16:06:56 +0200
+
+gpg-remailer (2.55.00)
+
+  * As per RFC 2822 (pg. 8), multiple subject lines in incoming e-mail are now
+    recognized. 
+
+  * remailer/sendmail.cc and remailer/gpg.cc no longer uses /bin/sh.
+
+  * NTBSs escaping \- or "-chars were converted to Raw String Literals where
+    considered sensible.
+
+  * Added PGP signed file (Copyright-notice) stating that the files of the
+    gpg-remailer package are all free software in accordance with the GPL
+    V. 3.
+
+  * Updated the man-page
+
+  * Gzipped documents were generated using the -n flag to avoid timestamps
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 14 Sep 2013 13:33:20 +0200
+
+gpg-remailer (2.54.01)
+
+  * The distribution is now provided with a (GPL) LICENCE file 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 04 Sep 2013 15:07:26 +0200
+
+gpg-remailer (2.54.00)
+
+  * Sources adapted to Bobcat 3.12.00
+
+  * Program renamed to gpg-remailer, default configuration file now
+    etc/gpg-remailer.rc
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 12 Mar 2013 13:42:48 +0100
+
+remailer (2.53.00)
+
+  * Sources adapted to Bobcat 3.00.00
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 04 May 2012 16:18:41 +0200
+
+remailer (2.52.00)
+
+  * Used lambda functions and modifications required for amd64 architectures
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 07 Sep 2011 17:00:07 +0200
+
+remailer (2.51.00)
+
+  * Adapted sources to bobcat 2.13.0
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 04 Feb 2011 22:23:52 +0100
+
+remailer (2.50.1)
+
+  * Multiple changes see the svn diffs, Using the --std=c++0x compiler option.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 12 Oct 2009 09:52:11 +0200
+
+remailer (2.41.0)
+
+  * Repaired --no-mail handling, recompilation for new Process class
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 27 Oct 2008 17:05:19 +0100
+
+remailer (2.40.0)
+
+  * 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>
+
+remailer (2.32.1)
+
+  * Initial 'Content-Type:' line section is written before the signature. If
+    no such section is found, then the signature is shown first.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 30 Sep 2008 09:42:38 +0200
+
+remailer (2.32.0)
+
+  * Conversion from remailerScript to C++ program
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 28 Sep 2008 19:39:08 +0200
+

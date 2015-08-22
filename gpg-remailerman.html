@@ -1,0 +1,726 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+<title>gpg-remailer</title>
+<style type="text/css">
+    figure {text-align: center;}
+    img {vertical-align: center;}
+</style>
+<link rev="made" href="mailto:Frank B. Brokken: f.b.brokken@rug.nl">
+</head>
+<body text="#27408B" bgcolor="#FFFAF0">
+<hr>
+<h1>gpg-remailer</h1>
+<h2>gpg-remailer._CurVers_.tar.gz</h2>
+<h2>_CurYrs_</h2>
+
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+<style type="text/css">
+    figure {text-align: center;}
+    img {vertical-align: center;}
+    figure {text-align: center;}
+    img {vertical-align: center;}
+</style>
+<link rev="made" href="mailto:Frank B. Brokken: f.b.brokken@rug.nl">
+</head>
+<body text="#27408B" bgcolor="#FFFAF0">
+<hr>
+<h1></h1>
+
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+<title>gpg-remailer(1)</title>
+<style type="text/css">
+    figure {text-align: center;}
+    img {vertical-align: center;}
+    figure {text-align: center;}
+    img {vertical-align: center;}
+    figure {text-align: center;}
+    img {vertical-align: center;}
+</style>
+<link rev="made" href="mailto:Frank B. Brokken: f.b.brokken@rug.nl">
+</head>
+<body text="#27408B" bgcolor="#FFFAF0">
+<hr>
+<h1>gpg-remailer(1)</h1>
+<h2>gpg-remailer._CurVers_.tar.gz gpg-remailer - reencrypt PGP/GPG maill</h2>
+<h2>_CurYrs_</h2>
+
+
+<p>
+
+<h2>NAME</h2>gpg-remailer - forward re-encrypted/signed PGP/GPG encrypted/signed mail to a group
+<p>
+
+<h2>SYNOPSIS</h2>
+       <strong>gpg-remailer</strong> [OPTIONS] 
+<p>
+<h2>DESCRIPTION</h2>
+<p>
+Gpg-remailer decrypts received PGP/GPG messages, verifies the received
+signature, and re-encrypts the e-mail for a well defined group of
+recipients. Gpg-remailer can also be configured so as to process clear-text
+e-mail. 
+<p>
+Using gpg-remailer the list of members of a group of people who want to
+exchange encrypted and authenticated e-mails (and maybe also clear-text
+messages) can be maintained at one
+location, allowing the members of the group to specify just one e-mail address
+to send PGP/GPG signed and encrypted (or optionally clear-text) e-mail to.
+<p>
+Gpg-remailer reads incoming e-mail from its standard input stream. 
+<p>
+If the incoming e-mail is clear-text, it resends the e-mail to one or more
+configurable e-mail addresses. 
+<p>
+If the incoming e-mail is PGP/GPG encrypted (and optionally signed) it
+re-encrypts the received information for every member of a configurable group,
+and send the re-encrypted information to one or more configurable e-mail
+addresses. 
+<p>
+By itself, gpg-remailer is not a mailing list. However, the configured
+recipient address could be, e.g., a mailing list address, for further
+distribution of the processed e-mail. Gpg-remailer is a <em>remailer</em>: it uses
+the message's data, but not its headers. Having received an e-mail it resends,
+rather than forwards, the received e-mail. The e-mail that is received via
+gpg-remailer therefore contains a completely new set of e-mail headers.
+<p>
+A configuration file as well as command line options can be used to
+fine-tune gpg-remailer's behavior. 
+<p>
+<h2>RETURN VALUE</h2>
+<p>
+Gpg-remailer always returns 0 to the operating system to prevent
+<em>unknown mailer error</em> messages in the MTA's logs. However, when 
+gpg-remailer ends prematurely an error message is written to the standard
+error stream.
+<p>
+<h2>REQUIREMENTS</h2>
+<p>
+In order to use gpg-remailer the following requirements must be met (all
+commands should be issued by the <em>root</em> user):
+<p>
+<ul>
+    <li> Since multiple groups may use gpg-remailer it is advised to define
+functional accounts handling e-mail to be processed by gpg-remailer. A
+functional account <em>secmail</em> can be defined using a command like this:
+    <pre>
+
+    adduser --home /var/lib/secmail --disabled-password secmail
+    
+</pre>
+
+<p>
+<li> All locations used by the gpg-remailer must be given highly
+restrictive permissions. E.g., the functional accounts should set <em>umask
+077</em>. It is the responsibility of the user to make sure that the access rights
+are correctly configured.
+<p>
+<li> Consider making all functional gpg-remailer accounts members of a
+special group (e.g., <em>gpg-remailer</em>) and allow execution of
+<em>/usr/sbin/gpg-remailer</em> only my members of that group:
+        <pre>
+
+    addgroup gpg-remailer
+    adduser secmail gpg-remailer
+    chown root.gpg-remailer /usr/sbin/gpg-remailer
+    chmod o-rx /usr/bin/gpg-remailer
+    
+</pre>
+    
+<p>
+<li> To allow the functional account to handle incoming e-mail
+<strong>sudo</strong>(1) can be used. In the file <em>/etc/sudoers</em> the following lines can
+be entered (<em>REMAILERS</em> can be given a comma separated list of functional
+account names, <em>mailhost.org</em> should be replaced by the name of the host
+handling incoming e-mail):
+    <pre>
+
+Runas_Alias REMAILERS = secmail
+
+mail    mailhost.org=(REMAILERS) NOPASSWD:  /usr/sbin/gpg-remailer
+    
+</pre>
+
+    E.g., if gpg-remailer runs on a computer named <em>remailer.mydomain.nl</em>
+which may receive incoming e-mails, then specify <em>remailer.mydomain.nl</em> for
+<em>mailhost.org</em>.
+<p>
+<li> An e-mail address must be defined to where the mail to reencrypt must
+be sent to. This e-mail address must be known by the members of the group who
+want to use the gpg-remailer. Such an account could be, e.g.,
+<em>secmail@mailhost.org</em>, appearing as a defined mail address in, e.g.,
+<em>/etc/mail/aliases</em>. The address for this example would be entered in the
+<em>/etc/mail/aliases</em> file (some installations use <em>/etc/aliases</em>) in this
+way:
+    <pre>
+
+    secmail:         "|sudo -u secmail /usr/sbin/gpg-remailer"
+    
+</pre>
+
+        </ul>
+<p>
+<h2>THE PSEUDO USER'S PGP KEY RINGS</h2>
+<p>
+<ul>
+    <li> The functional account must be provided with a GPG/PGP keypair. Its
+public key must be distributed over the people who are allowed to send mail to
+the gpg-remailer (which may be the world if the public key is published at a
+PGP key server). Since the gpg-remailer must be able to act on its own, the
+secret key must not require a passphrase. The key can be created as follows
+(after the initial command, which is specified by <em>root</em>, the remaining
+commands through the final <em>exit</em> command at the end of this section are
+executed by the pseudo-user <em>secmail</em>):
+        <pre>
+
+    su - secmail
+
+    gpg --gen-key
+        
+</pre>
+
+    At the <em>gpg --gen-key</em> command the <em>gpg</em> program asks for some
+details. Accept the defaults unless you have reason not to, but make sure you
+do not require a pass-phrase: press <em>Enter</em> twice when asked for one.
+    </ul>
+<p>
+<strong>Some additional suggestions:</strong>
+<p>
+<ul>
+    <li> Details for defining a PGP key without password: 
+<p>
+define default  RSA key, size 2048, never to expire<br>
+    real name: secmail gpg-remailer functional account<br>
+    email address: secmail@mailhost.org<br>
+No passphrase required: press Enter twice.<br>
+<p>
+<li> Specify the key-id of the just created gpg-key as the default key in
+the file <em>~/.gnupg/gpg.conf</em> (or <em>~/.gnupg/options</em>, whichever is
+used). E.g.,
+    <pre>
+
+default-key 1234ABCD
+    
+</pre>
+
+<p>
+<li> Also add a line containing
+    <pre>
+
+force-mdc
+    
+</pre>
+ 
+    to <em>~/.gnupg/gpg.conf</em>.  This prevents the warning
+    <pre>
+
+WARNING: message was not integrity protected
+    
+</pre>
+  
+<p>
+<li> If you want to allow non-group members to send e-mail to the
+gpg-remailer consider adding a key server specification to
+<em>~/.gnupg/gpg.conf</em> as well, to allow the automatic retrieval of missing
+public keys. E.g., add a line like
+    <pre>
+
+keyserver keys.gnupg.net
+    
+</pre>
+
+    to <em>~/.gnupg/gpg.conf</em>.
+<p>
+<li> Next use <em>gpg --search-keys</em>, <em>gpg --recv-keys</em> or <em>gpg
+--import</em> (see the <strong>gpg</strong>(1) man-page for the required formats of these
+commands) to already add the public keys of all the members of the group who
+will be using gpg-remailer to the pseudo user's public key ring.
+<p>
+<li> If a group member exists who has signed the GPG/PGP keys of all other
+members, then consider to trust this member fully, to prevent warnings
+resulting from using untrusted keys.
+<p>
+<li> Once the gpg-remailer's GPG key pair has been created, provide the
+remailer's public key to the members of the group. These members should import
+the public key and they should be advised to sign the remailer's public key to
+prevent warnings about using an unverified public key. The remailer's public
+key can be be exported to file using
+        <pre>
+
+    gpg --armor --export secmail &gt; secmail.pub
+        
+</pre>
+
+    and the members of the group can import the remailer's public key using:
+        <pre>
+
+    gpg --import secmail.pub
+        
+</pre>
+
+<p>
+<li> When a new member is added to the group he/she should add the
+remailer's public key to his/her public key ring and provide his/her
+public key for import into the functional account's public key ring.
+<p>
+<li> Gpg-remailer requires the existence of a configuration file and of a
+directory to store its temporary files in. See the section <strong>CONFIGURATION
+FILE</strong> below.
+<p>
+<li> Having prepared the pseudo user's PGP key rings, the command <em>exit</em>
+takes you back to the <em>root</em> user's session.
+    </ul>
+<p>
+<h2>OPTIONS</h2>
+<p>
+If available, single letter options are listed between parentheses
+following their associated long-option variants. Single letter options require
+arguments if their associated long options require arguments as well.
+    <ul>
+<p>
+<li> <strong>--debug</strong> (<strong>-d</strong>) <br>
+        When specified, debug messages are logged to the log-file (see
+below).  When this option is specified the files written by gpg-remailer are
+not removed after gpg-remailer has processed an incoming e-mail.
+<p>
+<li> <strong>--help</strong> (<strong>-h</strong>) <br>
+        A short summary of the usage is displayed to the standard output after
+which gpg-remailer terminates.
+<p>
+<li> <strong>--logfile</strong>=<em>filename</em> (<strong>-l</strong>)<br>
+        Specifies the file on which gpg-remailer's log messages are written
+        (by default <em>~/etc/gpg-remailer.log</em>).
+<p>
+<li>  <strong>--loglevel</strong>=<em>level</em> (<strong>-L</strong>)<br> 
+        LogLevel 0 provides extensive debug output as well as all other
+            logmessages;<br>  
+        LogLevel 1 logs the executed commands and the default messages;<br>
+        LogLevel 2 logs the default messages (characteristics of incoming and
+            outgoing e-mail) (default);<br>
+        Higher levels will suppress logging. 
+<p>
+<li> <strong>--member</strong>=<em>PGP e-mail address</em> (<strong>-m</strong>) <br>
+        The PGP-key e-mail address to re-encrypt the message for. Overrides
+the member(s) listed in the configuration file. This option may be specified
+multiple times when multiple members must be specified on the command
+line. With each <em>--member</em> option only provide one e-mail address (e.g.,
+<em>member@domain.iso</em>. This format is not checked by <strong>gpg-remailer</strong>, but a
+failure to comply may result in <strong>gpg-remailer</strong> being unable to re-encrypt or
+e-mail messages. The <em>--member</em> specifications can also be used to specify a
+set of e-mail envelope addresses from where clear-text e-mail is accepted,
+using the <em>envelope: members</em> and <em>clear-text: envelope</em> configuration
+file specifications.
+<p>
+<li> <strong>--noMail</strong><br>
+        When specified no mail is sent.
+<p>
+<li> <strong>--nr</strong>=<em>file-number</em> (<strong>-n</strong>) <br>
+        Files created by the gpg-remailer while processing incoming e-mails
+are kept, and receive suffix <em>file-number</em>, which should be a number.
+<p>
+<li> <strong>--recipient</strong>=<em>e-mail address</em> (<strong>-r</strong>) <br>
+        The recipient address(es) of the (re-encrypted or plain) resent
+e-mail. Overrides the recipient(s) listed in the configuration file. As with
+the <em>--members</em> option, multiple recipients may be specified by providing
+multiple <em>--recipient</em> options. These addresses may or may not be unique. If
+multiple identical addresses are specified gpg-remailer will send e-mail to
+each of these multiply specified addresses.
+<p>
+Each <em>--recipient</em> option should normally only define one plain e-mail
+address (e.g., <em>recipient@domain.iso</em>, but multiple <em>--recipient</em> options
+are also accepted. The format of the e-mail addresses is not checked by
+<strong>gpg-remailer</strong>, but providing any information in addition to or differing
+from a plain e-mail address may result in <strong>gpg-remailer</strong> being unable to
+re-encrypt or resend e-mail messages. 
+<p>
+In addition to plain e-mail addresses, the specification <em>--recipient
+members</em> can be used to indicate that the re-encrypted mail must be sent to
+all e-mail addresses specified using <em>member</em> specifications.
+<p>
+<li> <strong>--step</strong>=<em>name</em><br>
+        Perform the indicated step of the remailing process. Step names
+are:<br>
+<p>
+<em>hdrs</em> (write the mail headers),<br>
+        <em>org</em> (write the mail data),<br>
+        <em>dec</em> (only for PGP encrypted e-mail: write the decrypted info),<br>
+        <em>doc</em> (only for PGP encrypted e-mail: create the info to send),<br>
+        <em>enc</em> (only for PGP encrypted e-mail: encrypt the info to send),<br>
+        <em>clearmail</em> (send clear-text mail),<br>
+        <em>clearmail:address</em> (send mail only to the provided address, ignore
+                   recipient(s) specified otherwise).
+        <em>pgpmail</em> (send pgp-encrypted mail),<br>
+        <em>pgpmail:address</em> (send pgp-encrypted mail only to the provided
+                address, ignore recipient(s) specified otherwise).<br>
+<p>
+Step <em>hdrs</em> is completely optional. Later steps depend on earlier
+steps. E.g., <em>--step doc</em> can only be requested after having specified
+<em>--step dec</em> in a previous run. 
+<p>
+With clear-text e-mail steps <em>dec, doc, enc</em> and <em>pgpmail</em> should not
+be provided.
+<p>
+With PGP encrypted mail step <em>clearmail</em> should not be provided.
+<p>
+<li> <strong>--tmp</strong>=<em>path</em> (<strong>-t</strong>) <br>
+        The path of the directory where the temporary files are written (by
+default: <em>$HOME/tmp</em>). This should be an absolute path.
+<p>
+<li> <strong>--umask</strong>=<em>octalValue</em><br>
+       By default, gpg-remailer uses umask 077 for all files it creates: only
+the pseudo-user has read and write permissions. In normal circumstances there
+should be no reason for changing this umask value, but if necessary the
+<em>--umask</em> option can be used, providing an octal value, to specify an
+alternative umask value.
+<p>
+<li> <strong>--version</strong> (<strong>-v</strong>)<br>
+       Gpg-remailer's version number is is written to the standard output
+stream after which gpg-remailer terminates.
+    )
+<p>
+<h2>CONFGURATION FILE</h2>
+<p>
+The default configuration file is <em>~/etc/gpg-remailer.rc</em> under the pseudo
+user's home directory. Its path may be altered using a program option.
+<p>
+Empty lines are ignored. Information at and beyond <em>#</em>-characters is
+interpreted as comment and is ignored as well.
+<p>
+All directives in the configuration file obey the pattern 
+    <pre>
+
+    directive: value
+    
+</pre>
+ 
+<p>
+A line may at most contain one directive, but white space (including comment
+at the end of the line) is OK. Several directives may be specified multiple
+times; otherwise the first occurrence of a directive is used. All directives
+are interpreted <em>case insensitively</em>, but their values are used as
+specified. E.g., <em>DeBUG: true</em> is as good as <em>debug: true</em>, but <em>debug:
+TRUE</em> is not recognized.  Non-empty lines not starting with a recognized
+directive are silently ignored.
+<p>
+The following directives are supported (default values are shown between
+parentheses; when none is specified there is no default). When equivalent 
+command line options are used then they overrule the configuration file
+specifications.
+<p>
+<ul>
+    <li> <strong>debug:</strong> <em>logic</em> (false)<br>
+        When <em>logic</em> is specified as <em>true</em> debug messages will be logged
+to the log-file (see below). Command line options: <em>--debug, -d</em>. When this
+option is specified the files written by gpg-remailer will not be removed when
+gpg-remailer terminates.
+<p>
+<li> <strong>clear-text:</strong> <em>specification</em> (rejected)<br>
+        By default, the gpg-remailer does not accept clear-text e-mail. This
+can explicitly be indicated in the configuration file using the
+<p>
+<em>clear-text: rejected</em>
+<p>
+specification. If clear-text e-mail should be allowed specify
+<p>
+<em>clear-text: accepted</em>
+<p>
+It is also possible to specify the envelope addresses that are accepted
+for received clear-text e-mail. If this is required, specify
+<p>
+<em>clear-text: envelope</em>
+<p>
+and define the accepted envelope e-mail addresses using the <em>envelope:</em>
+configuration option. 
+<p>
+<li> <strong>envelope:</strong> <em>e-mail address</em> <br>
+        The <em>envelope</em> specifications are only interpreted when
+<em>clear-text: envelope</em> has been specified. When <em>clear-text: envelope</em> was
+specified only clear-text e-mail using one of the configured <em>envelope</em>
+addresses will be re-mailed to the configured recipients. The special envelope
+specification
+<p>
+<em>envelope: members</em> 
+<p>
+may be used to indicate that envelope addresses which are equal to the
+addresses specified using <em>member</em> specifications are all accepted.
+<p>
+All envelope addresses are interpreted case-insensitively. By default (if
+no <em>envelope</em> specification has been provided) all envelope addresses are
+accepted, in which case the specification <em>clear-text: envelope</em> reduces to
+<em>clear-text: accepted</em>.
+<p>
+<li> <strong>keepFiles:</strong> <em>nr</em> <br>
+        When a number is specified all files written by gpg-remailer use the
+specified number and are not removed when gpg-remailer terminates. When this
+option is not specified the files receive a random numeric extension resulting
+in the creation of new, as yet non-existing <em>*.&lt;nr&gt;</em> files. 
+<p>
+<li> <strong>logfile:</strong> <em>filename</em> (etc/gpg-remailer.log)<br>
+        The file on which gpg-remailer's log messages are written.
+<p>
+<li> <strong>loglevel:</strong> <em>value</em> (2)<br>
+        LogLevel 0 provides extensive debug output as well as all other
+            logmessages;<br>  
+        LogLevel 1 logs the executed commands and the default messages;<br>
+        LogLevel 2 logs the default messages (characteristics of incoming and
+            outgoing e-mail);<br>
+        With higher levels  logging is suppressed. 
+<p>
+<li> <strong>member:</strong> <em>address</em> <br>
+        Multiple members may be specified. Each <em>member</em> specification
+specifies a PGP-key e-mail address to re-encrypt the message for. The
+addresses should be plain e-mail addresses (e.g., <em>member@domain.iso</em>), and
+should not contain other elements (like the name of the person using the
+address). This format is not checked by <strong>gpg-remailer</strong>, but a failure to
+comply may result in <strong>gpg-remailer</strong> being unable to re-encrypt or e-mail
+messages. The <em>member</em> specifications can also be used to specify a set of
+e-mail envelope addresses from where clear-text e-mail is accepted, using the
+<em>envelope: members</em> and <em>clear-text: envelope</em> specifications.
+<p>
+<li> <strong>noMail:</strong> <em>logic</em> (false)<br>
+        When specified as <em>true</em> no mail is sent.
+<p>
+<li> <strong>recipient:</strong> <em>e-mail address</em> <br>
+        The recipient address(es) of the (re-encrypted or plain) resent
+e-mail. Multiple recipients may be specified. These addresses may or may not
+be unique. If multiple identical addresses are specified gpg-remailer will
+send e-mail to each of these multiply specified addresses. Recipients should
+be specified using plain e-mail addresses (e.g.,
+<em>destination@some.host.org</em>). The re-encrypted mail is sent to each
+recipient in turn. The specification
+<p>
+<em>recipient: members</em>
+<p>
+can be used to indicate that the re-encrypted mail must be sent to all
+e-mail addresses specified using <em>member</em> specifications.
+<p>
+<li> <strong>replyTo:</strong> <em>full address</em> <br>
+        The reply to address may be any e-mail reply-to address. The reply-to
+becomes the default reply address for the recipient receiving gpg-remailer's
+e-mail message. Quotes and double quotes are removed from the reply to
+address. A reply-to specification could be, e.g.,
+        <pre>
+
+    SECMAIL signed AND encrypted &lt;secmail@mailhost.org&gt;
+        
+</pre>
+
+        This specification should be according to the requirements defined in
+RFC 822: <em>Standard for ARPA Internet Text Messages</em>. Failing to comply with
+RFC 822 may result in the e-mail sending program rejecting the e-mail that is
+submitted by the gpg-remailer.
+<p>
+<li> <strong>signature:</strong> <em>requirement</em> (required)<br>
+        This option is used to control signature checking. Recognized values
+are:<br>
+        <em>none</em> (or not specified): no signature checking is performed;<br>
+        <em>required</em>: a PGP signature must have been provided;<br>
+        <em>good</em>: the PGP signature must be recognized as a a `good
+        signature'. 
+<p>
+<li> <strong>tmp</strong> <em>directory</em> (tmp/)<br>
+        The directory into which gpg-remailer writes its temporary files.
+    </ul>
+)
+<p>
+<h2>FORMATS</h2>
+<p>
+Although using PGP/GPG in e-mail is established technology, various
+formats of the e-mail are possible. Currently gpg-remailer recognizes the
+following formats:
+    <ul>
+    <li> Simple encrypted messages, consisting of an encrypted e-mail body;
+    <li> Multi-part encrypted messages;
+    <li> Encrypted messages containing detached signatures.
+    </ul>
+<p>
+Below a description is given of the actual contents of PGP encrypted
+en decrypted files. 
+<p>
+All PGP encrypted e-mail shows the following headers (the boundary values
+will differ over different e-mail messages):
+        <pre>
+
+Content-Type: multipart/encrypted; protocol="application/pgp-encrypted";
+        boundary="+QahgC5+KEYLbs62"
+Content-Disposition: inline
+        
+</pre>
+
+    All PGP encrypted e-mail shows the following organization (the lines are
+used to separate the e-mail organization from the text of this man-page and
+are not actually present in the e-mail or in the decrypted information; empty
+lines, where shown, are required):
+        <pre>
+
+----------------------------------------------------------------------
+    mail headers
+
+--+QahgC5+KEYLbs62
+Content-Type: application/pgp-encrypted
+Content-Disposition: attachment
+
+Version: 1
+
+--+QahgC5+KEYLbs62
+Content-Type: application/octet-stream
+Content-Disposition: inline; filename="msg.asc"
+
+-----BEGIN PGP MESSAGE-----
+...
+-----END PGP MESSAGE-----
+
+--+QahgC5+KEYLbs62--
+----------------------------------------------------------------------
+        
+</pre>
+
+    Note that boundaries consist of 
+    <ul>
+    <li> a new line character
+    <li> two dashes followed by the boundary text
+    <li> the last boundary is followed by two dashes
+    <li> a new line character
+    </ul>
+<p>
+The various PGP encrypted e-mail formats differ in the way they organize
+the decrypted information.
+<p>
+<strong>Simple Encrypted Messages.</strong>
+<p>
+During decryption the signature is verified, and the result of the
+verification is written to the standard error stream. The decrypted message
+itself contains but one message, organized as follows:
+        <pre>
+
+----------------------------------------------------------------------
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+decrypted text of the message
+----------------------------------------------------------------------
+        
+</pre>
+
+<p>
+<strong>Multi-part Encrypted Messages.</strong> 
+<p>
+During decryption the signature is verified, and the result of the
+verification is written to the standard error stream. The decrypted message
+itself contains multiple messages, organized as follows:
+        <pre>
+
+----------------------------------------------------------------------
+Content-Type: multipart/mixed; boundary="f+W+jCU1fRNres8c"
+Content-Disposition: inline
+
+--f+W+jCU1fRNres8c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Text of the first attachment
+
+--f+W+jCU1fRNres8c
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="attachment.pdf"
+Content-Transfer-Encoding: base64
+
+text of the attachment.pdf in base64 encoding
+
+--f+W+jCU1fRNres8c--
+----------------------------------------------------------------------
+        
+</pre>
+
+    Multiple attachments might follow in the same way.
+<p>
+<strong>Encrypted Messages Containing Detached Signatures.</strong>
+<p>
+During decryption the signature is <em>not</em> verified (but the 
+recipient(s) is (are) shown) and the decrypted file is organized as follows:
+        <pre>
+
+----------------------------------------------------------------------
+Content-Type: multipart/signed; micalg=pgp-sha1; protocol="application/pgp-signature";
+        boundary="=-TNwuMvq+TfajHhvqBuO7"
+
+--=-TNwuMvq+TfajHhvqBuO7
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Text of the message
+
+--=-TNwuMvq+TfajHhvqBuO7
+Content-Type: application/pgp-signature; name=signature.asc
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+... signature text
+-----END PGP SIGNATURE-----
+
+--=-TNwuMvq+TfajHhvqBuO7--
+----------------------------------------------------------------------
+        
+</pre>
+
+    The last part represents the detached signature, The contents section must
+be separated from the decrypted file (named, e.g., <em>decrypted</em>) (creating,
+e.g., the file <em>contents</em>). That latter file's signature may then be
+verified using the command
+        <pre>
+
+    gpg --verify decrypted contents
+        
+</pre>
+
+    resulting in the signature verification written to the standard error (as
+usual). The contents start immediately following the first boundary, and
+continues up to, but not including, the new line just before the next
+boundary.
+    </ul>
+<p>
+<h2>FILES</h2>
+    Default locations are shown. Configuration options may change these
+locations. 
+    <ul>
+    <li> <em>/etc/mail/aliases</em>: defines the mail accounts used by
+gpg-remailer.
+    <li> <em>etc/gpg-remailer.rc</em>: gpg-remailer's configuration file.
+    <li> <em>/etc/sudoers</em>: defines actions executed by the MTA.
+<p>
+<li> <em>tmp/decrypted.&lt;nr&gt;</em>: the decrypted original text.
+    <li> <em>tmp/err.&lt;nr&gt;</em>: a file containing errors generated when processing 
+the original text. The <em>tmp/signature.&lt;nr&gt;</em> may contain gog-decryption
+errors. 
+    <li> <em>tmp/hdrs.&lt;nr&gt;</em>: the headers of the received e-mail.
+    <li> <em>tmp/mail.&lt;nr&gt;</em>: the mail sent to the recipient(s).
+    <li> <em>tmp/org.&lt;nr&gt;</em>: a copy of the received e-mail. When random file
+numbers are used a <em>org.&lt;nr&gt;</em> file will not overwrite an existing <em>org.*</em>
+file. 
+    <li> <em>tmp/reencrypt.&lt;nr&gt;</em>: the (as yet unencrypted) file to return to
+the the recipient(s).
+    <li> <em>tmp/reencrypted.&lt;nr&gt;</em>: the reencrypted file to return to
+the the recipient(s).
+    <li> <em>tmp/signature.&lt;nr&gt;</em>: the signature found in the original text.
+    </ul>
+<p>
+<h2>SEE ALSO</h2>
+<p>
+<strong>addgroup</strong>(1), 
+    <strong>adduser</strong>(1), 
+    <strong>chmod</strong>(1), 
+    <strong>chown</strong>(1), 
+    <strong>gpg</strong>(1),
+    <strong>sudo</strong>(1),
+    <strong>umask</strong>(1), 
+<p>
+<h2>BUGS</h2>
+<p>
+None reported
+<p>
+<h2>AUTHOR</h2>
+<p>
+Frank B. Brokken (f.b.brokken@rug.nl).
