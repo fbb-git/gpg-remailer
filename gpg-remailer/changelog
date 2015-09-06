@@ -1,8 +1,18 @@
-gpg-remailer (3.01.00)
+gpg-remailer (3.01.00)  NOT YET TAGGED
 
   * After Bobcat 3.19.00 Bobcat's class Process can again be used. This
     version drops Spawn in favor of Bobcat's class Process 
 
+  * Added 'build uninstall'. This command only works if, when calling one of
+    the 'build install' alternatives and when calling 'build uninstall' the
+    environment variable REMAILER contains the (preferably absolute) filename
+    of a file on which installed files and directories are logged.
+    Note that 'build (dist)clean' does not remove the file pointed at by the
+    REMAILER environment variable, unless that file happpens to be in a
+    directory removed by 'build (dist)clean'. See also the file INSTALL.
+    Defining the REMAILER environment variable as ~/.remailer usually works
+    well. 
+    
 gpg-remailer (3.00.01)
 
   * Repaired error in exception handling. Because of this, version 3.00.00 is
