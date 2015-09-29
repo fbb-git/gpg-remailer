@@ -24,9 +24,9 @@ if [ "$yesno" == "y" ] ; then
     ./build distclean
     cd ..    
     git co gh-pages
-fi
 
-cp -r ../wip/changelog.txt ../wip/${_product_}man.html ../wip/manual/* .
+    cp -r ../wip/changelog.txt ../wip/${_product_}man.html ../wip/manual/* .
+fi
 
 echo
 echo -n "Check index.yo: version and last 5 releases [y/n] ? "
