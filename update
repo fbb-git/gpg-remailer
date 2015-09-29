@@ -28,6 +28,14 @@ fi
 
 cp -r ../wip/changelog.txt ../wip/${_product_}man.html ../wip/manual/* .
 
+echo
+echo -n "Check index.yo: version and last 5 releases [y/n] ? "
+read yesno
+
+if [ "$yesno" == "y" ] ; then
+    emacs index.yo
+fi
+
 yodl2html index.yo || exit 1
 
 echo "Running 'git st': check for unexpected files"
