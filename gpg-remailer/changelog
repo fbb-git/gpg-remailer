@@ -1,4 +1,4 @@
-gpg-remailer (3.01.00)  NOT YET TAGGED
+gpg-remailer (3.01.00)
 
   * After Bobcat 3.19.00 Bobcat's class Process can again be used. This
     version drops Spawn in favor of Bobcat's class Process 
@@ -13,6 +13,8 @@ gpg-remailer (3.01.00)  NOT YET TAGGED
     Defining the REMAILER environment variable as ~/.remailer usually works
     well. 
     
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 29 Sep 2015 21:00:01 +0200
+
 gpg-remailer (3.00.01)
 
   * Repaired error in exception handling. Because of this, version 3.00.00 is
