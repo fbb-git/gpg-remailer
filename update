@@ -25,7 +25,7 @@ if [ "$yesno" == "y" ] ; then
     cd ..    
     git co gh-pages
 
-    cp -r ../wip/changelog.txt ../wip/${_product_}man.html ../wip/manual/* .
+    cp -r ../wip/changelog.txt ../wip/${_product_}man.html .
 fi
 
 echo
