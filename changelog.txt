@@ -1,3 +1,11 @@
+gpg-remailer (3.01.01)
+
+ * Standardized the (de)installation procedures
+
+ * Gpg-remailer depends on Bobcat >= 4.01.02
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 04 Oct 2015 11:28:28 +0200
+
 gpg-remailer (3.01.00)
 
   * After Bobcat 3.19.00 Bobcat's class Process can again be used. This
