@@ -29,22 +29,31 @@
     //   -d     same as --no-dereference --preserve=links
 #define CPOPTS  "-d"
 
-// =========================================================================
-// Deactivate (e.g., use //#define ...) the following #defines to prevent
-// installation of the indicated component by 'build install'
-// 'build install base' can be used to specify a base directory below which
-// all components are installed (e.g., gpg-remailer is then installed in
-// 'base + BINARY')
-// =========================================================================
+// COMPONENTS TO INSTALL
+// =====================
 
-    // the directory where gpg-remailer is installed
-#define BINARY     "/usr/bin"
+    // For an operational non-Debian installation, you probably must be
+    // `root'.
+
+    // If necessary, adapt DOC, HDR, LIB and MAN (below) to your situation.
+    // The provided locations are used by Debian Linux.
+
+    // With 'build install' you can dynamically specify a location to prepend
+    // to the locations configured here, and select which components you want 
+    // to install
+
+// ONLY USE ABSOLUTE DIRECTORY NAMES:
+
+
+    // the final program
+#define BINARY     "/usr/bin/"${PROGRAM}
+
+    // the directory where the standard documentation is stored 
+#define DOC     "/usr/share/doc/"${PROGRAM}
 
     // the directory whre the manual page is stored
 #define MAN     "/usr/share/man/man1"
 
-    // the directory where the standard documentation is stored 
-#define STD     "/usr/share/doc/"${PROGRAM}
 
 
 

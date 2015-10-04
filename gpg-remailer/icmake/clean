@@ -17,7 +17,6 @@ void clean(int dist)
     run("rm -rf "
             "man/*.1 "
             "man/*.html "
-            "manual/manual-stamp "
             "manual/*.html "
             "manual/invoking/usage "
             "manual/invoking/usage.txt "

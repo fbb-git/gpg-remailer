@@ -17,10 +17,13 @@ void precompileHeaders()
 
     classes = makelist(O_SUBDIR, "*");
 
+
     g_compiler = setOpt(CXX, "CXX") + " " + 
                                     setOpt(CXXFLAGS, "CXXFLAGS") + " ";
 
-    _precompile("bisonc++");
+
+    _precompile("main");         // precompile the main program .ih file
+
 
     for (idx = sizeof(classes); idx--; )
     {

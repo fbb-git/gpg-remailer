@@ -1,48 +1,75 @@
-void install(string base)
+
+void install(string request, string dest)
 {
     string target;
+    int components = 0;
+    list pathsplit;
+    string base;
+    base = "tmp/install/";
 
-    g_installing = 1;
+    md(base);
 
-#ifdef BINARY
-    target = base + BINARY;
-    printf("  installing the executable `", target + PROGRAM "'\n");
-    logFile("tmp/bin", "binary", target, PROGRAM);
-#endif
+    if (request == "x")
+        components = 63;
+    else 
+    {
+        if (strfind(request, "b") != -1)
+            components |= 2;
+        if (strfind(request, "d") != -1)
+            components |= 4;
+        if (strfind(request, "m") != -1)
+            components |= 8;                
+    }
 
-#ifdef MAN
-    target = base + MAN;
-    printf("  installing the manual pages below `", target, "'\n");
+    if (components & 2)
+    {
+        target = base + BINARY;
+        pathsplit = path_file(target);
+
+        printf("  installing the executable `", target, "'\n");
+        logFile("tmp/bin", "binary", pathsplit[0], pathsplit[1]);
+    }
+
+
+    if (components & (4 | 8))
+    {
+        target = base + DOC "/";
+        if (components & 4)
+        {
+            printf("  installing the changelog at `", target, "\n");
+            logZip("", "changelog", target );
+        }
+
+        if (components & 8)
+        {
+            printf("  installing the html-manual pages at `", target, "\n");
+            logInstall("tmp/manhtml", "", target);
+        }
+    }
+
+
+    if (components & 8)
+    {
+        target = base + MAN "/";
+        printf("  installing the manual pages below `", target, "'\n");
     
-    logZip("tmp/man", PROGRAM ".1", target);
-#endif
+        logZip("tmp/man", "gpg-remailer.1", target);
+    }
 
-#ifdef STD
-    target = base + STD;
-    printf("  installing the changelog at `", target, "\n");
-    logZip("", "changelog", target);
+    chdir(g_cwd);
+    if (dest == "")
+        dest = "/";
+    else
+        md(dest);
 
-    printf("  installing the html-manual pages at `", target, "\n");
-    logInstall("tmp/manhtml", "", target);
-#endif
+    dest = cutEoln(backtick("realpath " + dest)[0]);
 
-//    if (what == "std")
-//    {
-//        where = setWhere(where, STD);
-//
-//        printf("  INSTALLING the changelog at `", where, "\n");
-//        run("gzip -n -9 < changelog > " + where + "/changelog.gz");
-//    
-//        printf("  INSTALLING the html-manual page at `", where, "\n");
-//        run("cp tmp/manhtml/" PROGRAM "man.html " + where);
-//        exit(0);
-//    }
-//
-//    exit(0);
+    if (g_logPath != "")
+        backtick("icmake/log " + dest + " " + g_logPath);
 
-    writeLog();
+    run("tar cf - -Ctmp/install . | tar xf - -C" + dest);
+
+    printf("\n  Installation completed\n");
+
+    exit(0);
 }
-
-
-
-
