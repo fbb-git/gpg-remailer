@@ -1,3 +1,9 @@
+gpg-remailer NOT YET TAGGED
+
+  * Updated the installation procedure
+
+
+
 gpg-remailer (3.01.02)
 
   * Kevin Brodsky observed that the installation scripts used 'chdir' rather
