@@ -1,6 +1,10 @@
-gpg-remailer NOT YET TAGGED
+gpg-remailer (3.01.03) NOT YET TAGGED
 
   * Updated the installation procedure
+
+  * Adapted the icmake scripts to icmake 8.00.04
+
+  * Fixed a bug in handling log-level specifications
 
 
 
