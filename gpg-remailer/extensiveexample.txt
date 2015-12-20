@@ -1,0 +1,430 @@
+What follows is an extensive example of how to install and setup the
+gpg-remailer. 
+
+It is assumed that you've installed the gpg-remailer program, and that it's
+available as /usr/bin/gpg-remailer.
+
+
+Define the remailer's account:
+==============================
+
+1. The gpg-remailer will receive mail sent at remailer@suffix.rc.rug.nl
+    The remailer needs an account: for that the user 'remailer' is
+    defined. E.g., 
+
+--------------------------------------------------------------------------
+adduser --home /var/lib/remailer --disabled-password --disabled-login remailer
+Adding user `remailer' ...
+Adding new group `remailer' (1011) ...
+Adding new user `remailer' (1006) with group `remailer' ...
+Creating home directory `/var/lib/remailer' ...
+Copying files from `/etc/skel' ...
+Changing the user information for remailer
+Enter the new value, or press ENTER for the default
+    Full Name []: 
+    Room Number []: 
+    Work Phone []: 
+    Home Phone []: 
+    Other []: 
+Is the information correct? [Y/n] y
+--------------------------------------------------------------------------
+
+
+2. Make sure that access to /var/lib/remailer is denied except to remailer
+    itself: 
+
+        chmod -R og-rwx remailer
+
+3. Change to user 'remailer'. As root, do: 
+
+        su - remailer
+
+    and then, as the user 'remailer' do:
+
+        mkdir etc tmp
+
+4. Enter 'exit' to return to the 'root' account.
+
+Define and test mail sent to the remailer:
+==========================================
+
+1. Set up a mail account for the remailer in /etc/mail/aliases (/etc/aliases
+    in some installations): add this line to /etc/mail/aliases:
+
+    remailer:       /tmp/remailer
+
+    After running `newaliases' mail sent to remailer@suffix.rc.rug.nl appears
+    in (is appended to) the file /tmp/remailer.
+
+    Looking at the owner/group specification of /tmp/remailer we find the name
+    that's used by the mail program. My sendmail program uses 'mail', but
+    other names may also be encountered, like 'nobody':
+
+    ls -l /tmp/remailer:
+
+    -rw-r----- 1 mail mail 2566 Dec 17 12:03 /tmp/remailer
+
+2. Remove /tmp/remailer, and create the following script, name it
+    /usr/local/bin/id.sh:
+
+#/bin/bash
+id > /tmp/remailer
+
+3.  Do 'chmod +x /usr/local/bin/id.sh
+
+    
+4. To check processing of mail sent to 'remailer' add this line to the sudoers
+    file (e.g., call 'sudoedit /etc/sudoers.d/specs')
+
+    mail    ALL = (remailer)  NOPASSWD:  /usr/local/bin/id.sh
+
+5. Change the 'remailer: ...' line in /etc/mail/aliases
+    into 
+
+    remailer:       "|sudo -u remailer /usr/local/bin/id.sh"
+
+   and run 'newaliases'.
+
+6. Once again send mail to remailer, and /tmp/remailer should contain something
+    like:
+
+uid=1006(remailer) gid=1011(remailer) groups=1011(remailer)
+
+7. Once 6. succeeds, do 'rm /usr/local/bin/id.sh' as you don't need it
+    anymore. 
+
+8. Setup the mail account so that mail is sent to the remailer: Change the
+    'remailer: ...' line in /etc/mail/aliases 
+    into 
+
+    remailer:       "|sudo -u remailer /usr/bin/gpg-remailer
+
+   and run 'newaliases'.
+
+9. Change the previously mentioned line in the sudoers 
+    file (e.g., call 'sudoedit /etc/sudoers.d/specs') into:
+
+    mail    ALL = (remailer)  NOPASSWD:  /usr/bin/gpg-remailer
+
+
+Define an initial configuration file for the user remailer:
+===========================================================
+
+1. Create the file /var/lib/remailer/etc/gpg-remailer.rc containing:
+
+--------------------------------------------------------------------------
+clear-text: accepted
+noMail:     true
+replyTo:    provide a reply-to address here
+recipient:  destination-address-here
+member:     some-member-address-here
+signature:  none
+--------------------------------------------------------------------------
+
+    This allows you to test the reception and basic handling of of e-mail by
+    the gpg-remailer. At this point the recipient and member addresses are
+    irrelevant. 
+
+2. Once again send an e-mail to the remailer address. Now the file
+    /var/lib/remailer/etc/remailer.log is creating showing something like:
+
+--------------------------------------------------------------------------
+Dec 17 15:06:58 Clear-text mail
+Dec 17 15:06:58 Removing all temporary files
+--------------------------------------------------------------------------
+
+3. Now fill in a real e-mail address for the recipient in
+    /var/lib/remailer/etc/gpg-remailer.rc (i.e., an e-mail address that can be
+    reached from the computer on which the remailer mail account has been
+    defined) and remove the 'noMail: true' line. E.g., I could do:
+
+--------------------------------------------------------------------------
+clear-text: accepted
+replyTo:    provide a reply-to address here
+recipient:  f.b.brokken@rug.nl
+member:     some-member-address-here
+signature:  none
+--------------------------------------------------------------------------
+
+4. Once again send an e-mail to the remailer which must then be arriving at
+    the "recipient's" address
+
+E.g., after sending (omitting not relevant headers):
+
+--------------------------------------------------------------------------
+From f.b.brokken@rug.nl Thu Dec 17 11:59:06 2015
+Date: Thu, 17 Dec 2015 11:59:06 +0100
+From: "Frank B. Brokken" <f.b.brokken@rug.nl>
+To: remailer
+Subject: hello world
+Reply-To: f.b.brokken@rug.nl
+
+hi
+-- 
+    Frank B. Brokken
+--------------------------------------------------------------------------
+
+    
+I received (omitting not relevant headers):
+
+--------------------------------------------------------------------------
+Date: Thu, 17 Dec 2015 15:11:19 +0100
+From: remailer@rug.nl
+To: f.b.brokken@rug.nl
+Subject: Subject: hello world
+
+
+hi
+--
+    Frank B. Brokken
+--------------------------------------------------------------------------
+
+Encrypted mail
+==============
+
+1. To handle encrypted mail, the remailer needs a PGP key. To create this key
+    first, as root, issue the command:
+
+        su - remailer
+
+    to change to the remailer's ID.
+
+2. Next, as the user 'remailer' generate its GPG keypair by issuing:
+
+        gpg --gen-key    
+
+    All default answers can normally be accepted. As e-mail address, specify
+    'remailer@fqdn, where `fqdn' is the fully qualified domain name of the
+    host where the 'remailer' mail account has been defined (see the next
+    example). The interaction at this point looks like this (be sure to
+    specify your own fqdn, and not example.rug.nl, which is used as example:
+
+--------------------------------------------------------------------------
+Real name: Remailer for encrypted and plain e-mail
+Email address: remailer@example.rug.nl
+Comment: 
+You selected this USER-ID:
+    "Remailer for encrypted and plain e-mail <remailer@examplerug.nl>"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+You need a Passphrase to protect your secret key.
+--------------------------------------------------------------------------
+
+    Next press the enter key twice, so that no passphrase is required. GPG
+    then issues a warning:
+
+--------------------------------------------------------------------------
+You don't want a passphrase - this is probably a *bad* idea!
+I will do it anyway.  You can change your passphrase at any time,
+using this program with the option "--edit-key".
+--------------------------------------------------------------------------
+
+    The warning is ignored: as long as the computer running the remailer is
+    well-protected (i.e., only used by a member of the certteam) using a
+    non-password protected key is defensible.
+
+    Now they key is being generated, eventually resulting in a message like
+    this:
+
+--------------------------------------------------------------------------
+pub   2048R/4EFA600E 2015-12-19
+      Key fingerprint = 9EA5 220B 42AF 6912 9B0D  7304 D684 9112 4EFA 600E
+uid        Remailer for encrypted and plain e-mail <remailer@examplerug.nl>
+sub   2048R/48FCCFD0 2015-12-19
+--------------------------------------------------------------------------
+
+
+2. The public key is now uploaded to a key server, or could otherwise be
+    distributed over the members of the cert team. To upload, use
+
+        gpg --send-keys remailer
+
+    To extract the remailer's key to file, use:
+
+        gpg --export --armor remailer > ~/etc/pubkey.txt
+
+3. All the users of the cert-team have their own PGP keys (if not: generate
+    them as just shown). 
+
+4. Make the PGP keys of the members of the cert-team available to the user
+    'remailer' (e.g., copy them to the computer where the remailer account has
+    been installed) Then, assuming a public key is made available as
+    /tmp/pubkey.txt, do, still as user 'remailer':
+
+        gpg --import /tmp/pubkey
+
+    This results in output similar to this:
+
+--------------------------------------------------------------------------
+gpg: key EAE4D8AA: public key "Frank B. Brokken <f.b.brokken@rug.nl>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+--------------------------------------------------------------------------
+
+5. To avoid warnings about untrusted keys, the remailer can sign each newly
+    added key by doing (use the actual key IDs, not the one shown in the next
+    example):
+
+        gpg --edit-key EAE4D8AA
+
+    then, interactively, give the commands:
+
+        sign
+        save
+
+4. Distribute the public PGP key of the remailer over the members of the
+    cert-team. Assuming a public key is made available as /tmp/pubkey.txt, and
+    has key ID 4EFA600E (see point 1, this section), each member should do:
+
+        gpg --edit-key 4EFA600E
+
+    then, interactively, they should give the commands:
+
+        sign
+        save
+        
+Handling encrypted and signed e-mail:
+=====================================
+
+1. As the user 'remailer' edit the file etc/gpg-remailer.rc to contain:
+
+--------------------------------------------------------------------------
+clear-text: accepted
+#   noMail:     true        Or completely remove this line 
+replyTo:    Sec team mail, signed and optionally encrypted <remailer@fqdn>
+
+#   We use this for testing only: enter the mail address matching the account
+#   that you provided with the remailer's public key
+recipient:  your mail address (e.g., I used: f.b.brokken@rug.nl here)
+member:     your mail address (e.g., I used: f.b.brokken@rug.nl here)
+
+signature:  required
+--------------------------------------------------------------------------
+
+
+2. Now send an encrypted and signed message to the remailer. E.g., I sent this
+    signed and encrypted e-mail:
+
+--------------------------------------------------------------------------
+Date: Sat, 19 Dec 2015 14:56:29 +0100
+From: "Frank B. Brokken" <f.b.brokken@rug.nl>
+To: remailer
+Subject: hello world
+
+[-- PGP output follows (current time: Sat Dec 19 15:07:19 2015) --]
+gpg: Signature made Sat Dec 19 14:56:29 2015 CET using RSA key ID EAE4D8AA
+gpg: Good signature from "Frank B. Brokken <f.b.brokken@rug.nl>"
+[-- End of PGP output --]
+
+[-- The following data is PGP/MIME encrypted --]
+
+signed and encrypted
+
+--
+    Frank B. Brokken
+--------------------------------------------------------------------------
+
+[-- End of PGP/MIME encrypted data --]
+
+
+And I received in return:
+
+--------------------------------------------------------------------------
+Date: Sat, 19 Dec 2015 15:02:27 +0100
+From: remailer@rug.nl
+To: f.b.brokken@rug.nl
+Subject: Subject: hello world
+
+[-- PGP output follows (current time: Sat Dec 19 15:06:04 2015) --]
+gpg: Signature made Sat Dec 19 15:02:27 2015 CET using RSA key ID 4EFA600E
+gpg: Good signature from "Remailer for encrypted and plain e-mail <remailer@suffix.rc.rug.nl>"
+[-- End of PGP output --]
+
+[-- The following data is PGP/MIME encrypted --]
+
+gpg: encrypted with 2048-bit RSA key, ID 6F42985B, created 2009-05-23
+      "Frank B. Brokken <f.b.brokken@rug.nl>"                        
+gpg: encrypted with 2048-bit RSA key, ID 48FCCFD0, created 2015-12-19
+      "Remailer for encrypted and plain e-mail <remailer@suffix.rc.rug.nl>"
+gpg: Signature made Sat Dec 19 14:56:29 2015 CET using RSA key ID EAE4D8AA
+gpg: checking the trustdb
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   1  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 1f, 0u
+gpg: Good signature from "Frank B. Brokken <f.b.brokken@rug.nl>"
+
+signed and encrypted
+
+--
+    Frank B. Brokken
+
+[-- End of PGP/MIME encrypted data --]
+--------------------------------------------------------------------------
+
+    When multiple recipients had been defined, each recipient would have
+    received this e-mail, showing: 
+
+        1. The e-mail was received from the remailer: signed by the remailer,
+            so as a recipient you're confident that it isn't a fake-mail
+
+        2. The verification of the original sender by showing gpg's signature
+            verification output of the mail received by the remailer
+
+        3. The original text (and possibly attachments, if used).
+
+3. In this case, the following is appended to the remailer.log file:
+
+--------------------------------------------------------------------------
+Dec 19 15:28:23 GPG encrypted mail (Subject: hello world) sent to f.b.brokken@rug.nl
+Dec 19 15:28:23 Removing all temporary files
+--------------------------------------------------------------------------
+
+Using a mailing list
+====================
+
+1. Using a mailing list isn't strictly necessary, but a mailing list comes in
+    handy because with it comes the software to send mail to a group
+    of e-mail addresses. 
+
+2. The following communication protocol will be used:
+
+    a. One of the group members sends an e-mail (possibly signed and
+        encrypted) to the 'remailer' e-mail address
+ 
+    b. The gpg-remailer decrypts and re-encrypts the mail for the addresses
+        mentioned with the 'member:' entries in gpg-remailer.rc.
+
+    c. The gpg-remailer's recipient is specified as the mailing list's e-mail
+        address (which could be on any computer accepting e-mail from the
+        computer running the gpg-remailer
+
+    d. The gpg-remailer sends the re-encrypted e-mail to the mailing list
+
+    e. The mailing list distributes the re-encrypted mail over its
+        members 
+
+    f. Each member receives an e-mail, encrypted with the member's public key,
+        so each member is able to decrypt and read the received e-mail.
+
+3. Using this protocol the gpg-remailer.rc file is modified like this:
+
+--------------------------------------------------------------------------
+clear-text: accepted
+replyTo:    Sec team mail, signed and optionally encrypted <remailer@fqdn>
+
+recipient:  address of the mailing list
+member:     cert-team member 1's mailing address
+member:     cert-team member 2's mailing address
+member:     cert-team member 3's mailing address
+member:     cert-team member 4's mailing address
+
+signature:  required
+--------------------------------------------------------------------------
+
+
+
+
+
+

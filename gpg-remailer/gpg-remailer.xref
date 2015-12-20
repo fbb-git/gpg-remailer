@@ -1,7 +1,7 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
 oxref V1.00.03 2012-2015
 
-CREATED Sun, 04 Oct 2015 09:21:44 +0000
+CREATED Sun, 20 Dec 2015 11:43:49 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
@@ -71,16 +71,16 @@ cxx11]() const
     operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
 
 cxx11]() const
-  Full name: GPGMail::label[abi:cxx11]() const
-  Source:    label.cc 
-  Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
-
-cxx11]() const
   Full name: ClearTextMail::headers[abi:cxx11]() const
   Source:    headers.cc 
   Used By:
     mailcommand.cc: ClearTextMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+
+cxx11]() const
+  Full name: GPGMail::label[abi:cxx11]() const
+  Source:    label.cc 
+  Used By:
+    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
 
 cxx11](char const*)
   Full name: Headers::getHeader[abi:cxx11](char const*)
@@ -343,6 +343,13 @@ step(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<cha
     mailcontents.cc: Remailer::mailContents()
     preparations.cc: Remailer::preparations()
     writereencrypted.cc: Remailer::writeReencrypted()
+
+strToUnsigned(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*, unsigned int)
+  Full name: Remailer::strToUnsigned(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*, unsigned int)
+  Source:    strtounsigned.cc 
+  Used By:
+    setlog.cc: Remailer::setLog()
+    setumask.cc: Remailer::setUmask()
 
 verify(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Full name: GPG::verify(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)

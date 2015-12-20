@@ -172,6 +172,9 @@ class Remailer: private Enums
         bool hasBoundary(std::string const &line, 
                                             std::string const &msgTypeName);
 
+        static unsigned long strToUnsigned(std::string const &str, 
+                                    char const *optionName, size_t base = 10);
+
         static void collect(std::ostream *dest, std::istream *in);
 };
 

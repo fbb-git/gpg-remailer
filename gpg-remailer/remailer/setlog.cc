@@ -16,5 +16,6 @@ void Remailer::setLog()
     d_log.open(name);
     chmod(name.c_str(), S_IRUSR | S_IWUSR);
 
-    d_log.setLevel(level.empty() ? LOGDEFAULT : stoul(level));
+    d_log.setLevel(level.empty() ? LOGDEFAULT : 
+                                    strToUnsigned(level, "logLevel"));
 }

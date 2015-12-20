@@ -1,12 +1,17 @@
-gpg-remailer (3.01.03) NOT YET TAGGED
+gpg-remailer (3.01.03)
 
-  * Updated the installation procedure
+  * Added the file extensiveexample.txt covering an extensive example of the
+    steps that are involved when operationally using the gpg-remailer.
 
-  * Adapted the icmake scripts to icmake 8.00.04
+  * Gpg-remailer displays meaningful error messages for missing numeric option
+    arguments (added remailer/strToUnsigned.
+
+  * Adapted the icmake scripts to icmake 8.00.04, updated the installation
+    procedure 
 
   * Fixed a bug in handling log-level specifications
 
-
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 20 Dec 2015 12:38:12 +0100
 
 gpg-remailer (3.01.02)
 

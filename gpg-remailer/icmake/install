@@ -38,6 +38,9 @@ void install(string request, string dest)
         {
             printf("  installing the changelog at `", target, "\n");
             logZip("", "changelog", target );
+
+            printf("  installing extensiveexample.txt at `", target, "\n");
+            logZip("", "extensiveexample.txt", target );
         }
 
         if (components & 8)
@@ -66,6 +69,8 @@ void install(string request, string dest)
 
     if (g_logPath != "")
         backtick("icmake/log " + dest + " " + g_logPath);
+
+    chdir(base);
 
     run("../../icmake/installer " + dest + "/");
 

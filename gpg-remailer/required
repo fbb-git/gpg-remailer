@@ -5,15 +5,10 @@ explicitly mentioned, but a fairly recent one is assumed.
 Required software for building the gpg-remailer
 -----------------------------------------------
 
-libbobcat-dev (>= 4.01.02),
-
-To use the provided build-script:
-
-    icmake (>= 8.00.04)
-
-To construct the man-page:
-        
-    yodl (>= 3.06.0)
+Build-Depends: 
+    libbobcat-dev   (>= 4.01.03)
+    icmake          (>= 8.00.04)
+    yodl            (>= 3.06.0)
 
 
 

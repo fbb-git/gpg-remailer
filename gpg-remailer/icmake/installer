@@ -12,6 +12,7 @@ done
 
 for file in `find -type f -or -type l`
 do
+    # echo installing $1$file
     cp -d --preserve=timestamps $file $1$file
 done
 
