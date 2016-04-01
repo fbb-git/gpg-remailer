@@ -1,15 +1,5 @@
 #include "gpg.ih"
 
-namespace
-{
-    void collector(char const *out, streambuf *buffer)
-    {
-        ofstream outStream;
-        Exception::open(outStream, out);
-        outStream << buffer << flush;
-    }
-}
-
 void GPG::run(string command, string const &in, string const &out,
               string const &err)
 {

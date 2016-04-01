@@ -15,7 +15,7 @@ void Remailer::copySignature(ostream &out, string const &boundary)
     d_log << level(LOGDEBUG) << "Signature expected on " << d_signatureName <<
                                                                     '\n';
 
-    SigStruct sigStruct = {out, NO_SIGNATURE};
+    SigStruct sigStruct = {out, ABSENT};
 
     out << '\n';
 
@@ -31,8 +31,8 @@ void Remailer::copySignature(ostream &out, string const &boundary)
         (d_sigRequired == GOOD_SIGNATURE && 
             sigStruct.sigType != GOOD_SIGNATURE)
         ||
-        (d_sigRequired == SIGNATURE_FOUND && 
-            sigStruct.sigType == NO_SIGNATURE)
+        (d_sigRequired == SIGNATURE_REQUIRED && 
+            sigStruct.sigType == ABSENT)
     )
         throw LogException() << "bad or missing signature in " << 
                 d_contentsName << '\n';

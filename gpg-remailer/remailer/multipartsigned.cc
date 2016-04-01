@@ -32,11 +32,29 @@ void Remailer::multipartSigned(IOContext &io)
 
     ostream null(0);
 
-    copyToBoundary(null, io.decrypted);  // skip all headers
+    copyToBoundary(null, io.decrypted);  // Copy to the 1st boundary
 
+                                        // Copy the multipart signed msg text
+                                        // to multipartsigned.1
     copyToBoundary(d_multipartSignedDataName, io.decrypted);
 
-    d_gpg.verify(d_decryptedName, d_multipartSignedDataName, d_signatureName);
+        // decrypted.1 contains the PGP SIGNATURE block
+        // multipartsigned.1 contains the msg txt 
+        // signature.1 contains the output of the signature check
+    int err = 
+        d_gpg.verify(d_decryptedName, d_multipartSignedDataName, 
+                     d_signatureName);
+
+    if (err != 0)
+    {
+        if (d_sigRequired == GOOD_SIGNATURE)
+            throw LogException() << "bad or missing signature in " << 
+                                d_contentsName << '\n';
+        else
+            d_log << level(LOGDEFAULT) << 
+                "Multipart-Signed e-mail having BAD signature\n";
+    }
+            
 
     copySignature(io.toReencrypt, d_boundary);
 

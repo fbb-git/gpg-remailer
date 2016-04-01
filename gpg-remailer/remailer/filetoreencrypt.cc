@@ -9,8 +9,8 @@ void Remailer::fileToReencrypt()
 
     IOContext io;
 
-    LogException::open(io.decrypted, d_decryptedName);
-    LogException::open(io.toReencrypt, d_reencryptName);
+    LogException::open(io.decrypted, d_decryptedName);      // decrypted.1
+    LogException::open(io.toReencrypt, d_reencryptName);    // reencrypt.1
 
                         // write the file to reencrypt as 
                         //  - a simple one-piece text (simple.cc)
@@ -18,6 +18,10 @@ void Remailer::fileToReencrypt()
                         //  - text consisting of multiple parts and a detached
                         //    signature (multipartsigned.cc)
     (this->*s_reEncrypt[ encryptionType(io) ])(io);
+
+    //    &Remailer::simple,
+    //    &Remailer::multipart,
+    //    &Remailer::multipartSigned
 }
 
 

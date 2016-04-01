@@ -15,12 +15,6 @@
 
 #include "../logexception/logexception.h"
 
-inline bool Remailer::foundIn(std::string const &text, 
-                              std::string const &target) const
-{
-    return text.find(target) == 0;
-}
-        
 inline bool Remailer::onlyWS(std::string const &text) const
 {
     return text.find_first_not_of(" \t") == std::string::npos;

@@ -24,7 +24,7 @@ class GPG: private Enums
         void decrypt(std::string const &in, 
                      std::string const &out, std::string const &err);
 
-        void verify(std::string const &detachedSig, 
+        int verify(std::string const &detachedSig, 
                     std::string const &signedMessage,
                     std::string const &signatureOutput);
 
@@ -35,6 +35,8 @@ class GPG: private Enums
     private:
         void run(std::string command, std::string const &in,
                  std::string const &out, std::string const &err);
+
+        static void collector(char const *out, std::streambuf *buffer);
 };
         
 inline void GPG::debug()

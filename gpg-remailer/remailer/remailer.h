@@ -23,8 +23,8 @@ class Remailer: private Enums
 {
     enum SigType
     {
-        NO_SIGNATURE,           // no signature found
-        SIGNATURE_FOUND,        // signature found
+        ABSENT,           // no signature found
+        SIGNATURE_REQUIRED,        // signature found
         GOOD_SIGNATURE          // good signature found
     };
 
@@ -159,8 +159,6 @@ class Remailer: private Enums
         void setSuffixNr();
         bool step(std::string const &stepName);
 
-        bool foundIn(std::string const &text, std::string const &target) 
-                                                                        const;
         bool onlyWS(std::string const &text) const;
 
         EncryptionEnum encryptionType(IOContext &io);
