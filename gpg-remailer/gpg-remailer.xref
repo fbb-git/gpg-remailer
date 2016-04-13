@@ -1,7 +1,7 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
-oxref V1.00.03 2012-2015
+oxref V1.00.06 2012-2015
 
-CREATED Sun, 20 Dec 2015 11:43:49 +0000
+CREATED Wed, 13 Apr 2016 09:33:08 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
@@ -23,6 +23,13 @@ ClearTextMail(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_tr
   Source:    cleartextmail1.cc 
   Used By:
     operatorfun.cc: Mail::operator()(Enums::MailType, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
+
+collector(char const*, std::basic_streambuf<char, std::char_traits<char> >*)
+  Full name: GPG::collector(char const*, std::basic_streambuf<char, std::char_traits<char> >*)
+  Source:    collector.cc 
+  Used By:
+    run.cc: GPG::run(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+    verify.cc: GPG::verify(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 configField(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Full name: Remailer::configField(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
@@ -65,22 +72,22 @@ cxx11]()
     gpgmail1.cc: GPGMail::GPGMail(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 cxx11]() const
+  Full name: GPGMail::label[abi:cxx11]() const
+  Source:    label.cc 
+  Used By:
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
+
+cxx11]() const
   Full name: ClearTextMail::label[abi:cxx11]() const
   Source:    label.cc 
   Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
 
 cxx11]() const
   Full name: ClearTextMail::headers[abi:cxx11]() const
   Source:    headers.cc 
   Used By:
     mailcommand.cc: ClearTextMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
-
-cxx11]() const
-  Full name: GPGMail::label[abi:cxx11]() const
-  Source:    label.cc 
-  Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
 
 cxx11](char const*)
   Full name: Headers::getHeader[abi:cxx11](char const*)
@@ -175,23 +182,23 @@ Mail(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char
     remailer1.cc: Remailer::Remailer()
 
 mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
-  Full name: ClearTextMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
-  Source:    mailcommand.cc 
-  Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
-
-mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
   Full name: GPGMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
   Source:    mailcommand.cc 
   Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
+
+mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+  Full name: ClearTextMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+  Source:    mailcommand.cc 
+  Used By:
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
 
 MailerBase(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Full name: MailerBase::MailerBase(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Source:    mailerbase1.cc 
   Used By:
-    gpgmail1.cc: GPGMail::GPGMail(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     cleartextmail1.cc: ClearTextMail::ClearTextMail(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+    gpgmail1.cc: GPGMail::GPGMail(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 mailHeader(char const*)
   Full name: Headers::mailHeader(char const*)
@@ -209,13 +216,13 @@ multipart(Remailer::IOContext&)
   Full name: Remailer::multipart(Remailer::IOContext&)
   Source:    multipart.cc 
   Used By:
-    data.cc: GLOBALS data.cc 1data.o
+    data.cc: GLOBALS data.cc 4data.o
 
 multipartSigned(Remailer::IOContext&)
   Full name: Remailer::multipartSigned(Remailer::IOContext&)
   Source:    multipartsigned.cc 
   Used By:
-    data.cc: GLOBALS data.cc 1data.o
+    data.cc: GLOBALS data.cc 4data.o
 
 operator()(Enums::MailType, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
   Full name: Mail::operator()(Enums::MailType, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
@@ -235,7 +242,6 @@ run(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char
   Used By:
     decrypt.cc: GPG::decrypt(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     encrypt.cc: GPG::encrypt(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
-    verify.cc: GPG::verify(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 s_reEncrypt
   Full name: Remailer::s_reEncrypt
@@ -259,7 +265,7 @@ sendMail(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator
   Full name: MailerBase::sendMail(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
   Source:    sendmail.cc 
   Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
 
 setClearText()
   Full name: Remailer::setClearText()
@@ -295,7 +301,7 @@ setRecipients(std::vector<std::__cxx11::basic_string<char, std::char_traits<char
   Full name: MailerBase::setRecipients(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)
   Source:    setrecipients.cc 
   Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
 
 setReplyTo()
   Full name: Remailer::setReplyTo()
@@ -331,7 +337,7 @@ simple(Remailer::IOContext&)
   Full name: Remailer::simple(Remailer::IOContext&)
   Source:    simple.cc 
   Used By:
-    data.cc: GLOBALS data.cc 1data.o
+    data.cc: GLOBALS data.cc 4data.o
 
 step(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Full name: Remailer::step(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
@@ -344,8 +350,8 @@ step(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<cha
     preparations.cc: Remailer::preparations()
     writereencrypted.cc: Remailer::writeReencrypted()
 
-strToUnsigned(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*, unsigned int)
-  Full name: Remailer::strToUnsigned(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*, unsigned int)
+strToUnsigned(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*, unsigned long)
+  Full name: Remailer::strToUnsigned(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*, unsigned long)
   Source:    strtounsigned.cc 
   Used By:
     setlog.cc: Remailer::setLog()
@@ -376,16 +382,16 @@ writeHeaders(std::__cxx11::basic_string<char, std::char_traits<char>, std::alloc
     preparations.cc: Remailer::preparations()
 
 writeMailContents(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
-  Full name: ClearTextMail::writeMailContents(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
-  Source:    writemailcontents.cc 
-  Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
-
-writeMailContents(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
   Full name: GPGMail::writeMailContents(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
   Source:    writemailcontents.cc 
   Used By:
-    operatorfun.cc: GLOBALS operatorfun.cc 2operatorfun.o
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
+
+writeMailContents(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+  Full name: ClearTextMail::writeMailContents(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+  Source:    writemailcontents.cc 
+  Used By:
+    operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
 
 writeReencrypted()
   Full name: Remailer::writeReencrypted()
