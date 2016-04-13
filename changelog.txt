@@ -1,3 +1,14 @@
+gpg-remailer (3.02.00)
+
+  * Adapted the icmake scripts to icmake 8.01.00
+
+  * Fixed a bug in handling multipart/signed e-mail handling
+
+  * Correct signatures are not required with gpg-signed e-mail if signature:
+    absent has been specified.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 13 Apr 2016 15:02:07 +0530
+
 gpg-remailer (3.01.03)
 
   * Added the file extensiveexample.txt covering an extensive example of the

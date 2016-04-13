@@ -35,22 +35,22 @@ by its tag or download the matching tt(.zip) or tt(.tar.gz) from
 lurl(https://github.com/fbb-git/_project_/releases) or direct from its 
 release page):
 
-        itemization(
-        it() url(3.01.03)
-                (https://github.com/fbb-git/_project_/releases/tag/3.01.03)
-                Dec 20, 2015;
-        it() url(3.01.02)
-                (https://github.com/fbb-git/_project_/releases/tag/3.01.02)
-                Oct  6, 2015;
-        it() url(3.01.01)
-                (https://github.com/fbb-git/_project_/releases/tag/3.01.01)
-                Oct  4, 2015;
-        it() url(3.01.00)
-                (https://github.com/fbb-git/_project_/releases/tag/3.01.00)
-                Sep 29, 2015;
-        it() url(3.00.02)
-                (https://github.com/fbb-git/_project_/releases/tag/3.00.02)
-                Apr 22, 2014.
+    itemization(
+    it() url(3.02.00)
+            (https://github.com/fbb-git/_project_/releases/tag/3.02.00)
+            Apr 13, 2016;
+    it() url(3.01.03)
+            (https://github.com/fbb-git/_project_/releases/tag/3.01.03)
+            Dec 20, 2015;
+    it() url(3.01.02)
+            (https://github.com/fbb-git/_project_/releases/tag/3.01.02)
+            Oct  6, 2015;
+    it() url(3.01.01)
+            (https://github.com/fbb-git/_project_/releases/tag/3.01.01)
+            Oct  4, 2015;
+    it() url(3.01.00)
+            (https://github.com/fbb-git/_project_/releases/tag/3.01.00)
+            Sep 29, 2015.
         )
     COMMENT(NOTE: LAST ITEM SHOULD END IN . )
 
