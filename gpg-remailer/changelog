@@ -1,3 +1,9 @@
+gpg-remailer (3.02.01)
+
+  * Added documentation/README.flow (primarily for internal use only)
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 19 Apr 2017 12:26:43 +0200
+
 gpg-remailer (3.02.00)
 
   * Adapted the icmake scripts to icmake 8.01.00
