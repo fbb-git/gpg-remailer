@@ -1,0 +1,143 @@
+From f.b.brokken+caf_=frank=oostum.nl@rug.nl Thu Mar 31 10:12:10 2016
+Received: from oosix.icce.rug.nl (oosix.icce.rug.nl [129.125.14.80])
+	by suffix.rc.rug.nl (8.15.2/8.15.2/Debian-4) with ESMTPS id u2V8CAgE005817
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <frank@suffix.rc.rug.nl>; Thu, 31 Mar 2016 10:12:10 +0200
+Received: from smtp3.rug.nl (smtp3.rug.nl [129.125.60.3])
+	by oosix.icce.rug.nl (8.15.2/8.15.2/Debian-4) with ESMTPS id u2V8C95D032399
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <frank@oostum.nl>; Thu, 31 Mar 2016 10:12:10 +0200
+Received: from mail-vk0-f54.google.com ([172.23.16.207])
+	by smtp3.rug.nl (8.14.9/8.14.9) with ESMTP id u2V8C47s020442
+	for <frank@oostum.nl>; Thu, 31 Mar 2016 10:12:04 +0200
+Received: by mail-vk0-f54.google.com with SMTP id e6so94164128vkh.2
+        for <frank@oostum.nl>; Thu, 31 Mar 2016 01:12:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20130820;
+        h=x-original-authentication-results:x-gm-message-state:delivered-to
+         :from:subject:mime-version:date:content-transfer-encoding:message-id
+         :content-description:to;
+        bh=fM95UHlciBDifLyRDfF2lK5rdRMkBownwV68DLtqY8E=;
+        b=D8bj7hld83M22Fc9Dwam4hI3LdnKXwCV3f3A89WQ/BI/JWaZWKhzAK9rLsniCL/Irx
+         08fuKZ/zGIkkQ+S/FXwOLD5HDh2Nm5O5ffSVo8DgQKl+nQxQs1n13fEwS787OT9G/JWn
+         0mvAMGQZwMBk/msEqN3bwYRLVRQoN4Vy/SPyam4d6KZcyaeAKGrWEMEUE6ljvo69LbWK
+         AMr0pntGHVVXqkCpejlMz6m7ZF/U0+E2EKi2VVivcQvJqersFoX/eyyeKC3UqGgxafJr
+         dYcavdQN/jqzo4PcKGmp67o9uXEy5R0/Kr+FiFARgFqEPeqGUvG6WKbK0XRy1Vh9vHZV
+         p5xA==
+X-Original-Authentication-Results: mx.google.com;       spf=softfail (google.com: domain of transitioning m.j.fransen@rug.nl does not designate 145.97.131.57 as permitted sender) smtp.mailfrom=m.j.fransen@rug.nl
+X-Gm-Message-State: AD7BkJLaqw4Hr1F4tNJbBgkNPZCMMZcEdA25YfRI6khckqj24exoWAtnSiaAlzucINRZEIXJb2IK6c/gmPBe3eEUWpCQFhiDg0LfhdOoo3PfMWPGtk4hX85fzkLFp507XX9FVMcCtVy69IJGx+ggcToGWEU=
+X-Received: by 10.159.39.196 with SMTP id b62mr7826172uab.69.1459411924299;
+        Thu, 31 Mar 2016 01:12:04 -0700 (PDT)
+X-Received: by 10.159.39.196 with SMTP id b62mr7826169uab.69.1459411924202;
+        Thu, 31 Mar 2016 01:12:04 -0700 (PDT)
+X-Forwarded-To: frank@oostum.nl
+X-Forwarded-For: f.b.brokken@rug.nl frank@oostum.nl
+Delivered-To: f.b.brokken@rug.nl
+Received: by 10.31.192.16 with SMTP id q16csp307773vkf;
+        Thu, 31 Mar 2016 01:12:03 -0700 (PDT)
+X-Received: by 10.28.72.138 with SMTP id v132mr1393726wma.37.1459411923009;
+        Thu, 31 Mar 2016 01:12:03 -0700 (PDT)
+Received: from smtp1.rug.nl (smtp1.rug.nl. [129.125.60.1])
+        by mx.google.com with ESMTPS id 77si28620360wmm.2.2016.03.31.01.12.02
+        for <f.b.brokken@rug.nl>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 31 Mar 2016 01:12:03 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning m.j.fransen@rug.nl does not designate 145.97.131.57 as permitted sender) client-ip=145.97.131.57;
+Authentication-Results: mx.google.com;
+       spf=softfail (google.com: domain of transitioning m.j.fransen@rug.nl does not designate 145.97.131.57 as permitted sender) smtp.mailfrom=m.j.fransen@rug.nl
+Received: from mail-wm0-f48.google.com ([172.23.16.207])
+	by smtp1.rug.nl (8.14.9/8.14.9) with ESMTP id u2V8C2jP040154
+	for <f.b.brokken@rug.nl>; Thu, 31 Mar 2016 10:12:02 +0200
+Received: by mail-wm0-f48.google.com with SMTP id r72so130077837wmg.0
+        for <f.b.brokken@rug.nl>; Thu, 31 Mar 2016 01:12:02 -0700 (PDT)
+X-Received: by 10.28.35.16 with SMTP id j16mr14800090wmj.78.1459411922402;
+        Thu, 31 Mar 2016 01:12:02 -0700 (PDT)
+X-Received: by 10.28.35.16 with SMTP id j16mr14800085wmj.78.1459411922329;
+        Thu, 31 Mar 2016 01:12:02 -0700 (PDT)
+Received: from rn-145-97-131-57.eduroam.rug.nl (RN-145-97-131-57.eduroam.rug.nl. [145.97.131.57])
+        by smtp.gmail.com with ESMTPSA id gt7sm7767845wjc.1.2016.03.31.01.12.01
+        for <f.b.brokken@rug.nl>
+        (version=TLSv1/SSLv3 cipher=OTHER);
+        Thu, 31 Mar 2016 01:12:01 -0700 (PDT)
+From: "M.J. Fransen" <m.j.fransen@rug.nl>
+X-Google-Original-From: "M.J. Fransen" <M.J.Fransen@rug.nl>
+Content-Type: multipart/encrypted; boundary="Apple-Mail=_1DC8924B-40F5-4CA7-9757-22C074819799"; protocol="application/pgp-encrypted";
+Subject: nog een keer
+Mime-Version: 1.0 (Mac OS X Mail 9.2 (3112))
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Thu, 31 Mar 2016 10:12:00 +0200
+Content-Transfer-Encoding: 7bit
+Message-Id: <D408EB8F-DF45-494E-B6FB-543B64576D9B@rug.nl>
+Content-Description: OpenPGP encrypted message
+To: Frank Brokken <f.b.brokken@rug.nl>
+X-Mailer: Apple Mail (2.3112)
+X-Virus-Scanned: clamav-milter 0.98.7 at smtp3
+X-Virus-Status: Clean
+X-Greylist: Sender succeeded STARTTLS authentication, not delayed by milter-greylist-4.5.11 (oosix.icce.rug.nl [129.125.14.80]); Thu, 31 Mar 2016 10:12:10 +0200 (CEST)
+Status: RO
+Content-Length: 3139
+Lines: 62
+
+
+This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)
+--Apple-Mail=_1DC8924B-40F5-4CA7-9757-22C074819799
+Content-Transfer-Encoding: 7bit
+Content-Type: application/pgp-encrypted
+Content-Description: PGP/MIME Versions Identification
+
+Version: 1
+
+--Apple-Mail=_1DC8924B-40F5-4CA7-9757-22C074819799
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=encrypted.asc
+Content-Type: application/octet-stream;
+	name=encrypted.asc
+Content-Description: OpenPGP encrypted message
+
+-----BEGIN PGP MESSAGE-----
+Comment: GPGTools - https://gpgtools.org
+
+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
+CSZ5zcMoH4ZcsQ==
+=mO3S
+-----END PGP MESSAGE-----
+
+--Apple-Mail=_1DC8924B-40F5-4CA7-9757-22C074819799--

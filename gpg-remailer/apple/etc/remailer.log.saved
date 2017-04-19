@@ -1,0 +1,11 @@
+Mar 31 10:13:37 User: cert (1012)
+Mar 31 10:13:37 File Nrs will be: 1 (via --nr)
+Mar 31 10:13:37 member: K.van.der.Werf@rug.nl a.c.nolle@rug.nl a.h.l.korten@rug.nl a.pothaar@rug.nl f.b.brokken@rug.nl g.j.c.strikwerda@rug.nl h.j.zilverberg@rug.nl h.meijering@rug.nl h.u.a.koers@rug.nl j.c.breeuwsma@rug.nl j.h.g.borgman@rug.nl j.j.dullink@rug.nl m.j.Fransen@rug.nl r.rohde@rug.nl w.albers@rug.nl 
+Mar 31 10:13:37 recipient: frank m.j.Fransen@rug.nl 
+Mar 31 10:13:37 Headers written to tmp/hdrs.1
+
+Mar 31 10:13:37 Original mail contents to tmp/org.1
+Mar 31 10:13:37 /usr/bin/gpg  --homedir /var/lib/cert/.gnupg --decrypt  < tmp/org.1 > tmp/decrypted.1 2> tmp/signature.1
+Mar 31 10:13:37 Multipart-Signed e-mail received
+Mar 31 10:13:37 Saw boundary --Apple-Mail=_8EB411F5-375F-445A-AA01-6681C7A71D13: multipart/signed message
+Mar 31 10:13:37 /usr/bin/gpg  --homedir /var/lib/cert/.gnupg --verify tmp/decrypted.1 tmp/multipartsigned.1 <  >  2> tmp/multipartsigned.1
