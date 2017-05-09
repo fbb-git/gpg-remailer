@@ -1,0 +1,18 @@
+Using suffix 1 for demo 
+
+main:
+
+            remailer.setFilenames sets all the required file names (in
+                    preparations) 
+
+    remailer.preparations(): 
+            reads configuration file,
+            writes hdrs.1 file, containing all headers, using FBB::MailHeaders
+            
+    remailer.mailContents():
+            writes the contents of the mail to org.1, returning the type
+            of the file (UNKNOWN, CLEAR, ENCRYPTED) 
+
+   `remailer.decrypt():
+            decrypted mail in decrypted.1
+            signature in signature.1
