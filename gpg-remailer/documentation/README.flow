@@ -13,6 +13,9 @@ main:
             writes the contents of the mail to org.1, returning the type
             of the file (UNKNOWN, CLEAR, ENCRYPTED) 
 
-   `remailer.decrypt():
+    remailer.decrypt():
             decrypted mail in decrypted.1
             signature in signature.1
+
+    remailer.reencrypt():
+            calls fileToReencrypt to process the decrypted file 
