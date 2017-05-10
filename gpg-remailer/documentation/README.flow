@@ -18,4 +18,13 @@ main:
             signature in signature.1
 
     remailer.reencrypt():
-            calls fileToReencrypt to process the decrypted file 
+            calls fileToReencrypt to process the decrypted file; the latter
+            function also sets the correct function to handle encrypted files:
+                Remailer::simple,           - simple single encrypted files
+                Remailer::multipart,        - multipart files with boundaries
+                Remailer::multipartSigned   - multipart files with embedded
+                                              signatures.
+
+            then writeReencrypted is called, using d_gpg to reencrypt the
+                information for all members.
+
