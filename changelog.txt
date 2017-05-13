@@ -1,3 +1,12 @@
+gpg-remailer (3.03.00)
+
+  * Multipart-signed messages may use boundaries consisting of \r\n (and \n,
+    and maybe \n\r?). Remailer/copytoboundary.cc now recognizes all three
+    forms and uses the actually used separator to separate the various lines
+    of the information to copy.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 10 May 2017 09:02:40 +0200
+
 gpg-remailer (3.02.01)
 
   * Added documentation/README.flow (primarily for internal use only)
