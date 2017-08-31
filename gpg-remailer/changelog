@@ -1,3 +1,10 @@
+gpg-remailer (3.03.01)
+
+  * New compiler releases required #include <cstring> in cleartextmail.ih.
+    No further implementation changes or changes in Gpg-remailer's behavior.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 31 Aug 2017 16:41:52 +0200
+
 gpg-remailer (3.03.00)
 
   * Multipart-signed messages may use boundaries consisting of \r\n (and \n,
