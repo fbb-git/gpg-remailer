@@ -29,6 +29,7 @@ class ClearTextMail: public Mailer<ClearTextMail>
 
     private:
         std::string headers() const;
+        std::string xHeaders() const;
 
 
             // Called through MailerBase:

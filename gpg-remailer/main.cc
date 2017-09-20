@@ -19,6 +19,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("tmp", 't'),
         Arg::LongOption("umask", Arg::Required),
         Arg::LongOption("version", 'v'),
+        Arg::LongOption("x-headers", 'x'),
     };
 
     Arg::LongOption const *const longEnd =
@@ -29,7 +30,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    Arg::initialize("dhL:l:m:n:r:t:v", longOptions, longEnd, 
+    Arg::initialize("dhL:l:m:n:r:t:vx", longOptions, longEnd, 
                     argc, argv).versionHelp(usage, version, 0);
 
     Remailer remailer;
