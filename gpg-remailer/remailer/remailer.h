@@ -5,17 +5,12 @@
 #include <vector>
 
 #include <bobcat/user>
-#include <bobcat/configfile>
 #include <bobcat/log>
+#include <bobcat/argconfig>
 
 #include "../enums/enums.h"
 #include "../mail/mail.h"
 #include "../gpg/gpg.h"
-
-namespace FBB
-{
-    class Arg;
-};
 
 #include "../headers/headers.h"
 
@@ -48,11 +43,9 @@ class Remailer: private Enums
         MailType    requiredType;
     };
 
-    FBB::Arg &d_arg;
+    FBB::ArgConfig &d_argConfig;
 
     bool d_keepFiles;
-
-    FBB::ConfigFile d_config;
 
     Headers d_headers;
 
@@ -92,7 +85,12 @@ class Remailer: private Enums
     GPG  d_gpg;
     
     public:
-        Remailer();
+        Remailer(void (*usage)(std::string const &),
+                 char const *options, 
+                 FBB::ArgConfig::LongOption const *const longOptions, 
+                 FBB::ArgConfig::LongOption const *const longEnd, 
+                 int argc, char **argv);
+
         ~Remailer();
 
         // main() calls these members in sequence:

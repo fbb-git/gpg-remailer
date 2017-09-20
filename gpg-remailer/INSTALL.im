@@ -11,8 +11,7 @@
 
     // the compiler options to use. Add -g if you want debug information in
     // the gpg-remailer executable.
-#define CXXFLAGS            "--std=c++14 -Wall -O2 -pthread "\
-                            " -fdiagnostics-color=never"
+#define CXXFLAGS            "-Wall -O2 -pthread -fdiagnostics-color=never"
 
     // flags passed to the linker
 #define LDFLAGS             ""

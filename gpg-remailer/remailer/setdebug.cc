@@ -2,7 +2,7 @@
 
 void Remailer::setDebug()
 {
-    if (d_arg.option('d') || configField("debug") == "true")
+    if (d_argConfig.option('d') || configField("debug") == "true")
     {
         d_keepFiles = true;
         d_log.setLevel(LOGDEBUG);

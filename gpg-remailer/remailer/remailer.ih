@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <sstream>
 
-#include <bobcat/arg>
 #include <bobcat/pattern>
 #include <bobcat/irandstream>
 #include <bobcat/level>
@@ -19,6 +18,8 @@ inline bool Remailer::onlyWS(std::string const &text) const
 {
     return text.find_first_not_of(" \t") == std::string::npos;
 }
+
+extern char version[];
 
 using namespace std;
 using namespace FBB;

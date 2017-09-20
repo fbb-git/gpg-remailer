@@ -3,4 +3,6 @@
 Headers::Headers()
 :
     FBB::MailHeaders(cin)
-{}
+{
+    fillXheaders();
+}

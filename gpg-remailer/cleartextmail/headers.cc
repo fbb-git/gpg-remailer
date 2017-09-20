@@ -4,7 +4,7 @@ string ClearTextMail::headers() const
 {
     string mime = d_headers.getHeader("MIME-Version");
 
-    string contentHdr{ xHeaders() };
+    string contentHdr{ d_headers.xHeaders() };
 
     if (not mime.empty())
         contentHdr += R"( -a ")" + String::escape(mime) + '"';

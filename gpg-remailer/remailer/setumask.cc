@@ -4,7 +4,7 @@ void Remailer::setUmask()
 {
     string umaskOpt;
     size_t umaskValue = 077;
-    if (d_arg.option(&umaskOpt, "umask"))
+    if (d_argConfig.option(&umaskOpt, "umask"))
     {
         umaskValue = strToUnsigned(umaskOpt, "umask", 8);
         d_log << level(LOGDEFAULT) << "WARNING: umask setting changed to " <<

@@ -3,12 +3,12 @@
 void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt,
                           bool needElements)
 {
-    if (size_t index = d_arg.option(opt))
+    if (size_t index = d_argConfig.option(opt))
     {
         for (; index--; )
         {
             string field;
-            d_arg.option(index, &field, opt);
+            d_argConfig.option(index, &field, opt);
             dest.push_back(field);
         }
         return;
@@ -19,7 +19,7 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt,
 
     Pattern pattern(configRE + R"(\s*(\S+))" );
 
-    auto iters = d_config.beginEndRE(configRE);
+    auto iters = d_argConfig.beginEndRE(configRE);
     for (auto &line: ranger(iters.first, iters.second))
     {
         if (pattern << line)
