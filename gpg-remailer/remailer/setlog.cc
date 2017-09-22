@@ -3,14 +3,14 @@
 void Remailer::setLog()
 {
     string name;
-    if (!d_argConfig.option(&name, 'l'))
+    if (!d_preamble.arg.option(&name, 'l'))
         name = configField("logFile");
 
     if (name.empty())
         name = "etc/remailer.log";
 
     string level;
-    if (!d_argConfig.option(&level, 'L'))
+    if (!d_preamble.arg.option(&level, 'L'))
         level = configField("logLevel");
 
     d_log.open(name);

@@ -6,7 +6,7 @@
 
 #include <bobcat/user>
 #include <bobcat/log>
-#include <bobcat/argconfig>
+#include <bobcat/configfile>
 
 #include "../enums/enums.h"
 #include "../mail/mail.h"
@@ -14,82 +14,92 @@
 
 #include "../headers/headers.h"
 
-class Remailer: private Enums
+namespace FBB
 {
-    enum SigType
+    class Arg;
+}
+
+struct Remailer: private Enums
+{
+    struct Preamble
     {
-        ABSENT,           // no signature found
-        SIGNATURE_REQUIRED,        // signature found
-        GOOD_SIGNATURE          // good signature found
+        FBB::Arg &arg;
+        FBB::User user;
+        std::string configName;
     };
 
-    enum EncryptionEnum
-    {
-        SIMPLE,
-        MULTIPART,
-        MULTIPART_SIGNED
-    };
-
-    struct IOContext
-    {
-        std::ifstream decrypted;
-        std::ofstream toReencrypt;
-        std::string   line;
-    };
-
-    struct StepStruct
-    {
-        std::string stepName;
-        MailType    requiredType;
-    };
-
-    FBB::ArgConfig &d_argConfig;
-
-    bool d_keepFiles;
-
-    Headers d_headers;
-
-    FBB::User d_user;
-    FBB::Log  d_log;
-
-    SigType d_sigRequired;
-    MailType d_mailType = UNKNOWN;
-
-    std::string d_configName;
-    std::string d_step;
-    std::string d_replyTo;
-    std::string d_boundary;
-                                            
-    std::string d_nr;                   // nr assigned to files
-    std::string d_decryptedName;
-    std::string d_errName;
-    std::string d_mailName;
-    std::string d_multipartSignedDataName;
-    std::string d_hdrsName;
-    std::string d_contentsName;
-    std::string d_reencryptName;
-    std::string d_reencryptedName;
-    std::string d_signatureName;
-
-    std::vector<std::string> d_envelope;    // accepted envelope addresses
-                                            // for clear-text mail. 
-                                            // empty means: all
-    std::vector<std::string> d_members;
-    std::vector<std::string> d_recipients;
-
-    static void (Remailer::*s_reEncrypt[])(IOContext &);
-    static StepStruct s_step[];
-    static StepStruct *s_stepEnd;
-
-    Mail d_mail;
-    GPG  d_gpg;
+    private:
+        enum SigType
+        {
+            ABSENT,           // no signature found
+            SIGNATURE_REQUIRED,        // signature found
+            GOOD_SIGNATURE          // good signature found
+        };
     
+        enum EncryptionEnum
+        {
+            SIMPLE,
+            MULTIPART,
+            MULTIPART_SIGNED
+        };
+    
+        struct IOContext
+        {
+            std::ifstream decrypted;
+            std::ofstream toReencrypt;
+            std::string   line;
+        };
+    
+        struct StepStruct
+        {
+            std::string stepName;
+            MailType    requiredType;
+        };
+
+
+        Preamble const &d_preamble;
+    
+        bool d_keepFiles;
+    
+        FBB::ConfigFile d_config;
+    
+        Headers d_headers;
+    
+        FBB::Log  d_log;
+    
+        SigType d_sigRequired;
+        MailType d_mailType = UNKNOWN;
+    
+        std::string d_step;
+        std::string d_replyTo;
+        std::string d_boundary;
+                                                
+        std::string d_nr;                   // nr assigned to files
+        std::string d_decryptedName;
+        std::string d_errName;
+        std::string d_mailName;
+        std::string d_multipartSignedDataName;
+        std::string d_hdrsName;
+        std::string d_contentsName;
+        std::string d_reencryptName;
+        std::string d_reencryptedName;
+        std::string d_signatureName;
+    
+        std::vector<std::string> d_envelope;    // accepted envelope addresses
+                                                // for clear-text mail. 
+                                                // empty means: all
+        std::vector<std::string> d_members;
+        std::vector<std::string> d_recipients;
+    
+        static void (Remailer::*s_reEncrypt[])(IOContext &);
+        static StepStruct s_step[];
+        static StepStruct *s_stepEnd;
+    
+        Mail d_mail;
+        GPG  d_gpg;
+        
     public:
-        Remailer(void (*usage)(std::string const &),
-                 char const *options, 
-                 FBB::ArgConfig::LongOption const *const longOptions, 
-                 FBB::ArgConfig::LongOption const *const longEnd, 
-                 int argc, char **argv);
+        Remailer(Preamble const &preamble);
 
         ~Remailer();
 

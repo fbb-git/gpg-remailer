@@ -4,34 +4,34 @@ using namespace FBB;
 
 namespace   // the anonymous namespace can be used here
 {
-    ArgConfig::LongOption longOptions[] =
+    Arg::LongOption longOptions[] =
     {
-        ArgConfig::LongOption("debug", 'd'),
-        ArgConfig::LongOption("help", 'h'),
-        ArgConfig::LongOption("logfile", 'l'),
-        ArgConfig::LongOption("loglevel", 'L'),
-        ArgConfig::LongOption("member", 'm'),
-        ArgConfig::LongOption("no-mail"),
-        ArgConfig::LongOption("nr", 'n'),
-        ArgConfig::LongOption("recipient", 'r'),
-        ArgConfig::LongOption("relax"),                   // generates warning
-        ArgConfig::LongOption("step", ArgConfig::Required),
-        ArgConfig::LongOption("tmp", 't'),
-        ArgConfig::LongOption("umask", ArgConfig::Required),
-        ArgConfig::LongOption("version", 'v'),
-        ArgConfig::LongOption("x-headers", 'x'),
+        Arg::LongOption("debug", 'd'),
+        Arg::LongOption("help", 'h'),
+        Arg::LongOption("logfile", 'l'),
+        Arg::LongOption("loglevel", 'L'),
+        Arg::LongOption("member", 'm'),
+        Arg::LongOption("no-mail"),
+        Arg::LongOption("nr", 'n'),
+        Arg::LongOption("recipient", 'r'),
+        Arg::LongOption("relax"),                   // generates warning
+        Arg::LongOption("step", Arg::Required),
+        Arg::LongOption("tmp", 't'),
+        Arg::LongOption("umask", Arg::Required),
+        Arg::LongOption("version", 'v'),
+        Arg::LongOption("x-headers", 'x'),
     };
 
-    ArgConfig::LongOption const *const longEnd =
+    Arg::LongOption const *const longEnd =
                     longOptions +
-                    sizeof(longOptions) / sizeof(ArgConfig::LongOption);
+                    sizeof(longOptions) / sizeof(Arg::LongOption);
 }
 
 int main(int argc, char **argv)
 try
 {
-    Remailer remailer(usage,
-                      "dhL:l:m:n:r:t:vx", longOptions, longEnd, argc, argv);
+    Remailer remailer{ preamble("dhL:l:m:n:r:t:vx", 
+                                longOptions,longEnd, argc, argv) };
 
     try
     {

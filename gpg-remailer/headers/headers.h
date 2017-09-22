@@ -15,7 +15,6 @@ class Headers: public FBB::MailHeaders
         const_hdr_iterator mailHeader(char const *hdr);
         std::string getHeader(char const *hdr);
         std::string const &xHeaders() const;
-    private:
         void fillXheaders();
 };
         

@@ -2,9 +2,6 @@
 
 void Headers::fillXheaders()
 {
-    if (not ArgConfig::instance().option('x'))
-        return;
-
     auto iter = begin();
 
                             // always use the official envelope

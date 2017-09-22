@@ -22,6 +22,8 @@ keepfiles: 1
 #replyTo:    Fill in your reply-to <somebody@somewhere.org>
 replyTo: Frank <frank@localhost>
 
+recipient: frank
+
 # reencrypt to which address(es)? (multiple members OK)
 member: user1@mailhost.org
 member: user2@mailhost.org
@@ -60,5 +62,7 @@ signature:  required
 #   send the reencrypted mail to some mailing list
 # recipient:  mailing.list@somehost.org
 
+# Add x-headers to distributed e-mail
+x-headers
 
 

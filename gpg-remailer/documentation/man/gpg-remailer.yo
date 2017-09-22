@@ -328,10 +328,11 @@ alternative umask value.
 stream after which gpg-remailer terminates.
 
     it() loption(x-headers) (soption(x))nl()
-       Add X-PGPremailer-... headers showing the original sender's envelope
-        and From: headers to the distributed e-mail.
+       Add `X-GPG-remailer-from' and `X-GPG-remailer-From' headers containing,
+        respectively, the original sender's From and From: headers, as well as
+        (in `X-GPG-remailer-envelope' headers) all headers containing
+        `envelope' to the distributed e-mail.
     )
-    
 
 manpagesection(CONFGURATION FILE)
 

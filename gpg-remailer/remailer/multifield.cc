@@ -3,12 +3,12 @@
 void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt,
                           bool needElements)
 {
-    if (size_t index = d_argConfig.option(opt))
-    {
-        for (; index--; )
-        {
+    if (size_t index = d_preamble.arg.option(opt))  // if there are command-
+    {                                               // line arguments, then
+        for (; index--; )                           // use them and not the
+        {                                           // config file options
             string field;
-            d_argConfig.option(index, &field, opt);
+            d_preamble.arg.option(index, &field, opt);
             dest.push_back(field);
         }
         return;
@@ -19,7 +19,7 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt,
 
     Pattern pattern(configRE + R"(\s*(\S+))" );
 
-    auto iters = d_argConfig.beginEndRE(configRE);
+    auto iters = d_config.beginEndRE(configRE);
     for (auto &line: ranger(iters.first, iters.second))
     {
         if (pattern << line)
@@ -30,7 +30,8 @@ void Remailer::multiField(vector<string> &dest, char const *keyWord, int opt,
     {
         if (needElements)
             throw LogException() << "no `" << keyWord << 
-                 "' specifications found in " << d_configName << '\n';
+                 "' specifications found in " << 
+                d_preamble.configName << '\n';
         return;
     }
     ostringstream out;

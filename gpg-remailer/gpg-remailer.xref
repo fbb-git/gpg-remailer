@@ -1,7 +1,7 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
 oxref V1.00.06 2012-2015
 
-CREATED Wed, 20 Sep 2017 20:01:01 +0000
+CREATED Fri, 22 Sep 2017 09:26:16 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
@@ -84,16 +84,17 @@ cxx11]() const
     operatorfun.cc: GLOBALS operatorfun.cc 5operatorfun.o
 
 cxx11]() const
-  Full name: ClearTextMail::headers[abi:cxx11]() const
+  Full name: MailerBase::headers[abi:cxx11]() const
   Source:    headers.cc 
   Used By:
     mailcommand.cc: ClearTextMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+    mailcommand.cc: GPGMail::mailCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
 
 cxx11](char const*)
   Full name: Headers::getHeader[abi:cxx11](char const*)
   Source:    getheader.cc 
   Used By:
-    headers.cc: ClearTextMail::headers[abi:cxx11]() const
+    headers.cc: MailerBase::headers[abi:cxx11]() const
     mailerbase1.cc: MailerBase::MailerBase(FBB::Log&, Headers&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 decrypt(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)

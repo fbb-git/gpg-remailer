@@ -4,7 +4,7 @@ void Remailer::setFilenames()
 {
     string prefix;
 
-    if (not d_argConfig.option(&prefix, 't'))
+    if (not d_preamble.arg.option(&prefix, 't'))
         prefix = configField("tmp");
 
     if (prefix.empty())

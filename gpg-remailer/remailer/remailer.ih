@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 
+#include <bobcat/argconfig>
 #include <bobcat/pattern>
 #include <bobcat/irandstream>
 #include <bobcat/level>

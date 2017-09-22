@@ -35,7 +35,7 @@ Where:
                                    to the provided address, ignoring
                                    recipient(s) specified otherwise)
       --version (-v)   - show version information and terminate
-      --x-headers (-s) - in clear-text mode: write `from:', `From:' headers 
+      --x-headers (-x) - in clear-text mode: write `from:', `From:' headers 
                          and headers containing 'envelope' headers to the
                          recipients as X- headers (e.g., X-from:)
    config   - configuration file (~/etc/remailer.rc).

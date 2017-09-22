@@ -2,8 +2,10 @@
 
 void Remailer::setReplyTo()
 {
-    ConfigFile::const_iterator iter = d_argConfig.findRE(R"(^\s*replyTo:)");
-    if (iter != d_argConfig.end())
+    ConfigFile::const_iterator iter = 
+                            d_config.findRE(R"(^\s*replyTo:)");
+
+    if (iter != d_config.end())
     {
         d_replyTo = String::trim(*iter);
         d_replyTo = String::trim(

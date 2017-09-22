@@ -2,7 +2,7 @@
 
 void Remailer::setKeepFiles()
 {
-    d_keepFiles = d_argConfig.option(&d_nr, 'n');     // determine predef'd filenr
+    d_keepFiles = d_preamble.arg.option(&d_nr, 'n');     // determine predef'd filenr
     if (!d_keepFiles)                           // try fm config file
     {
         d_nr = configField("keepfiles");

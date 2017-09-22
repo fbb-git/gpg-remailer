@@ -7,7 +7,8 @@ void Remailer::preparations()
     setDebug();
 
     d_log << level(LOGDEBUG) << 
-        "User: " << d_user.name() << " (" << d_user.userid() << ")\n";
+        "User: " << d_preamble.user.name() << " (" << 
+                    d_preamble.user.userid() << ")\n";
 
     setFilenames();                         // define all used filenames 
 

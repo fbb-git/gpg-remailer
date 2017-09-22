@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
-#include <bobcat/argconfig>
+#include <bobcat/arg>
 #include <bobcat/log>
+#include <bobcat/user>
 
 #include "logexception/logexception.h"
 #include "remailer/remailer.h"
@@ -10,7 +12,13 @@
 extern char version[];
 extern char year[];
 
-void usage(std::string const &progname);
-
 using namespace std;
 using namespace FBB;
+
+void usage(string const &progname);
+
+
+Remailer::Preamble preamble(char const *options, 
+                        Arg::LongOption const *const longOptions,
+                        Arg::LongOption const *const longEnd,
+                        int argc, char **argv);
