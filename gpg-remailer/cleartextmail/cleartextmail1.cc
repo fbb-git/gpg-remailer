@@ -9,5 +9,4 @@ ClearTextMail::ClearTextMail(Log &log, Headers &headers,
     d_headers(headers),
     d_mailName(mailName),
     d_replyTo(replyTo)
-{
-}
+{}

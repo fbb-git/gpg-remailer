@@ -35,6 +35,8 @@ class MailerBase: Enums
 
         void sendMail(std::string const &command, std::string const &label, 
                       std::string const &recipient, bool dontSend);
+
+        std::string headers() const;
 };
         
 inline std::string const &MailerBase::subject() const

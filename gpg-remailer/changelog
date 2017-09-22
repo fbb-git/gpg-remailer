@@ -10,6 +10,9 @@ gpg-remailer (3.04.00)
   * Removed --std=c++14 from INSTALL.im since that's currenntly the default
     standard.
 
+  * Updated the stealth/required file
+
+
 
 gpg-remailer (3.03.01)
 

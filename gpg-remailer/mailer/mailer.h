@@ -19,6 +19,7 @@ class Mailer: private MailerBase
         typedef Mailer<Derived> MailerFriend;
 
         using MailerBase::subject;
+        using MailerBase::headers;
 
     private:
     // Derived classes must implement and allow the following members

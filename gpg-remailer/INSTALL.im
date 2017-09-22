@@ -1,57 +1,11 @@
-    // The name of the program and the support directories as installed by
-    // the 'build install' command. Normally there is no reason for changing
-    // this #define
-#define PROGRAM             "gpg-remailer"
-
-    // The CXX, CXXFLAGS, and LDFLAGS #defines are overruled by identically
-    // named environment variables:
-
-    // the compiler to use. 
-#define CXX                 "g++"
-
-    // the compiler options to use. Add -g if you want debug information in
-    // the gpg-remailer executable.
-#define CXXFLAGS            "-Wall -O2 -pthread -fdiagnostics-color=never"
-
-    // flags passed to the linker
-#define LDFLAGS             ""
-
-    // The following /bin/cp option is used to keep, rather than follow
-    // symbolic references. If your installation doesn't support these flags,
-    // then change them into available ones.
-    //   -P, --no-dereference
-    //            never follow symbolic links in SOURCE
-    //   --preserve[=ATTR_LIST]
-    //          preserve   the   specified   attributes   (default:  
-    //          mode,ownership,timestamps), if possible  additional  
-    //          attributes:  context, links, all
-    //   -d     same as --no-dereference --preserve=links
-#define CPOPTS  "-d"
-
-// COMPONENTS TO INSTALL
-// =====================
-
-    // For an operational non-Debian installation, you probably must be
-    // `root'.
-
-    // If necessary, adapt DOC, HDR, LIB and MAN (below) to your situation.
-    // The provided locations are used by Debian Linux.
-
-    // With 'build install' you can dynamically specify a location to prepend
-    // to the locations configured here, and select which components you want 
-    // to install
-
-// ONLY USE ABSOLUTE DIRECTORY NAMES:
-
-
-    // the final program
-#define BINARY     "/usr/bin/"${PROGRAM}
-
-    // the directory where the standard documentation is stored 
-#define DOC     "/usr/share/doc/"${PROGRAM}
-
-    // the directory whre the manual page is stored
-#define MAN     "/usr/share/man/man1"
+#define PROGRAM     "gpg-remailer"
+#define CXX         "g++"
+#define CXXFLAGS    "-Wall -O2 -pthread -fdiagnostics-color=never"
+#define LDFLAGS     ""
+#define CPOPTS      "-d"
+#define BINARY      "/usr/bin/"${PROGRAM}
+#define DOC         "/usr/share/doc/"${PROGRAM}
+#define MAN         "/usr/share/man/man1"
 
 
 

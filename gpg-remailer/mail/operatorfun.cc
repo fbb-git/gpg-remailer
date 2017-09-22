@@ -11,7 +11,7 @@ void Mail::operator()(MailType type,
             GPGMail(d_log, d_headers, d_mailName, d_replyTo, d_step));
     else
         mail(mailData, dontSend, 
-            ClearTextMail(d_log, d_headers, d_mailName, d_replyTo, d_step));
+            ClearTextMail{ d_log, d_headers, d_mailName, d_replyTo, d_step });
 }
 
 

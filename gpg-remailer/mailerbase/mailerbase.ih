@@ -1,5 +1,7 @@
 #include "mailerbase.h"
 
+#include <cstring>
+
 #include <bobcat/log>
 #include <bobcat/level>
 #include <bobcat/process>

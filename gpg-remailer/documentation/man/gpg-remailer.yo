@@ -326,6 +326,10 @@ alternative umask value.
     it() loption(version) (soption(v))nl()
        Gpg-remailer's version number is is written to the standard output
 stream after which gpg-remailer terminates.
+
+    it() loption(x-headers) (soption(x))nl()
+       Add X-PGPremailer-... headers showing the original sender's envelope
+        and From: headers to the distributed e-mail.
     )
     
 
