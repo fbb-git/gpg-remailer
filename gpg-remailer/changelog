@@ -4,15 +4,12 @@ gpg-remailer (3.04.00)
     the original clear text e-mail's `from:', `From:', and headers containing
     'envelope'
 
-  * Instead of using FBB::ConfigFile and FBB::Arg this version uses
-    FBB::ArgConfig. 
-
   * Removed --std=c++14 from INSTALL.im since that's currenntly the default
     standard.
 
-  * Updated the stealth/required file
+  * Updated the gpg-remailer/required file
 
-
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 24 Sep 2017 14:59:15 +0200
 
 gpg-remailer (3.03.01)
 
