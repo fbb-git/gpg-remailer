@@ -1,3 +1,16 @@
+gpg-remailer (3.04.00)
+
+  * Added new option --x-headers (-x). This option inserts X-headers showing
+    the original clear text e-mail's `from:', `From:', and headers containing
+    'envelope'
+
+  * Removed --std=c++14 from INSTALL.im since that's currenntly the default
+    standard.
+
+  * Updated the gpg-remailer/required file
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 24 Sep 2017 14:59:15 +0200
+
 gpg-remailer (3.03.01)
 
   * New compiler releases required #include <cstring> in cleartextmail.ih.

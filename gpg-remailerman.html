@@ -10,7 +10,7 @@
 <body text="#27408B" bgcolor="#FFFAF0">
 <hr/>
 <h1 id="title">gpg-remailer(1)</h1>
-<h2 id="author">gpg-remailer - reencrypt PGP/GPG maill<br/>(gpg-remailer.3.03.01.tar.gz)</h2>
+<h2 id="author">gpg-remailer - reencrypt PGP/GPG maill<br/>(gpg-remailer.3.04.00.tar.gz)</h2>
 <h2 id="date">2006-2017</h2>
 
 
@@ -344,6 +344,12 @@ alternative umask value.
 <li> <strong >--version</strong> (<strong >-v</strong>)<br/>
        Gpg-remailer's version number is is written to the standard output
 stream after which gpg-remailer terminates.
+<p>
+<li> <strong >--x-headers</strong> (<strong >-x</strong>)<br/>
+       Add `X-GPG-remailer-from' and `X-GPG-remailer-From' headers containing,
+        respectively, the original sender's From and From: headers, as well as
+        (in `X-GPG-remailer-envelope' headers) all headers containing
+        `envelope' to the distributed e-mail.
     )
 <p>
 <h2 >CONFGURATION FILE</h2>
