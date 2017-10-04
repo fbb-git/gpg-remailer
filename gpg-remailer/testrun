@@ -5,12 +5,17 @@ umask 077
 CWD=`pwd`
 
 if [ $# == 0 ] ; then
+    echo
     echo first argument must be the file to test, in $CWD
     echo For this, use a pgp signed and encripted e-mail file, or a plain
     echo non-encrypted mail
     echo The second arg is optional and is the part to run: 
     echo hdrs, org, dec, doc, enc, clearmail[:recipient], pgpmail[:recipient]. 
     echo Temporary files are in /tmp, having extensions .1
+    echo
+    echo gpg-remailer.rc in the cwd is used. The mail-recipient is frank
+    echo '(= frank@localhost)'
+    echo
     exit 0
 fi
 
@@ -23,6 +28,14 @@ DEBG=-d
 REMAILER=tmp/bin/binary
 # REMAILER=/usr/bin/gpg-remailer
 
-${REMAILER} $DEBG -t /tmp -m a.pothaar@rug.nl -m f.b.brokken@rug.nl \
+${REMAILER} $DEBG -t /tmp -r frank \
+            -m a.pothaar@rug.nl -m f.b.brokken@rug.nl \
             -l /tmp/remailer.log \
             -L 2 -n 1 ${STEP} $CWD/gpg-remailer.rc < $CWD/$1
+
+
+
+
+
+
+

@@ -1,3 +1,10 @@
+gpg-remailer (3.04.01)
+
+  * Removed Content-Type and Content-Disposition headers from the original
+    e-mail in the reencrypted e-mail: accidentally included at version 3.04.00
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 04 Oct 2017 13:29:59 +0200
+
 gpg-remailer (3.04.00)
 
   * Added new option --x-headers (-x). This option inserts X-headers showing
