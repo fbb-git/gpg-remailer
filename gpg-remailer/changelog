@@ -3,7 +3,11 @@ gpg-remailer (3.04.01)
   * Removed Content-Type and Content-Disposition headers from the original
     e-mail in the reencrypted e-mail: accidentally included at version 3.04.00
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 04 Oct 2017 13:29:59 +0200
+  * icmake/precompileheaders was removed, and the build script was adapted
+    accordingly. If precompiled headers should not be used comment out the
+    line #define PRECOMP in icmconf.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 05 Oct 2017 16:38:59 +0200
 
 gpg-remailer (3.04.00)
 

@@ -7,15 +7,13 @@ string MailerBase::headers() const
     string contentHdr{ d_headers.xHeaders() };  // get the X-GPG-remailer
                                                 // headers
 
-cerr << __FILE__ " " << contentHdr << '\n';
-
     if (not mime.empty())                       // add the mime-version
         contentHdr += R"( -a ")" + String::escape(mime) + '"';
 
                                                 // look for the Content- hdrs
     d_headers.setHeaderIterator("Content-", MailHeaders::CASE_INITIAL);
 
-    for 
+    for                                         // visit them all
     (
         auto begin = d_headers.beginh(), end = d_headers.endh();
             begin != end;
@@ -25,14 +23,13 @@ cerr << __FILE__ " " << contentHdr << '\n';
         string header(*begin);
         char const *headerCp = header.c_str();
 
-        if (
+        if (                                    // at either of these headers
             strcasestr(headerCp, "Content-Type") == headerCp
             ||
             strcasestr(headerCp, "Content-Disposition") == headerCp
         )
-            continue;                           // skip Content-Type and 
-                                                // disposition (containing 
-                                                // org. boundary)
+            continue;                           // skip them (they contain
+                                                // the orig. boundary)
 
         while (true)
         {
@@ -47,7 +44,8 @@ cerr << __FILE__ " " << contentHdr << '\n';
             header.erase(pos0, pos1 - pos0 - 1);
             header[pos0] = ' ';
         }
-
+                                                // add the encountered header
+                                                // to the reencrypted mail
         contentHdr += R"( -a ")" + String::escape(header) + '"';
         
     }

@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 try
 {
     Remailer remailer{ preamble("dhL:l:m:n:r:t:vx", 
-                                longOptions,longEnd, argc, argv) };
+                                longOptions, longEnd, argc, argv) };
 
     try
     {

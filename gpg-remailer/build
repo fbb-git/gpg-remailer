@@ -23,7 +23,6 @@ int g_echo = ON;        // MODIFIED, existing variable
 #include "icmake/logfile"
 #include "icmake/uninstall"
 #include "icmake/pathfile"
-#include "icmake/precompileheaders"     // check the name of main.ih
 
 #include "icmake/special"
 #include "icmake/clean"
@@ -43,11 +42,6 @@ void main(int argc, list argv)
         {
             g_echo = OFF;
             argv -= (list)"-q";
-        }
-        else if (argv[idx] == "-P")
-        {
-            g_gch = 0;
-            argv -= (list)"-P";
         }
     }
 
@@ -78,7 +72,6 @@ void main(int argc, list argv)
 
     if (option == "library")
     {
-        precompileHeaders();
         system("icmbuild library");
         exit(0);
     }
@@ -88,14 +81,12 @@ void main(int argc, list argv)
     
     if (option == "program")
     {
-        precompileHeaders();
         system("icmbuild program " + strip);
         exit(0);
     }
 
     if (option == "oxref")
     {
-        precompileHeaders();
         system("icmbuild program " + strip);
         run("oxref -fxs tmp/lib" LIBRARY ".a > " PROGRAM ".xref");
         exit(0);
@@ -104,7 +95,6 @@ void main(int argc, list argv)
     printf("Usage: build [-q -P] what\n"
         "Where\n"
         "   [-q]:   run quietly, do not show executed commands\n"
-        "   [-P]:   do not use precompiled headers\n"
         "`what' is one of:\n"
         "   clean                - clean up remnants of previous "
                                                             "compilations\n"
@@ -128,6 +118,10 @@ void main(int argc, list argv)
         "                          using oxref\n"
         "   github               - prepare github's gh-pages update\n"
         "                          (internal use only)\n"
+        "\n"
+        "If no precompiled headers are required, then comment out the "
+                                                                "PRECOMP\n"
+        "line in icmconf\n"
         "\n"
     );
     exit(0);

@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <sstream>
+#include <iterator>         // size()
 
 #include <bobcat/argconfig>
 #include <bobcat/pattern>
