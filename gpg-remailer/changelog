@@ -1,3 +1,11 @@
+gpg-remailer (3.04.02)      WIP
+
+  * Carlo Landmeter noticed that Content-Type and comparable headers were
+    missing from the remailer's log file when handling clear-text e-mail.
+    This omission was fixed in this release.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 01 Nov 2017 17:31:18 +0100
+
 gpg-remailer (3.04.01)
 
   * Removed Content-Type and Content-Disposition headers from the original
