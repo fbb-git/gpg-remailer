@@ -1,7 +1,7 @@
-#include "mailerbase.ih"
+#include "gpgmail.ih"
 
 // static
-void MailerBase::encryptedHeaders(string &contentHdr, string const &hdr)
+void GPGMail::processHeaders(string &contentHdr, string const &hdr)
 {
     if (contentHeader(hdr.c_str()))
         return;

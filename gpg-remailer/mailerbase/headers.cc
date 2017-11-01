@@ -1,6 +1,8 @@
 #include "mailerbase.ih"
 
-string MailerBase::headers(bool encrypted) const
+string MailerBase::headers(
+                    void  (*processHeaders)(string &, string const &)
+                          ) const
 {
     string mime = d_headers.getHeader("MIME-Version");
 
@@ -12,12 +14,6 @@ string MailerBase::headers(bool encrypted) const
 
                                                 // look for the Content- hdrs
     d_headers.setHeaderIterator("Content-", MailHeaders::CASE_INITIAL);
-
-    void  (*processHeaders)(string &contentHdr, string const &header) = 
-            encrypted ? 
-                encryptedHeaders
-            :
-                clearTextHeaders;
 
     for                                         // visit them all
     (

@@ -34,6 +34,9 @@ class GPGMail: public Mailer<GPGMail>
         void writeMailContents(std::string const &mailData) const;
         std::string mailCommand(std::string const &recipients) const;
         std::string label() const;
+
+        static void processHeaders(std::string &contentHdr, 
+                                   std::string const &hdr);
 };
         
 #endif

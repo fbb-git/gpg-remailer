@@ -32,6 +32,9 @@ class ClearTextMail: public Mailer<ClearTextMail>
         std::string label() const;
         std::string mailCommand(std::string const &recipient) const;
         void writeMailContents(std::string const &mailData) const;
+
+        static void processHeaders(std::string &contentHdr, 
+                                   std::string const &hdr);
 };
         
 #endif

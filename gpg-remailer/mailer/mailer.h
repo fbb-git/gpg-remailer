@@ -20,6 +20,8 @@ class Mailer: private MailerBase
 
         using MailerBase::subject;
         using MailerBase::headers;
+        using MailerBase::contentHeader;
+        using MailerBase::cleanupHeader;
 
     private:
     // Derived classes must implement and allow the following members
