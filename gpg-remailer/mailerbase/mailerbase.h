@@ -36,7 +36,19 @@ class MailerBase: Enums
         void sendMail(std::string const &command, std::string const &label, 
                       std::string const &recipient, bool dontSend);
 
-        std::string headers() const;
+        std::string headers(bool encrypted) const;
+
+    private:
+        static void encryptedHeaders(std::string &contentHdr, 
+                                     std::string const &hdr);
+
+        static void clearTextHeaders(std::string &contentHdr, 
+                                     std::string const &hdr);
+
+        static bool contentHeader(char const *headerCp);
+        static std::string cleanupHeader(std::string const &hdr);
+
+
 };
         
 inline std::string const &MailerBase::subject() const
