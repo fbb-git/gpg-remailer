@@ -80,9 +80,10 @@ struct Remailer: private Enums
         std::string d_mailName;
         std::string d_multipartSignedDataName;
         std::string d_hdrsName;
-        std::string d_contentsName;
+        std::string d_contentsName;         // original mail contents
         std::string d_reencryptName;
-        std::string d_reencryptedName;
+        std::string d_reencryptedName;      // name of the file holding the
+                                            // reencrypted contents
         std::string d_signatureName;
     
         std::vector<std::string> d_envelope;    // accepted envelope addresses

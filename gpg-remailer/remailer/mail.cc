@@ -9,6 +9,7 @@ void Remailer::mail()
     else if (d_mailType == UNKNOWN)
         return;
 
+                                        // calls Mail::operator()(...)
     d_mail(d_mailType, 
            d_mailType == CLEAR ? d_contentsName : d_reencryptedName, 
                 not envelopeOK()            // specify 'dontSend'

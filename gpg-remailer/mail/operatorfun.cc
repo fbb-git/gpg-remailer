@@ -8,7 +8,7 @@ void Mail::operator()(MailType type,
                                 d_mailName << '\n';
     if (type == ENCRYPTED)
         mail(mailData, dontSend, 
-            GPGMail(d_log, d_headers, d_mailName, d_replyTo, d_step));
+            GPGMail{ d_log, d_headers, d_mailName, d_replyTo, d_step} );
     else
         mail(mailData, dontSend, 
             ClearTextMail{ d_log, d_headers, d_mailName, d_replyTo, d_step });
