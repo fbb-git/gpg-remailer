@@ -5,14 +5,14 @@ if [ $# -eq 0 ] ; then
     exit 0
 fi
 
-for src in `find -mindepth 1 -type d`           # create missing target dirs
+for src in `find ./ -mindepth 1 -type d`        # create missing target dirs
 do
     [ ! -e $1$src ] && mkdir -p $1$src
 done
 
-for file in `find -type f -or -type l`
+for file in `find ./ -type f -or -type l`
 do
     # echo installing $1$file
-    cp -d --preserve=timestamps $file $1$file
+    cp -H $file $1$file
 done
 
