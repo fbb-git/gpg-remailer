@@ -1,3 +1,11 @@
+gpg-remailer (3.04.03)
+
+  * Tony Mancill noticed that some of the files appearing in the standard
+    Debian source-files tar shouldn't have been there. Those files were
+    removed from this release. No further changes as compared to 3.04.02
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 07 Nov 2017 19:11:32 +0100
+
 gpg-remailer (3.04.02)
 
   * Carlo Landmeter noticed that Content-Type and comparable headers were
