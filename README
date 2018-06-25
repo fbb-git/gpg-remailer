@@ -1,27 +1,8 @@
 Gpg-remailer is somewhat similar to ordinary mailing list software, but all
 e-mail processed by gpg-remailer is PGP/GPG signed and encrypted.
 
-Gpg-remailer decrypts received PGP/GPG messages, verifies the received
-signature and re-encrypts the e-mail for the members of a well defined group
-of recipients. Using gpg-remailer the list of members of a group of people
-who want to exchange encrypted and authenticated e-mail can be maintained at
-one location, allowing the members of the group to specify just one e-mail
-address to send PGP/GPG signed and encrypted e-mail to.
 
-Gpg-remailer recognizes the following e-mail formats:
-    *  Standard simple encrypted messages.
-    *  Multi-part encrypted messages.
-    *  Encrypted messages containing detached signatures.
+Gpg-remailer's repository has moved to https://gitlab.com/fbb-git/gpg-remailer
+and is not maintained at this location anymore.
 
-
-To create the program from its sources, either descend into the gpg-remailer
-directory, or unpack a created archive, cd into its top-level directory 
-and follow the instructions provided in the INSTALL file found there.
-
-Alternatively, binary ready-to-install versions of the Gpg-remailer program
-are available in verious Linux distributions, in particular Debian. See, e.g.,
-
-https://packages.debian.org/search?keywords=gpg-remailer&searchon=names&suite=all&section=all
-
-Github's web-pages for the Gpg-remailer are here:
-https://fbb-git.github.io/gpg-remailer/
+The project's web-page can be found at http://fbb-git.gitlab.io/gpg-remailer
